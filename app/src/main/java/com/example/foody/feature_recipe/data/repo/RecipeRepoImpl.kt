@@ -2,6 +2,7 @@ package com.example.foody.feature_recipe.data.repo
 
 import com.example.foody.feature_recipe.data.remote.RecipeRemoteDataSource
 import com.example.foody.feature_recipe.domain.model.random_recipe.RandomRecipeResponse
+import com.example.foody.feature_recipe.domain.model.recipe_information.RecipeInformationResponse
 import com.example.foody.feature_recipe.domain.repo.RecipeRepo
 import com.example.foody.feature_recipe.util.Resource
 
@@ -16,6 +17,23 @@ class RecipeRepoImpl(
             Resource.Success(data)
         } else {
             Resource.Error(message = randomRecipes.message(), null)
+        }
+    }
+
+
+    override suspend fun getRecipeInformation(
+        apiKey: String,
+        recipeId: Int
+    ): Resource<RecipeInformationResponse?> {
+
+        val recipe =
+            recipeRemoteDataSource.getRecipeInformation(apiKey = apiKey, recipeId = recipeId)
+
+        return if (recipe.isSuccessful) {
+            val data = recipe.body()
+            Resource.Success(data)
+        } else {
+            Resource.Error(message = recipe.message(), null)
         }
     }
 }

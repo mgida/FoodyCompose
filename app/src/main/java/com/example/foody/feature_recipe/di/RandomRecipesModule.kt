@@ -23,6 +23,4 @@ object RandomRecipesModule {
         RecipeRepoImpl(
             recipeRemoteDataSource = recipeRemoteDataSource
         )
-
-
 }

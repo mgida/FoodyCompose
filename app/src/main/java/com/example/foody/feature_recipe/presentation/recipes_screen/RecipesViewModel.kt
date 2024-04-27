@@ -23,6 +23,17 @@ class RecipesViewModel @Inject constructor(private val useCase: GetRandomRecipes
         getRandomRecipes()
     }
 
+
+    fun onEvent(randomRecipesEvent: RandomRecipesEvent) {
+        when (randomRecipesEvent) {
+
+            is RandomRecipesEvent.GetRecipes -> {
+                getRandomRecipes()
+            }
+        }
+    }
+
+
     private fun getRandomRecipes() {
         viewModelScope.launch {
             when (val res = useCase.invoke(API_KEY)) {
