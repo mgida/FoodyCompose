@@ -90,6 +90,9 @@ dependencies {
 
     implementation(libs.coil)
 
+    implementation(libs.androidx.navigation)
+
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
