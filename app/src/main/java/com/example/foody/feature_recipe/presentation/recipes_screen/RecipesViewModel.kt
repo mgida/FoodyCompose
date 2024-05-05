@@ -1,6 +1,5 @@
 package com.example.foody.feature_recipe.presentation.recipes_screen
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -10,6 +9,7 @@ import com.example.foody.feature_recipe.domain.use_case.GetRandomRecipesUseCase
 import com.example.foody.feature_recipe.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -41,15 +41,14 @@ class RecipesViewModel @Inject constructor(private val useCase: GetRandomRecipes
                     state.value.copy(recipes = res.data?.recipes ?: listOf())
 
                 is Resource.Error -> {
-                    Log.d("Foody", "getRandomRecipes: error ${res.message} ")
+                    Timber.e("Foody getRandomRecipes: error ${res.message} ")
                 }
 
                 is Resource.Loading -> {
-                    Log.d("Foody", "getRandomRecipes: loading....")
+                    Timber.i("Foody getRandomRecipes: loading...")
                 }
             }
         }
-
     }
 
     companion object {

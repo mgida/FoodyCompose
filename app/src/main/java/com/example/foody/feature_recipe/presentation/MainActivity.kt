@@ -60,10 +60,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
-
-
-
 @Composable
 fun RecipeItem(
     modifier: Modifier = Modifier,

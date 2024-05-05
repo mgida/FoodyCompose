@@ -91,6 +91,7 @@ dependencies {
     implementation(libs.coil)
 
     implementation(libs.androidx.navigation)
+    implementation(libs.timber)
 
 
     testImplementation(libs.junit)
