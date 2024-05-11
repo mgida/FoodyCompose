@@ -3,26 +3,22 @@ package com.example.foody.feature_recipe.domain.use_case
 import com.example.foody.feature_recipe.domain.model.recipe_information.RecipeInformationResponse
 import com.example.foody.feature_recipe.domain.repo.RecipeRepo
 import com.example.foody.feature_recipe.util.Resource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class GetRecipeInformationUseCase @Inject constructor(private val recipeRepo: RecipeRepo) {
-    suspend operator fun invoke(
+    operator fun invoke(
         apiKey: String,
         recipeId: Int
-    ): Resource<RecipeInformationResponse?> {
-        Resource.Loading(data = null)
+    ): Flow<Resource<RecipeInformationResponse?>> = flow {
+        emit(Resource.Loading())
         try {
-
-            val res = recipeRepo.getRecipeInformation(apiKey = apiKey, recipeId = recipeId)
-
-            res.data?.let {
-                return Resource.Success(it)
-            }
-
+            val recipeInformation =
+                recipeRepo.getRecipeInformation(apiKey = apiKey, recipeId = recipeId)
+            emit(Resource.Success(recipeInformation))
         } catch (e: Exception) {
-            return Resource.Error(message = e.localizedMessage ?: "", null)
+            emit(Resource.Error(message = e.localizedMessage ?: ""))
         }
-
-        return Resource.Success(null)
     }
 }

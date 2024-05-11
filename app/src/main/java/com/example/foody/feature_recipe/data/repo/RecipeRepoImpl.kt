@@ -1,39 +1,25 @@
 package com.example.foody.feature_recipe.data.repo
 
+import com.example.foody.feature_recipe.data.dto.SimilarRecipesResponse
 import com.example.foody.feature_recipe.data.remote.RecipeRemoteDataSource
 import com.example.foody.feature_recipe.domain.model.random_recipe.RandomRecipeResponse
 import com.example.foody.feature_recipe.domain.model.recipe_information.RecipeInformationResponse
 import com.example.foody.feature_recipe.domain.repo.RecipeRepo
-import com.example.foody.feature_recipe.util.Resource
 
 class RecipeRepoImpl(
     private val recipeRemoteDataSource: RecipeRemoteDataSource
 ) : RecipeRepo {
-    override suspend fun getRandomRecipes(apiKey: String): Resource<RandomRecipeResponse?> {
-        val randomRecipes = recipeRemoteDataSource.getRandomRecipes(apiKey)
+    override suspend fun getRandomRecipes(apiKey: String): RandomRecipeResponse =
+        recipeRemoteDataSource.getRandomRecipes(apiKey)
 
-        return if (randomRecipes.isSuccessful) {
-            val data = randomRecipes.body()
-            Resource.Success(data)
-        } else {
-            Resource.Error(message = randomRecipes.message(), null)
-        }
-    }
-
+    override suspend fun getSimilarRecipes(
+        id: Int,
+        apiKey: String
+    ): SimilarRecipesResponse = recipeRemoteDataSource.getSimilarRecipes(id, apiKey)
 
     override suspend fun getRecipeInformation(
         apiKey: String,
         recipeId: Int
-    ): Resource<RecipeInformationResponse?> {
-
-        val recipe =
-            recipeRemoteDataSource.getRecipeInformation(apiKey = apiKey, recipeId = recipeId)
-
-        return if (recipe.isSuccessful) {
-            val data = recipe.body()
-            Resource.Success(data)
-        } else {
-            Resource.Error(message = recipe.message(), null)
-        }
-    }
+    ): RecipeInformationResponse =
+        recipeRemoteDataSource.getRecipeInformation(apiKey = apiKey, recipeId = recipeId)
 }

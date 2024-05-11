@@ -8,7 +8,8 @@ import com.example.foody.BuildConfig
 import com.example.foody.feature_recipe.domain.use_case.GetRandomRecipesUseCase
 import com.example.foody.feature_recipe.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -35,20 +36,23 @@ class RecipesViewModel @Inject constructor(private val useCase: GetRandomRecipes
 
 
     private fun getRandomRecipes() {
-        viewModelScope.launch {
-            when (val res = useCase.invoke(API_KEY)) {
-                is Resource.Success -> _state.value =
-                    state.value.copy(recipes = res.data?.recipes ?: listOf())
 
-                is Resource.Error -> {
-                    Timber.e("Foody getRandomRecipes: error ${res.message} ")
-                }
-
+        useCase.invoke(API_KEY).onEach { resource ->
+            when (resource) {
                 is Resource.Loading -> {
                     Timber.i("Foody getRandomRecipes: loading...")
+                    _state.value = RandomRecipesState(isLoading = true)
+                }
+
+                is Resource.Success -> _state.value =
+                    RandomRecipesState(recipes = resource.data?.recipes ?: listOf())
+
+                is Resource.Error -> {
+                    Timber.e("Foody getRandomRecipes: error ${resource.message} ")
+                    _state.value = RandomRecipesState(error = resource.message ?: "")
                 }
             }
-        }
+        }.launchIn(viewModelScope)
     }
 
     companion object {

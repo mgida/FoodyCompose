@@ -14,7 +14,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RandomRecipesModule {
 
-
     @Provides
     @Singleton
     fun provideRecipeRepo(
