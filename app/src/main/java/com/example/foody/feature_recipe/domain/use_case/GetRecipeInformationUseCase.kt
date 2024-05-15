@@ -1,6 +1,6 @@
 package com.example.foody.feature_recipe.domain.use_case
 
-import com.example.foody.feature_recipe.domain.model.recipe_information.RecipeInformationResponse
+import com.example.foody.feature_recipe.data.dto.recipe_information.RecipeInformationResponse
 import com.example.foody.feature_recipe.domain.repo.RecipeRepo
 import com.example.foody.feature_recipe.util.Resource
 import kotlinx.coroutines.flow.Flow

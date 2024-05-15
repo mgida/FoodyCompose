@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foody.BuildConfig
+import com.example.foody.feature_recipe.domain.mapper.UIRandomRecipesMapper
 import com.example.foody.feature_recipe.domain.use_case.GetRandomRecipesUseCase
 import com.example.foody.feature_recipe.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,10 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class RecipesViewModel @Inject constructor(private val useCase: GetRandomRecipesUseCase) :
+class RecipesViewModel @Inject constructor(
+    private val useCase: GetRandomRecipesUseCase,
+    private val uiRandomRecipesMapper: UIRandomRecipesMapper
+) :
     ViewModel() {
 
     private val _state = mutableStateOf(RandomRecipesState())
@@ -45,7 +49,11 @@ class RecipesViewModel @Inject constructor(private val useCase: GetRandomRecipes
                 }
 
                 is Resource.Success -> _state.value =
-                    RandomRecipesState(recipes = resource.data?.recipes ?: listOf())
+                    RandomRecipesState(
+                        recipes = uiRandomRecipesMapper.map(
+                            input = resource.data?.recipes ?: listOf()
+                        )
+                    )
 
                 is Resource.Error -> {
                     Timber.e("Foody getRandomRecipes: error ${resource.message} ")

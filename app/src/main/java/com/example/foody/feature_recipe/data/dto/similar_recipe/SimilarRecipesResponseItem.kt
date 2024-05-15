@@ -1,4 +1,4 @@
-package com.example.foody.feature_recipe.data.dto
+package com.example.foody.feature_recipe.data.dto.similar_recipe
 
 data class SimilarRecipesResponseItem(
     val id: Int,

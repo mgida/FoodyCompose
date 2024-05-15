@@ -1,6 +1,6 @@
-package com.example.foody.feature_recipe.domain.model.random_recipe
+package com.example.foody.feature_recipe.data.dto.recipe_information
 
-data class Recipe(
+data class RecipeInformationResponse(
     val aggregateLikes: Int,
     val analyzedInstructions: List<AnalyzedInstruction>,
     val cheap: Boolean,
@@ -8,7 +8,7 @@ data class Recipe(
     val creditsText: String,
     val cuisines: List<Any>,
     val dairyFree: Boolean,
-    val diets: List<Any>,
+    val diets: List<String>,
     val dishTypes: List<String>,
     val extendedIngredients: List<ExtendedIngredient>,
     val gaps: String,
@@ -18,7 +18,6 @@ data class Recipe(
     val image: String,
     val imageType: String,
     val instructions: String,
-    val license: String,
     val lowFodmap: Boolean,
     val occasions: List<Any>,
     val originalId: Any,
@@ -32,10 +31,12 @@ data class Recipe(
     val spoonacularSourceUrl: String,
     val summary: String,
     val sustainable: Boolean,
+    val taste: Taste,
     val title: String,
     val vegan: Boolean,
     val vegetarian: Boolean,
     val veryHealthy: Boolean,
     val veryPopular: Boolean,
-    val weightWatcherSmartPoints: Int
+    val weightWatcherSmartPoints: Int,
+    val winePairing: WinePairing
 )

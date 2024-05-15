@@ -1,4 +1,4 @@
-package com.example.foody.feature_recipe.domain.model.recipe_information
+package com.example.foody.feature_recipe.data.dto.random_recipe
 
 data class Metric(
     val amount: Double,

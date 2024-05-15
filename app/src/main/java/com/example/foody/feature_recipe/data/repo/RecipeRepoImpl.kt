@@ -1,9 +1,9 @@
 package com.example.foody.feature_recipe.data.repo
 
-import com.example.foody.feature_recipe.data.dto.SimilarRecipesResponse
+import com.example.foody.feature_recipe.data.dto.similar_recipe.SimilarRecipesResponse
 import com.example.foody.feature_recipe.data.remote.RecipeRemoteDataSource
-import com.example.foody.feature_recipe.domain.model.random_recipe.RandomRecipeResponse
-import com.example.foody.feature_recipe.domain.model.recipe_information.RecipeInformationResponse
+import com.example.foody.feature_recipe.data.dto.random_recipe.RandomRecipeResponse
+import com.example.foody.feature_recipe.data.dto.recipe_information.RecipeInformationResponse
 import com.example.foody.feature_recipe.domain.repo.RecipeRepo
 
 class RecipeRepoImpl(
