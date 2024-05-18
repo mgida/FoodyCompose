@@ -26,8 +26,8 @@ interface RecipeRemoteDataSource {
 
     @GET("recipes/{id}/information")
     suspend fun getRecipeInformation(
+        @Path("id") recipeId: Int,
         @Query("apiKey") apiKey: String,
-        @Path("id") recipeId: Int
     ): RecipeInformationResponse
 }
 
