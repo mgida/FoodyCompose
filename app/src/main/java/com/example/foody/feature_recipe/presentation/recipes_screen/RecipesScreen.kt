@@ -9,11 +9,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.foody.feature_recipe.presentation.common.ErrorState
 import com.example.foody.feature_recipe.presentation.recipes_screen.components.RecipeItem
 
 
@@ -30,22 +30,16 @@ fun RecipesScreen(
         when {
             state.isLoading -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator()
+                    CircularProgressIndicator(modifier = modifier)
                 }
             }
 
             state.error.isNotBlank() -> {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text(
-                        text = state.error,
-                        color = MaterialTheme.colorScheme.error
-                    )
-                }
+                ErrorState(state.error)
             }
 
             else -> {
                 LazyColumn {
-
                     items(state.recipes) {
                         RecipeItem(
                             modifier = Modifier.clickable {
@@ -61,3 +55,6 @@ fun RecipesScreen(
         }
     }
 }
+
+
+

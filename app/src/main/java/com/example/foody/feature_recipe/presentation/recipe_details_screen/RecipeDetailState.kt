@@ -5,4 +5,5 @@ import com.example.foody.feature_recipe.domain.model.recipe_information.RecipeIn
 data class RecipeDetailState(
     val isLoading: Boolean = false,
     val recipeInformationModel: RecipeInformationModel? = null,
-    val error: String = "")
+    val error: String = ""
+)
