@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foody.BuildConfig
 import com.example.foody.feature_recipe.domain.mapper.UIRecipeInformationMapper
+import com.example.foody.feature_recipe.domain.mapper.UISimilarRecipesMapper
 import com.example.foody.feature_recipe.domain.use_case.GetRecipeInformationUseCase
+import com.example.foody.feature_recipe.domain.use_case.GetSimilarRecipesUseCase
 import com.example.foody.feature_recipe.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -17,19 +19,25 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RecipeDetailViewModel @Inject constructor(
-    private val useCase: GetRecipeInformationUseCase,
-    private val mapper: UIRecipeInformationMapper,
+    private val getRecipeInformationUseCase: GetRecipeInformationUseCase,
+    private val getSimilarRecipesUseCase: GetSimilarRecipesUseCase,
+    private val recipeInformationMapper: UIRecipeInformationMapper,
+    private val similarRecipesMapper: UISimilarRecipesMapper,
     savedStateHandle: SavedStateHandle
 ) :
     ViewModel() {
 
-    private val _state = mutableStateOf(RecipeDetailState())
-    val state: State<RecipeDetailState> = _state
+    private val _recipeInformationState = mutableStateOf(RecipeDetailState())
+    val recipeInformationState: State<RecipeDetailState> = _recipeInformationState
+
+    private val _similarRecipesState = mutableStateOf(SimilarRecipesState())
+    val similarRecipesState: State<SimilarRecipesState> = _similarRecipesState
 
     init {
         savedStateHandle.get<Int>(RECIPE_ID).also { noteId ->
             noteId?.let {
                 getRecipeDetails(recipeId = it)
+                getSimilarRecipes(recipeId = it)
             }
         }
     }
@@ -41,34 +49,66 @@ class RecipeDetailViewModel @Inject constructor(
             is RecipeDetailEvent.GetRecipeDetails -> {
                 getRecipeDetails(recipeDetailEvent.recipeId)
             }
+
+            is RecipeDetailEvent.GetSimilarRecipes -> {
+                getSimilarRecipes(recipeDetailEvent.recipeId)
+            }
         }
     }
 
 
     private fun getRecipeDetails(recipeId: Int) {
 
-        useCase.invoke(apiKey = API_KEY, recipeId = recipeId).onEach { resource ->
+        getRecipeInformationUseCase.invoke(apiKey = API_KEY, recipeId = recipeId)
+            .onEach { resource ->
+                when (resource) {
+                    is Resource.Loading -> {
+                        Timber.i("Foody getRecipeDetails: loading...")
+                        _recipeInformationState.value = RecipeDetailState(isLoading = true)
+                    }
+
+                    is Resource.Success -> _recipeInformationState.value =
+                        RecipeDetailState(
+                            recipeInformationModel = resource.data?.let {
+                                recipeInformationMapper.map(
+                                    input = it
+                                ).also { recipeInformationModel ->
+                                    _recipeInformationState.value =
+                                        RecipeDetailState(recipeInformationModel = recipeInformationModel)
+                                }
+                            }
+                        )
+
+                    is Resource.Error -> {
+                        Timber.e("Foody getRecipeDetails: error ${resource.message} ")
+                        _recipeInformationState.value =
+                            RecipeDetailState(error = resource.message ?: "")
+                    }
+                }
+            }.launchIn(viewModelScope)
+    }
+
+
+    private fun getSimilarRecipes(recipeId: Int) {
+
+        getSimilarRecipesUseCase.invoke(apiKey = API_KEY, id = recipeId).onEach { resource ->
             when (resource) {
                 is Resource.Loading -> {
-                    Timber.i("Foody getRecipeDetails: loading...")
-                    _state.value = RecipeDetailState(isLoading = true)
+                    Timber.i("Foody similar recipes: loading...")
+                    _similarRecipesState.value = SimilarRecipesState(isLoading = true)
                 }
 
-                is Resource.Success -> _state.value =
-                    RecipeDetailState(
-                        recipeInformationModel = resource.data?.let {
-                            mapper.map(
-                                input = it
-                            ).also { recipeInformationModel ->
-                                _state.value =
-                                    RecipeDetailState(recipeInformationModel = recipeInformationModel)
-                            }
-                        }
+                is Resource.Success -> _similarRecipesState.value =
+                    SimilarRecipesState(
+                        similarRecipes = similarRecipesMapper.map(
+                            resource.data?.toList() ?: listOf()
+                        )
                     )
 
                 is Resource.Error -> {
                     Timber.e("Foody getRecipeDetails: error ${resource.message} ")
-                    _state.value = RecipeDetailState(error = resource.message ?: "")
+                    _similarRecipesState.value =
+                        SimilarRecipesState(error = resource.message ?: "")
                 }
             }
         }.launchIn(viewModelScope)
