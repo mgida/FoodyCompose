@@ -6,19 +6,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.foody.feature_recipe.domain.model.similar_recipe.SimilarRecipeModel
 import com.example.foody.feature_recipe.presentation.common.ErrorState
 import com.example.foody.feature_recipe.presentation.recipe_details_screen.components.RecipeDetailsImage
 import com.example.foody.feature_recipe.presentation.recipe_details_screen.components.RecipeDetailsServings
@@ -31,8 +30,8 @@ fun RecipeDetailsScreen(
     modifier: Modifier = Modifier, viewModel: RecipeDetailViewModel = hiltViewModel(), recipeId: Int
 ) {
 
-    val recipeInformationState = viewModel.recipeInformationState.value
-    val similarRecipesState = viewModel.similarRecipesState.value
+    val recipeInformationState = viewModel.recipeInformationState.collectAsState().value
+    val similarRecipesState = viewModel.similarRecipesState.collectAsState().value
 
     SideEffect {
         Timber.d("Foody recipeId: $recipeId")
@@ -65,7 +64,12 @@ fun SimilarRecipesSection(similarRecipesState: SimilarRecipesState, modifier: Mo
         else -> {
             val similarRecipes = similarRecipesState.similarRecipes
             LazyRow(modifier = Modifier.fillMaxWidth()) {
-                items(similarRecipes) { similarRecipe ->
+                items(
+                    similarRecipes,
+                    key = { item: SimilarRecipeModel ->
+                        item.id
+                    },
+                ) { similarRecipe ->
                     SimilarRecipeItem(similarRecipe)
                 }
             }
@@ -92,7 +96,8 @@ private fun RecipeContentSection(
         else -> {
             val recipe = recipeInformationState.recipeInformationModel
             LazyColumn(
-                modifier = modifier.height(400.dp)
+                modifier = modifier
+                    .height(400.dp)
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
             ) {

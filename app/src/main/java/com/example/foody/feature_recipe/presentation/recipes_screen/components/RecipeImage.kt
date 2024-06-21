@@ -49,4 +49,4 @@ fun RecipeImagePreview() {
     )
 }
 
-private const val IMAGE_URL = "https://img.spoonacular.com/recipes/644604-556x370.jpg"
+private const val IMAGE_URL = ""

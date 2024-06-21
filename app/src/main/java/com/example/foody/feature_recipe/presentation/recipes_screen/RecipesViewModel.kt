@@ -1,7 +1,5 @@
 package com.example.foody.feature_recipe.presentation.recipes_screen
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foody.BuildConfig
@@ -9,6 +7,8 @@ import com.example.foody.feature_recipe.domain.mapper.UIRandomRecipesMapper
 import com.example.foody.feature_recipe.domain.use_case.GetRandomRecipesUseCase
 import com.example.foody.feature_recipe.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
@@ -21,13 +21,12 @@ class RecipesViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    private val _state = mutableStateOf(RandomRecipesState())
-    val state: State<RandomRecipesState> = _state
+    private val _state = MutableStateFlow(RandomRecipesState())
+    val state: StateFlow<RandomRecipesState> = _state
 
     init {
         getRandomRecipes()
     }
-
 
     fun onEvent(randomRecipesEvent: RandomRecipesEvent) {
         when (randomRecipesEvent) {

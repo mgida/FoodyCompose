@@ -58,7 +58,7 @@ private fun SimilarRecipeItemPreview() {
     val recipe = SimilarRecipeModel(
         id = 2,
         title = "Fettuccine Alfredo Fettuccine Alfredo Fettuccine Alfredo Fettuccine AlfredoFettuccine Alfredo Fettuccine Alfredo",
-        sourceUrl = "https://img.spoonacular.com/recipes/642605-556x370.jpg",
+        sourceUrl = "",
         readyInMinutes = 40,
         servings = 3
     )

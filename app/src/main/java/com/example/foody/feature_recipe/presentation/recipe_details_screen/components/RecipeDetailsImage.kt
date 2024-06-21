@@ -24,5 +24,5 @@ fun RecipeDetailsImage(image: String?, modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun RecipeDetailsImagePreview() {
-    RecipeDetailsImage(image = "https://img.spoonacular.com/recipes/644604-556x370.jpg")
+    RecipeDetailsImage(image = "")
 }

@@ -1,7 +1,5 @@
 package com.example.foody.feature_recipe.presentation.recipe_details_screen
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,6 +10,8 @@ import com.example.foody.feature_recipe.domain.use_case.GetRecipeInformationUseC
 import com.example.foody.feature_recipe.domain.use_case.GetSimilarRecipesUseCase
 import com.example.foody.feature_recipe.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
@@ -27,17 +27,17 @@ class RecipeDetailViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    private val _recipeInformationState = mutableStateOf(RecipeDetailState())
-    val recipeInformationState: State<RecipeDetailState> = _recipeInformationState
+    private val _recipeInformationState = MutableStateFlow(RecipeDetailState())
+    val recipeInformationState: StateFlow<RecipeDetailState> = _recipeInformationState
 
-    private val _similarRecipesState = mutableStateOf(SimilarRecipesState())
-    val similarRecipesState: State<SimilarRecipesState> = _similarRecipesState
+    private val _similarRecipesState = MutableStateFlow(SimilarRecipesState())
+    val similarRecipesState: StateFlow<SimilarRecipesState> = _similarRecipesState
 
     init {
         savedStateHandle.get<Int>(RECIPE_ID).also { noteId ->
             noteId?.let {
                 getRecipeDetails(recipeId = it)
-                getSimilarRecipes(recipeId = it)
+               // getSimilarRecipes(recipeId = it)
             }
         }
     }
