@@ -1,6 +1,7 @@
 package com.example.foody.feature_recipe.presentation.recipes_screen.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,13 +11,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,10 +21,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.foody.R
+import com.example.foody.feature_recipe.util.FontScalePreviews
+import com.example.foody.feature_recipe.util.LayoutDirectionPreviews
+import com.example.foody.feature_recipe.util.ThemePreviews
+import com.example.foody.feature_recipe.util.rememberHtmlText
+import com.example.foody.ui.theme.FoodyTheme
+import com.example.foody.ui.theme.blueGray
 
 @Composable
 fun RecipeItem(
@@ -36,8 +40,7 @@ fun RecipeItem(
     des: String,
     modifier: Modifier = Modifier,
     onShareClicked: () -> Unit,
-    onFavClicked: () -> Unit,
-    isFav: Boolean = false
+    onFavClicked: () -> Unit
 ) {
     Row(
         modifier = modifier
@@ -50,7 +53,7 @@ fun RecipeItem(
         Box(modifier = Modifier.padding(end = 8.dp), contentAlignment = Alignment.Center) {
             RecipeImage(
                 modifier = Modifier
-                    .size(100.dp, 100.dp)
+                    .size(125.dp, 100.dp)
                     .clip(RoundedCornerShape(12)),
                 imageUrl = image
             )
@@ -59,56 +62,68 @@ fun RecipeItem(
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                style = MaterialTheme.typography.labelMedium,
                 color = Color.Black,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-
-
-                )
+            )
             Spacer(modifier = Modifier.height(6.dp))
             Text(
-                text = des,
-                style = MaterialTheme.typography.bodySmall,
-                color = Color.Black,
+                text = des.rememberHtmlText(),
+                style = MaterialTheme.typography.bodySmall.copy(fontSize = 12.sp),
+                color = Color.Black.copy(alpha = 0.7F),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
+            Spacer(modifier = Modifier.height(12.dp))
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically
+                horizontalArrangement = Arrangement.Start
             ) {
-                IconButton(
+                CustomIcon(
+                    modifier = Modifier,
+                    icon = R.drawable.ic_share,
+                    des = "Share",
                     onClick = onShareClicked
-                ) {
-                    Icon(
-                        Icons.Default.Share,
-                        contentDescription = "share",
-                        tint = Color.Gray
-                    )
-                }
-
-                IconButton(onClick = onFavClicked)
-                {
-                    Icon(
-                        if (isFav) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                        contentDescription = "fav",
-                        tint = if (isFav) Color.Red else Color.Gray
-                    )
-                }
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                CustomIcon(
+                    modifier = Modifier,
+                    icon = R.drawable.ic_fav,
+                    des = "Fav",
+                    onClick = onFavClicked
+                )
 
             }
-
-
         }
     }
 }
 
-@Preview(showBackground = true, widthDp = 400)
+@Composable
+private fun CustomIcon(
+    modifier: Modifier = Modifier,
+    icon: Int,
+    des: String,
+    onClick: () -> Unit,
+    tint: Color = blueGray
+) {
+    Icon(
+        painter = painterResource(id = icon),
+        contentDescription = des,
+        tint = tint,
+        modifier = modifier
+            .size(18.dp, 18.dp)
+            .clickable(onClick = onClick)
+    )
+}
+
+@ThemePreviews
+@FontScalePreviews
+@LayoutDirectionPreviews
 @Composable
 fun RecipeItemP() {
-    MaterialTheme {
+    FoodyTheme {
         RecipeItem(
             image = "",
             title = "simply dummy text",

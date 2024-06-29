@@ -37,11 +37,10 @@ class RecipeDetailViewModel @Inject constructor(
         savedStateHandle.get<Int>(RECIPE_ID).also { noteId ->
             noteId?.let {
                 getRecipeDetails(recipeId = it)
-               // getSimilarRecipes(recipeId = it)
+                // getSimilarRecipes(recipeId = it)
             }
         }
     }
-
 
     fun onEvent(recipeDetailEvent: RecipeDetailEvent) {
         when (recipeDetailEvent) {

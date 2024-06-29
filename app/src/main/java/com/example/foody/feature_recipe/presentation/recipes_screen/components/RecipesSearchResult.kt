@@ -10,9 +10,11 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.foody.feature_recipe.domain.model.random_recipe.RandomRecipeModel
+import com.example.foody.feature_recipe.util.OrientationPreviews
+import com.example.foody.feature_recipe.util.ThemePreviews
+import com.example.foody.ui.theme.FoodyTheme
 
 @Composable
 fun RecipesSearchResult(recipes: List<RandomRecipeModel>, onItemClick: (id: Int) -> Unit) {
@@ -41,7 +43,9 @@ fun RecipesSearchResult(recipes: List<RandomRecipeModel>, onItemClick: (id: Int)
     }
 }
 
-@Preview(showBackground = true)
+
+@ThemePreviews
+@OrientationPreviews
 @Composable
 fun RecipesSearchResultPreview() {
     val recipes =
@@ -77,5 +81,7 @@ fun RecipesSearchResultPreview() {
                 summary = "but also the leap into electronic typesetting, remaining essentially unchanged",
             )
         )
-    RecipesSearchResult(recipes, onItemClick = {})
+    FoodyTheme {
+        RecipesSearchResult(recipes, onItemClick = {})
+    }
 }

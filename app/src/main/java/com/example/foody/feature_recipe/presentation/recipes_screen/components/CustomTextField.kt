@@ -15,9 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.foody.feature_recipe.util.ThemePreviews
 import com.example.foody.ui.theme.FoodyTheme
 
 @Composable
@@ -50,7 +50,7 @@ fun CustomBasicTextField(
     }
 }
 
-@Preview(showBackground = true)
+@ThemePreviews
 @Composable
 fun CustomBasicTextFieldPreview() {
 

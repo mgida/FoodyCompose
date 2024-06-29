@@ -14,8 +14,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.foody.feature_recipe.util.ThemePreviews
 import com.example.foody.feature_recipe.util.shimmerEffect
 
 
@@ -65,7 +65,7 @@ fun RecipesShimmerItems(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview
+@ThemePreviews
 @Composable
 fun RecipesShimmerItemsPreview() {
     RecipesShimmerItems(modifier = Modifier.fillMaxWidth())

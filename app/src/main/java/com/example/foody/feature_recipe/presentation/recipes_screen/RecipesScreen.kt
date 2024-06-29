@@ -13,14 +13,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.foody.feature_recipe.presentation.common.ErrorState
 import com.example.foody.feature_recipe.presentation.recipes_screen.components.CustomBasicTextField
 import com.example.foody.feature_recipe.presentation.recipes_screen.components.RecipesSearchResult
 import com.example.foody.feature_recipe.presentation.recipes_screen.components.RecipesShimmerItems
+import com.example.foody.ui.theme.coolGray
+import com.example.foody.ui.theme.softWhite
 
 
 @Composable
@@ -36,7 +37,7 @@ fun RecipesScreen(
 
     val state = viewModel.state.collectAsState().value
 
-    Surface(modifier = modifier.background(color = MaterialTheme.colorScheme.background)) {
+    Surface(modifier = modifier.background(color = softWhite)) {
 
         Column {
             CustomBasicTextField(
@@ -47,11 +48,8 @@ fun RecipesScreen(
                 onValueChange = {
                     value = it
                 },
-                backgroundColor = MaterialTheme.colorScheme.surfaceVariant,
-                textStyle = TextStyle(
-                    fontSize = 16.sp,
-                    color = MaterialTheme.colorScheme.onSurface
-                ),
+                backgroundColor = Color.White,
+                textStyle = MaterialTheme.typography.bodySmall.copy(color = coolGray),
                 hint = "Search recipes..",
             )
 

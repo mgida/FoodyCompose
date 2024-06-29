@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.foody.feature_recipe.util.rememberHtmlText
 
 @Composable
 fun RecipeDetailsSummary(title: String, summary: String, modifier: Modifier = Modifier) {
@@ -25,14 +26,16 @@ fun RecipeDetailsSummary(title: String, summary: String, modifier: Modifier = Mo
     ) {
         Text(
             text = title,
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.titleMedium,
             color = Color.Black
         )
         Spacer(modifier = Modifier.height(6.dp))
+
+
         Text(
-            text = summary,
+            text = summary.rememberHtmlText(),
             style = MaterialTheme.typography.bodyMedium,
-            color = Color.Gray
+            color = Color.Black.copy(alpha = 0.7F)
         )
         Spacer(modifier = Modifier.height(8.dp))
     }
@@ -44,6 +47,6 @@ fun RecipeDetailsSummary(title: String, summary: String, modifier: Modifier = Mo
 fun RecipeDetailsSummaryPreview() {
     RecipeDetailsSummary(
         title = "Spaghetti Carbonara",
-        summary = "This is a delicious pasta dish that everyone will love."
+        summary = "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs might be a good recipe to expand your main course repertoire. One portion of this dish contains approximately <b>19g of protein </b>,  <b>20g of fat </b>, and a total of  <b>584 calories </b>. For  <b>\$1.63 per serving </b>, this recipe  <b>covers 23% </b> of your daily requirements of vitamins and minerals. This recipe serves 2. It is brought to you by fullbellysisters.blogspot.com. 209 people were glad they tried this recipe."
     )
 }

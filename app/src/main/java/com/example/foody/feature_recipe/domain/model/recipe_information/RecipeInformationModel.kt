@@ -8,4 +8,5 @@ data class RecipeInformationModel(
     val servings: Int?,
     val summary: String?,
     val title: String?,
+    val ingredients : List<RecipeIngredientModel>?
 )

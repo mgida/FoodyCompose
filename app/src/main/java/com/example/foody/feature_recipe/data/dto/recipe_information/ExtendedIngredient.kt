@@ -1,6 +1,6 @@
 package com.example.foody.feature_recipe.data.dto.recipe_information
 
-data class ExtendedIngredient(
+data class ExtendedIngredientResponse(
     val aisle: String,
     val amount: Double,
     val consistency: String,

@@ -4,7 +4,9 @@ import com.example.foody.feature_recipe.data.dto.recipe_information.RecipeInform
 import com.example.foody.feature_recipe.domain.model.recipe_information.RecipeInformationModel
 import javax.inject.Inject
 
-class UIRecipeInformationMapper @Inject constructor() :
+class UIRecipeInformationMapper @Inject constructor(
+    private val uiRecipeIngredientsMapper: UIRecipeIngredientsMapper
+) :
     IMapper<RecipeInformationResponse, RecipeInformationModel> {
 
     override fun map(input: RecipeInformationResponse): RecipeInformationModel =
@@ -15,6 +17,7 @@ class UIRecipeInformationMapper @Inject constructor() :
             readyInMinutes = input.readyInMinutes,
             servings = input.servings,
             summary = input.summary,
-            title = input.title
+            title = input.title,
+            ingredients = uiRecipeIngredientsMapper.map(input.extendedIngredients)
         )
 }

@@ -5,13 +5,5 @@ import com.example.foody.feature_recipe.domain.model.random_recipe.RandomRecipeM
 data class RandomRecipesState(
     val isLoading: Boolean = false,
     val recipes: List<RandomRecipeModel> = emptyList(),
-    val error: String = "",
-
-    )
-
-enum class RecipesCuisine {
-    Mexican,
-    Italian,
-    Japanese,
-    French
-}
+    val error: String = ""
+)

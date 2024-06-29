@@ -66,4 +66,3 @@ class RecipesViewModel @Inject constructor(
         private const val API_KEY = BuildConfig.API_KEY
     }
 }
-
