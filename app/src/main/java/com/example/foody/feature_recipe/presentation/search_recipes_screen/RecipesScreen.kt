@@ -1,4 +1,4 @@
-package com.example.foody.feature_recipe.presentation.recipes_screen
+package com.example.foody.feature_recipe.presentation.search_recipes_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -16,10 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.foody.feature_recipe.presentation.common.EmptyResult
 import com.example.foody.feature_recipe.presentation.common.ErrorState
-import com.example.foody.feature_recipe.presentation.recipes_screen.components.CustomBasicTextField
-import com.example.foody.feature_recipe.presentation.recipes_screen.components.RecipesSearchResult
-import com.example.foody.feature_recipe.presentation.recipes_screen.components.RecipesShimmerItems
+import com.example.foody.feature_recipe.presentation.search_recipes_screen.components.CustomBasicTextField
+import com.example.foody.feature_recipe.presentation.search_recipes_screen.components.RecipesSearchResult
+import com.example.foody.feature_recipe.presentation.search_recipes_screen.components.RecipesShimmerItems
+import com.example.foody.feature_recipe.presentation.search_recipes_screen.viewmodel.RecipesViewModel
 import com.example.foody.ui.theme.coolGray
 import com.example.foody.ui.theme.softWhite
 
@@ -35,7 +37,7 @@ fun RecipesScreen(
         mutableStateOf("")
     }
 
-    val state = viewModel.state.collectAsState().value
+    val searchState = viewModel.searchState.collectAsState().value
 
     Surface(modifier = modifier.background(color = softWhite)) {
 
@@ -47,6 +49,8 @@ fun RecipesScreen(
                 value = value,
                 onValueChange = {
                     value = it
+                    if (it.length > 5)
+                        viewModel.onEvent(SearchRecipesEvent.GetRecipes(it))
                 },
                 backgroundColor = Color.White,
                 textStyle = MaterialTheme.typography.bodySmall.copy(color = coolGray),
@@ -54,16 +58,20 @@ fun RecipesScreen(
             )
 
             when {
-                state.isLoading -> {
+                searchState.isLoading -> {
                     RecipesShimmerItems()
                 }
 
-                state.error.isNotBlank() -> {
-                    ErrorState(state.error)
+                searchState.error.isNotBlank() -> {
+                    ErrorState(searchState.error)
+                }
+
+                searchState.recipes.isEmpty() -> {
+                    EmptyResult(msg = "Nothing Found..")
                 }
 
                 else -> {
-                    RecipesSearchResult(state.recipes, onItemClick)
+                    RecipesSearchResult(searchState.recipes, onItemClick)
                 }
             }
         }

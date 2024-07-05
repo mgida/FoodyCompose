@@ -1,10 +1,12 @@
-package com.example.foody.feature_recipe.presentation.recipes_screen
+package com.example.foody.feature_recipe.presentation.home_screen.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foody.BuildConfig
 import com.example.foody.feature_recipe.domain.mapper.UIRandomRecipesMapper
 import com.example.foody.feature_recipe.domain.use_case.GetRandomRecipesUseCase
+import com.example.foody.feature_recipe.presentation.home_screen.RandomRecipesEvent
+import com.example.foody.feature_recipe.presentation.home_screen.RandomRecipesState
 import com.example.foody.feature_recipe.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RecipesViewModel @Inject constructor(
     private val useCase: GetRandomRecipesUseCase,
-    private val uiRandomRecipesMapper: UIRandomRecipesMapper
+    private val uiRandomRecipesMapper: UIRandomRecipesMapper,
 ) :
     ViewModel() {
 
@@ -36,7 +38,6 @@ class RecipesViewModel @Inject constructor(
             }
         }
     }
-
 
     private fun getRandomRecipes() {
 

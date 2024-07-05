@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.foody.feature_recipe.presentation.recipe_details_screen.RecipeDetailsScreen
-import com.example.foody.feature_recipe.presentation.recipes_screen.RecipesScreen
+import com.example.foody.feature_recipe.presentation.search_recipes_screen.RecipesScreen
 import com.example.foody.feature_recipe.util.RECIPE_ID_ARG
 import com.example.foody.feature_recipe.util.Screen
 

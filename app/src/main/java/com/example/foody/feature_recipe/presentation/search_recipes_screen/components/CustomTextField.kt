@@ -1,4 +1,4 @@
-package com.example.foody.feature_recipe.presentation.recipes_screen.components
+package com.example.foody.feature_recipe.presentation.search_recipes_screen.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

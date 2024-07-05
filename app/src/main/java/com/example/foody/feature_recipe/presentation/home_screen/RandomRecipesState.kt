@@ -1,4 +1,4 @@
-package com.example.foody.feature_recipe.presentation.recipes_screen
+package com.example.foody.feature_recipe.presentation.home_screen
 
 import com.example.foody.feature_recipe.domain.model.random_recipe.RandomRecipeModel
 

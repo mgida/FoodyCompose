@@ -8,18 +8,36 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.foody.feature_recipe.util.ThemePreviews
 import com.example.foody.ui.theme.FoodyTheme
 
 @Composable
 fun ErrorState(errorMsg: String) {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp), contentAlignment = Alignment.Center) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp), contentAlignment = Alignment.Center
+    ) {
         Text(
             text = errorMsg,
             color = MaterialTheme.colorScheme.error
+        )
+    }
+}
+
+@Composable
+fun EmptyResult(msg: String) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp), contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = msg,
+            style = MaterialTheme.typography.titleMedium,
+            color = Color.Black
         )
     }
 }
@@ -29,5 +47,13 @@ fun ErrorState(errorMsg: String) {
 fun ErrorStatePreview() {
     FoodyTheme {
         ErrorState(errorMsg = "Something went wrong!")
+    }
+}
+
+@ThemePreviews
+@Composable
+fun EmptyResultPreview() {
+    FoodyTheme {
+        EmptyResult(msg = "No Result Found!")
     }
 }

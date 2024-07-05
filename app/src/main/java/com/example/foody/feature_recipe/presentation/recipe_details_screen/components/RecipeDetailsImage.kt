@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.foody.feature_recipe.presentation.recipes_screen.components.RecipeImage
+import com.example.foody.feature_recipe.presentation.search_recipes_screen.components.RecipeImage
 
 @Composable
 fun RecipeDetailsImage(image: String?, modifier: Modifier = Modifier) {

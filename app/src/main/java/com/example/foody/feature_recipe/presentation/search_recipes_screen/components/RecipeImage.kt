@@ -1,4 +1,4 @@
-package com.example.foody.feature_recipe.presentation.recipes_screen.components
+package com.example.foody.feature_recipe.presentation.search_recipes_screen.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
@@ -18,16 +18,18 @@ import com.example.foody.R
 @Composable
 fun RecipeImage(
     imageUrl: String?,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    placeHolder: Int = R.drawable.placeholder_gray,
+    error: Int = R.drawable.placeholder_gray
 ) {
     val painter = rememberAsyncImagePainter(
         ImageRequest.Builder(LocalContext.current)
             .data(data = imageUrl ?: R.drawable.ic_launcher_foreground)
             .apply(block = fun ImageRequest.Builder.() {
                 transformations(RoundedCornersTransformation(12F))
-                placeholder(R.drawable.ic_launcher_foreground)
+                placeholder(placeHolder)
                 crossfade(true)
-                error(R.drawable.ic_launcher_foreground)
+                error(error)
             }).build()
     )
     Image(

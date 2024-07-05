@@ -16,7 +16,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.foody.feature_recipe.domain.model.similar_recipe.SimilarRecipeModel
-import com.example.foody.feature_recipe.presentation.recipes_screen.components.RecipeImage
+import com.example.foody.feature_recipe.presentation.search_recipes_screen.components.RecipeImage
 
 @Composable
 fun SimilarRecipeItem(it: SimilarRecipeModel, modifier: Modifier = Modifier) {
