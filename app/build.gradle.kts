@@ -92,6 +92,8 @@ dependencies {
 
     implementation(libs.androidx.navigation)
     implementation(libs.timber)
+    implementation(libs.pager)
+    implementation(libs.constraint.layout)
 
 
     testImplementation(libs.junit)

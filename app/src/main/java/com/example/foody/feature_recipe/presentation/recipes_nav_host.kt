@@ -5,8 +5,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.foody.feature_recipe.presentation.home_screen.components.HomeScreen
 import com.example.foody.feature_recipe.presentation.recipe_details_screen.RecipeDetailsScreen
-import com.example.foody.feature_recipe.presentation.search_recipes_screen.RecipesScreen
+import com.example.foody.feature_recipe.presentation.search_recipes_screen.SearchRecipesScreen
+import com.example.foody.feature_recipe.util.RECIPE_CUISINE_ARG
 import com.example.foody.feature_recipe.util.RECIPE_ID_ARG
 import com.example.foody.feature_recipe.util.Screen
 
@@ -19,12 +21,24 @@ fun RecipesNavHost(
 
     NavHost(
         navController = navController,
-        startDestination = Screen.Recipes.route
+        startDestination = Screen.HomeRecipes.route
     )
     {
 
-        composable(route = Screen.Recipes.route) {
-            RecipesScreen(modifier = modifier) { recipeId ->
+        composable(route = Screen.HomeRecipes.route) {
+            HomeScreen(modifier = modifier) { cuisine ->
+                navController.navigate(Screen.SearchRecipes.createRoute(recipeCuisine = cuisine))
+            }
+        }
+
+        composable(
+            route = Screen.SearchRecipes.routeWithArgs,
+            arguments = Screen.SearchRecipes.navArgument
+        ) { backStackEntry ->
+
+            val cuisine = backStackEntry.arguments?.getString(RECIPE_CUISINE_ARG) ?: ""
+
+            SearchRecipesScreen(modifier = modifier, cuisine = cuisine) { recipeId ->
                 navController.navigate(Screen.RecipeDetails.createRoute(recipeId = recipeId))
             }
         }

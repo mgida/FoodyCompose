@@ -17,7 +17,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class RecipesViewModel @Inject constructor(
+class HomeScreenViewModel @Inject constructor(
     private val useCase: GetRandomRecipesUseCase,
     private val uiRandomRecipesMapper: UIRandomRecipesMapper,
 ) :

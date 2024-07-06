@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,14 +25,20 @@ import com.example.foody.feature_recipe.presentation.search_recipes_screen.compo
 import com.example.foody.feature_recipe.presentation.search_recipes_screen.viewmodel.RecipesViewModel
 import com.example.foody.ui.theme.coolGray
 import com.example.foody.ui.theme.softWhite
+import timber.log.Timber
 
 
 @Composable
-fun RecipesScreen(
+fun SearchRecipesScreen(
     modifier: Modifier = Modifier,
+    cuisine: String,
     viewModel: RecipesViewModel = hiltViewModel(),
-    onItemClick: (id: Int) -> Unit
+    onItemClick: (id: Int) -> Unit,
 ) {
+
+    SideEffect {
+        Timber.d("Foody recipeCuisine: $cuisine")
+    }
 
     var value by rememberSaveable {
         mutableStateOf("")

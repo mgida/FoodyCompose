@@ -37,7 +37,7 @@ fun RecipeDetailsScreen(
 ) {
 
     val recipeInformationState = viewModel.recipeInformationState.collectAsState().value
-    val similarRecipesState = viewModel.similarRecipesState.collectAsState().value
+    // val similarRecipesState = viewModel.similarRecipesState.collectAsState().value
 
     SideEffect {
         Timber.d("Foody recipeId: $recipeId")

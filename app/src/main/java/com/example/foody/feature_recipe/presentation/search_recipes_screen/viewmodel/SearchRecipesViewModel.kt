@@ -1,5 +1,6 @@
 package com.example.foody.feature_recipe.presentation.search_recipes_screen.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foody.BuildConfig
@@ -19,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class RecipesViewModel @Inject constructor(
     private val searchRecipesUseCase: SearchRecipesUseCase,
-    private val uiSearchRecipesMapper: UISearchRecipesMapper
+    private val uiSearchRecipesMapper: UISearchRecipesMapper,
+    savedStateHandle: SavedStateHandle
 ) :
     ViewModel() {
 
@@ -27,7 +29,11 @@ class RecipesViewModel @Inject constructor(
     val searchState: StateFlow<SearchRecipesState> = _searchState
 
     init {
-        searchRecipes()
+        savedStateHandle.get<String>(RECIPE_CUISINE).also { cuisine ->
+            cuisine?.let {
+                searchRecipes(cuisine = cuisine)
+            }
+        }
     }
 
     fun onEvent(searchRecipesEvent: SearchRecipesEvent) {
@@ -39,9 +45,9 @@ class RecipesViewModel @Inject constructor(
         }
     }
 
-    private fun searchRecipes(query: String = "") {
+    private fun searchRecipes(cuisine: String = "", query: String = "") {
 
-        searchRecipesUseCase.invoke(API_KEY, CUISINE.Spanish.name, query).onEach { resource ->
+        searchRecipesUseCase.invoke(API_KEY, cuisine, query).onEach { resource ->
             when (resource) {
                 is Resource.Loading -> {
                     Timber.i("Foody search Recipes: loading...")
@@ -65,12 +71,7 @@ class RecipesViewModel @Inject constructor(
 
     companion object {
         private const val API_KEY = BuildConfig.API_KEY
-
-        enum class CUISINE {
-            African,
-            Spanish,
-            Italian
-        }
+        private const val RECIPE_CUISINE = "recipeCuisine"
     }
 }
 

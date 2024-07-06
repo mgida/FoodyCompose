@@ -23,6 +23,8 @@ coil = "2.5.0"
 navigation = "2.7.7"
 
 timber = "5.0.1"
+pager = "0.28.0"
+constraintLayout = "1.0.1"
 
 
 [libraries]
@@ -66,6 +68,10 @@ androidx-navigation = { group = "androidx.navigation", name = "navigation-compos
 #Timber
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 
+#ViewPager
+pager = { group = "com.google.accompanist", name = "accompanist-pager", version.ref = "pager" }
+
+constraint-layout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintLayout" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
