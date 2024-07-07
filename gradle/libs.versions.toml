@@ -25,6 +25,7 @@ navigation = "2.7.7"
 timber = "5.0.1"
 pager = "0.28.0"
 constraintLayout = "1.0.1"
+splash = "1.0.1"
 
 
 [libraries]
@@ -72,6 +73,7 @@ timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "tim
 pager = { group = "com.google.accompanist", name = "accompanist-pager", version.ref = "pager" }
 
 constraint-layout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintLayout" }
+splash = { group = "androidx.core", name = "core-splashscreen", version.ref = "splash" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

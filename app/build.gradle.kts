@@ -94,6 +94,7 @@ dependencies {
     implementation(libs.timber)
     implementation(libs.pager)
     implementation(libs.constraint.layout)
+    implementation(libs.splash)
 
 
     testImplementation(libs.junit)
