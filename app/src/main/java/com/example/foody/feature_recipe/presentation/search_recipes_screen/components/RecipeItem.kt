@@ -1,5 +1,9 @@
 package com.example.foody.feature_recipe.presentation.search_recipes_screen.components
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -28,17 +32,22 @@ import androidx.compose.ui.unit.sp
 import com.example.foody.R
 import com.example.foody.feature_recipe.util.FontScalePreviews
 import com.example.foody.feature_recipe.util.LayoutDirectionPreviews
+import com.example.foody.feature_recipe.util.RECIPE_IMAGE_TRANSITION_KEY
+import com.example.foody.feature_recipe.util.RECIPE_TITLE_TRANSITION_KEY
 import com.example.foody.feature_recipe.util.ThemePreviews
 import com.example.foody.feature_recipe.util.rememberHtmlText
-import com.example.foody.ui.theme.FoodyTheme
 import com.example.foody.ui.theme.blueGray
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun RecipeItem(
+    recipeId: Int,
     image: String,
     title: String,
     des: String,
     modifier: Modifier = Modifier,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     onShareClicked: () -> Unit,
     onFavClicked: () -> Unit
 ) {
@@ -51,22 +60,44 @@ fun RecipeItem(
     ) {
 
         Box(modifier = Modifier.padding(end = 8.dp), contentAlignment = Alignment.Center) {
-            RecipeImage(
-                modifier = Modifier
-                    .size(125.dp, 100.dp)
-                    .clip(RoundedCornerShape(12)),
-                imageUrl = image
-            )
+
+            with(sharedTransitionScope) {
+                RecipeImage(
+                    modifier = Modifier
+                        .size(125.dp, 100.dp)
+                        .clip(RoundedCornerShape(12))
+                        .sharedElement(
+                            state = rememberSharedContentState(key = "${RECIPE_IMAGE_TRANSITION_KEY}/$recipeId"),
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            boundsTransform = { _, _ ->
+                                tween(durationMillis = 500)
+                            }
+                        ),
+                    imageUrl = image
+                )
+            }
+
         }
 
         Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.labelMedium,
-                color = Color.Black,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
+
+            with(sharedTransitionScope) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = Color.Black,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.sharedElement(
+                        state = rememberSharedContentState(key = "${RECIPE_TITLE_TRANSITION_KEY}/$title"),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        boundsTransform = { _, _ ->
+                            tween(durationMillis = 500)
+                        }
+                    )
+                )
+            }
+
             Spacer(modifier = Modifier.height(6.dp))
             Text(
                 text = des.rememberHtmlText(),
@@ -123,17 +154,19 @@ private fun CustomIcon(
 @LayoutDirectionPreviews
 @Composable
 fun RecipeItemP() {
-    FoodyTheme {
-        RecipeItem(
-            image = "",
-            title = "simply dummy text",
-            des =
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
-                    "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s," +
-                    " when an unknown printer took a galley of type and scrambled it to make a type" +
-                    " specimen book",
-            onShareClicked = {},
-            onFavClicked = {}
-        )
-    }
+
+//    FoodyTheme {
+//        RecipeItem(
+//            recipeId = 1,
+//            image = "",
+//            title = "simply dummy text",
+//            des =
+//            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
+//                    "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s," +
+//                    " when an unknown printer took a galley of type and scrambled it to make a type" +
+//                    " specimen book",
+//            onShareClicked = {},
+//            onFavClicked = {}
+//        )
+//    }
 }

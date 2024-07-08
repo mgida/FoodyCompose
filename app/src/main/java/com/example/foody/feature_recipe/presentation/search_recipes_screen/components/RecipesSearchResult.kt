@@ -1,5 +1,8 @@
 package com.example.foody.feature_recipe.presentation.search_recipes_screen.components
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,22 +17,30 @@ import androidx.compose.ui.unit.dp
 import com.example.foody.feature_recipe.domain.model.search_recipes.SearchRecipesModel
 import com.example.foody.feature_recipe.util.OrientationPreviews
 import com.example.foody.feature_recipe.util.ThemePreviews
-import com.example.foody.ui.theme.FoodyTheme
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-fun RecipesSearchResult(recipes: List<SearchRecipesModel>, onItemClick: (id: Int) -> Unit) {
+fun RecipesSearchResult(
+    recipes: List<SearchRecipesModel>,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
+    onItemClick: (id: Int) -> Unit
+) {
 
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         items(recipes, key = { recipeModel ->
             recipeModel.id
         }) { recipeItem ->
             RecipeItem(
+                recipeId = recipeItem.id,
                 modifier = Modifier.clickable {
-                    recipeItem.id.let { onItemClick(it) }
+                    onItemClick(recipeItem.id)
                 },
                 image = recipeItem.image ?: "",
                 title = recipeItem.title ?: "",
                 des = recipeItem.summary ?: "",
+                sharedTransitionScope = sharedTransitionScope,
+                animatedVisibilityScope = animatedVisibilityScope,
                 onShareClicked = { },
                 onFavClicked = { }
             )
@@ -81,7 +92,16 @@ fun RecipesSearchResultPreview() {
                 summary = "but also the leap into electronic typesetting, remaining essentially unchanged",
             )
         )
-    FoodyTheme {
-        RecipesSearchResult(recipes, onItemClick = {})
-    }
+
+
+
+//    FoodyTheme {
+//
+//        RecipesSearchResult(
+//            recipes = recipes,
+//            sharedTransitionScope =,
+//            animatedVisibilityScope =
+//        ) {}
+//
+//    }
 }

@@ -1,5 +1,8 @@
 package com.example.foody.feature_recipe.presentation.search_recipes_screen
 
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,12 +31,15 @@ import com.example.foody.ui.theme.softWhite
 import timber.log.Timber
 
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun SearchRecipesScreen(
     modifier: Modifier = Modifier,
     cuisine: String,
     viewModel: RecipesViewModel = hiltViewModel(),
-    onItemClick: (id: Int) -> Unit,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedContentScope,
+    onItemClick: (id: Int) -> Unit
 ) {
 
     SideEffect {
@@ -78,7 +84,12 @@ fun SearchRecipesScreen(
                 }
 
                 else -> {
-                    RecipesSearchResult(searchState.recipes, onItemClick)
+                    RecipesSearchResult(
+                        searchState.recipes,
+                        sharedTransitionScope = sharedTransitionScope,
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        onItemClick
+                    )
                 }
             }
         }
