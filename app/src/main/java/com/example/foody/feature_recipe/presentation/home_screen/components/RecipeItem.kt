@@ -19,7 +19,6 @@ import androidx.constraintlayout.compose.Dimension
 import com.example.foody.R
 import com.example.foody.feature_recipe.domain.model.random_recipe.RandomRecipeModel
 import com.example.foody.feature_recipe.presentation.search_recipes_screen.components.RecipeImage
-import com.example.foody.feature_recipe.util.OrientationPreviews
 import com.example.foody.feature_recipe.util.ThemePreviews
 import com.example.foody.ui.theme.softWhite
 

@@ -1,5 +1,8 @@
 package com.example.foody.feature_recipe.presentation.recipe_details_screen
 
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,9 +34,14 @@ import com.example.foody.feature_recipe.presentation.recipe_details_screen.compo
 import com.example.foody.feature_recipe.util.ThemePreviews
 import timber.log.Timber
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun RecipeDetailsScreen(
-    modifier: Modifier = Modifier, viewModel: RecipeDetailViewModel = hiltViewModel(), recipeId: Int
+    modifier: Modifier = Modifier,
+    viewModel: RecipeDetailViewModel = hiltViewModel(),
+    recipeId: Int,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedContentScope
 ) {
 
     val recipeInformationState = viewModel.recipeInformationState.collectAsState().value
@@ -49,7 +57,12 @@ fun RecipeDetailsScreen(
             .padding(horizontal = 8.dp),
         horizontalAlignment = Alignment.Start
     ) {
-        RecipeContentSection(recipeInformationState, modifier)
+        RecipeContentSection(
+            recipeInformationState,
+            modifier,
+            sharedTransitionScope = sharedTransitionScope,
+            animatedVisibilityScope = animatedVisibilityScope,
+        )
         // SimilarRecipesSection(similarRecipesState, modifier)
     }
 }
@@ -83,10 +96,13 @@ fun SimilarRecipesSection(similarRecipesState: SimilarRecipesState, modifier: Mo
     }
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 private fun RecipeContentSection(
     recipeInformationState: RecipeDetailState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedContentScope,
 ) {
     when {
         recipeInformationState.isLoading -> {
@@ -101,15 +117,22 @@ private fun RecipeContentSection(
 
         else -> {
             val recipe = recipeInformationState.recipeInformationModel
-            RecipeContent(modifier, recipe)
+            RecipeContent(
+                modifier, recipe,
+                sharedTransitionScope = sharedTransitionScope,
+                animatedVisibilityScope = animatedVisibilityScope,
+            )
         }
     }
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 private fun RecipeContent(
     modifier: Modifier,
-    recipe: RecipeInformationModel?
+    recipe: RecipeInformationModel?,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedContentScope,
 ) {
     LazyColumn(
         modifier = modifier
@@ -117,11 +140,20 @@ private fun RecipeContent(
             .padding(vertical = 16.dp, horizontal = 8.dp)
     ) {
 
-        item { RecipeDetailsImage(recipe?.image) }
+        item {
+            RecipeDetailsImage(
+                recipeId = recipe?.id,
+                recipe?.image,
+                sharedTransitionScope = sharedTransitionScope,
+                animatedVisibilityScope = animatedVisibilityScope,
+            )
+        }
         item {
             RecipeDetailsSummary(
                 recipe?.title ?: "",
-                recipe?.summary ?: ""
+                recipe?.summary ?: "",
+                sharedTransitionScope = sharedTransitionScope,
+                animatedVisibilityScope = animatedVisibilityScope,
             )
         }
         item {
@@ -157,7 +189,7 @@ fun IngredientHeader(modifier: Modifier = Modifier) {
 @ThemePreviews
 @Composable
 fun RecipeDetailsScreenP() {
-    RecipeContent(Modifier, sampleRecipe)
+    // RecipeContent(Modifier, sampleRecipe)
 }
 
 val sampleRecipe = RecipeInformationModel(

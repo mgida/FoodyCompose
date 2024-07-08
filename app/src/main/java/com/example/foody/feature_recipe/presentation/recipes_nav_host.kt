@@ -1,5 +1,7 @@
 package com.example.foody.feature_recipe.presentation
 
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -13,42 +15,58 @@ import com.example.foody.feature_recipe.util.RECIPE_ID_ARG
 import com.example.foody.feature_recipe.util.Screen
 
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun RecipesNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
 
-    NavHost(
-        navController = navController,
-        startDestination = Screen.HomeRecipes.route
-    )
-    {
+    SharedTransitionLayout {
 
-        composable(route = Screen.HomeRecipes.route) {
-            HomeScreen(modifier = modifier) { cuisine ->
-                navController.navigate(Screen.SearchRecipes.createRoute(recipeCuisine = cuisine))
+        NavHost(
+            navController = navController,
+            startDestination = Screen.HomeRecipes.route
+        )
+        {
+
+            composable(route = Screen.HomeRecipes.route) {
+                HomeScreen(modifier = modifier) { cuisine ->
+                    navController.navigate(Screen.SearchRecipes.createRoute(recipeCuisine = cuisine))
+                }
             }
-        }
 
-        composable(
-            route = Screen.SearchRecipes.routeWithArgs,
-            arguments = Screen.SearchRecipes.navArgument
-        ) { backStackEntry ->
+            composable(
+                route = Screen.SearchRecipes.routeWithArgs,
+                arguments = Screen.SearchRecipes.navArgument
+            ) { backStackEntry ->
 
-            val cuisine = backStackEntry.arguments?.getString(RECIPE_CUISINE_ARG) ?: ""
+                val cuisine = backStackEntry.arguments?.getString(RECIPE_CUISINE_ARG) ?: ""
 
-            SearchRecipesScreen(modifier = modifier, cuisine = cuisine) { recipeId ->
-                navController.navigate(Screen.RecipeDetails.createRoute(recipeId = recipeId))
+                SearchRecipesScreen(
+                    modifier = modifier,
+                    cuisine = cuisine,
+                    sharedTransitionScope = this@SharedTransitionLayout,
+                    animatedVisibilityScope = this
+                ) { recipeId ->
+                    navController.navigate(Screen.RecipeDetails.createRoute(recipeId = recipeId))
+                }
             }
-        }
 
-        composable(
-            route = Screen.RecipeDetails.routeWithArgs,
-            arguments = Screen.RecipeDetails.navArgument
-        ) { backStackEntry ->
-            val recipeId = backStackEntry.arguments?.getInt(RECIPE_ID_ARG) ?: -1
-            RecipeDetailsScreen(modifier = modifier, recipeId = recipeId)
+            composable(
+                route = Screen.RecipeDetails.routeWithArgs,
+                arguments = Screen.RecipeDetails.navArgument
+            ) { backStackEntry ->
+                val recipeId = backStackEntry.arguments?.getInt(RECIPE_ID_ARG) ?: -1
+                RecipeDetailsScreen(
+                    modifier = modifier,
+                    recipeId = recipeId,
+                    sharedTransitionScope = this@SharedTransitionLayout,
+                    animatedVisibilityScope = this,
+                )
+            }
         }
     }
+
+
 }
