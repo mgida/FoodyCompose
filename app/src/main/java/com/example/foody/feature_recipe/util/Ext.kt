@@ -35,13 +35,15 @@ fun Modifier.shimmerEffect(): Modifier = composed {
         ), label = ""
     )
 
+    val shimmerColor = listOf(
+        Color(0xFFD3D3D3),
+        Color(0xFFE0E0E0),
+        Color(0xFFF5F5F5)
+    )
+
     background(
         brush = Brush.linearGradient(
-            colors = listOf(
-                Color(0xFFB8B5B5),
-                Color(0xFF8F8B8B),
-                Color(0xFFB8B5B5),
-            ),
+            colors = shimmerColor,
             start = Offset(startOffsetX, 0f),
             end = Offset(startOffsetX + size.width.toFloat(), size.height.toFloat())
         )

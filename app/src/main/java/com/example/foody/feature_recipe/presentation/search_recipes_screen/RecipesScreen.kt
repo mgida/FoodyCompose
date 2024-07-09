@@ -69,7 +69,7 @@ fun SearchRecipesScreen(
                         viewModel.onEvent(SearchRecipesEvent.GetRecipes(it))
                 },
                 backgroundColor = Color.White,
-                textStyle = MaterialTheme.typography.bodySmall.copy(color = coolGray),
+                textStyle = MaterialTheme.typography.bodyMedium.copy(color = coolGray),
                 hint = "Search recipes..",
             )
 

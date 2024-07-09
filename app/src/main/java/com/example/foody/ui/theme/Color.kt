@@ -15,3 +15,5 @@ val coolGray = Color(0xFFA0A3BD)
 val softWhite = Color(0xFFFBF9F7)
 val blueGray = Color(0xFFA0A3BD)
 val alphaRed = Color(0xFFB23E28)
+val delicateWhite = Color(0xFFF0F3ED)
+

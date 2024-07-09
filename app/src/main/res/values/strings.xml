@@ -2,4 +2,5 @@
     <string name="app_name">Foody</string>
     <string name="nothing_found">Nothing Found..</string>
     <string name="recipe_of_the_week">Recipe of the week</string>
+    <string name="recipes">%1$s recipes</string>
 </resources>
