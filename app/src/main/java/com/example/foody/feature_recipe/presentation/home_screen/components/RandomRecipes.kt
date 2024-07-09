@@ -10,13 +10,17 @@ import com.example.foody.feature_recipe.domain.model.random_recipe.RandomRecipeM
 import com.example.foody.feature_recipe.util.ThemePreviews
 
 @Composable
-fun RandomRecipes(modifier: Modifier = Modifier, recipes: List<RandomRecipeModel>) {
+fun RandomRecipes(
+    modifier: Modifier = Modifier,
+    recipes: List<RandomRecipeModel>,
+    onRecipeItemClicked: (recipeId: Int) -> Unit
+) {
 
     LazyRow(
         modifier = modifier.padding(horizontal = 8.dp)
     ) {
         items(recipes) { recipeModel ->
-            RecipeItem(modifier = Modifier, recipeModel)
+            RecipeItem(modifier = Modifier, recipeModel, onRecipeItemClicked)
         }
     }
 }
@@ -57,5 +61,5 @@ fun RandomRecipesPreview() {
         )
     )
 
-    RandomRecipes(recipes = recipes)
+    RandomRecipes(recipes = recipes){}
 }

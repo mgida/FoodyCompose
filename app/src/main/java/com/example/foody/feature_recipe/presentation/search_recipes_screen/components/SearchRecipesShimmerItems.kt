@@ -20,7 +20,7 @@ import com.example.foody.feature_recipe.util.shimmerEffect
 
 
 @Composable
-fun RecipesShimmerItems(modifier: Modifier = Modifier) {
+fun SearchRecipesShimmerItems(modifier: Modifier = Modifier) {
 
     LazyColumn {
         items(10, key = { it }) {
@@ -68,5 +68,5 @@ fun RecipesShimmerItems(modifier: Modifier = Modifier) {
 @ThemePreviews
 @Composable
 fun RecipesShimmerItemsPreview() {
-    RecipesShimmerItems(modifier = Modifier.fillMaxWidth())
+    SearchRecipesShimmerItems(modifier = Modifier.fillMaxWidth())
 }

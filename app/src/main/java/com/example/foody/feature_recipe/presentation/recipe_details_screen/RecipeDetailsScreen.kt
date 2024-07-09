@@ -112,7 +112,7 @@ private fun RecipeContentSection(
         }
 
         recipeInformationState.error.isNotBlank() -> {
-            ErrorState(errorMsg = recipeInformationState.error)
+            ErrorState(modifier = Modifier.fillMaxSize(), errorMsg = recipeInformationState.error)
         }
 
         else -> {

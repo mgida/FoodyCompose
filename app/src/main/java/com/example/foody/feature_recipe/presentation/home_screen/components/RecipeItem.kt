@@ -1,6 +1,7 @@
 package com.example.foody.feature_recipe.presentation.home_screen.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -23,12 +24,19 @@ import com.example.foody.feature_recipe.util.ThemePreviews
 import com.example.foody.ui.theme.softWhite
 
 @Composable
-fun RecipeItem(modifier: Modifier = Modifier, recipeModel: RandomRecipeModel) {
+fun RecipeItem(
+    modifier: Modifier = Modifier,
+    recipeModel: RandomRecipeModel,
+    onRecipeItemClicked: (recipeId: Int) -> Unit
+) {
 
     ConstraintLayout(
         modifier = modifier
             .background(softWhite)
             .padding(end = 8.dp)
+            .clickable {
+                onRecipeItemClicked.invoke(recipeModel.id)
+            }
     ) {
         val (image, text, shareIcon, favIcon) = createRefs()
         val endGuideline = createGuidelineFromEnd(0.35f)
@@ -96,5 +104,5 @@ fun RecipeItemPreview() {
         title = "Lemon Garlic Salmon",
         summary = "A simple and delicious dish featuring salmon fillets marinated in lemon juice and garlic."
     )
-    RecipeItem(recipeModel = recipe)
+    RecipeItem(recipeModel = recipe) {}
 }

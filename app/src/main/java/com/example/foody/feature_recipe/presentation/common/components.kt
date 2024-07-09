@@ -1,7 +1,6 @@
 package com.example.foody.feature_recipe.presentation.common
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -14,10 +13,9 @@ import com.example.foody.feature_recipe.util.ThemePreviews
 import com.example.foody.ui.theme.FoodyTheme
 
 @Composable
-fun ErrorState(errorMsg: String) {
+fun ErrorState(modifier: Modifier = Modifier, errorMsg: String) {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = modifier
             .padding(16.dp), contentAlignment = Alignment.Center
     ) {
         Text(
@@ -28,10 +26,9 @@ fun ErrorState(errorMsg: String) {
 }
 
 @Composable
-fun EmptyResult(msg: String) {
+fun EmptyResult(modifier: Modifier = Modifier, msg: String) {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = modifier
             .padding(16.dp), contentAlignment = Alignment.Center
     ) {
         Text(

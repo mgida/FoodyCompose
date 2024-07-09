@@ -5,6 +5,7 @@ import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -18,13 +19,15 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.foody.R
 import com.example.foody.feature_recipe.presentation.common.EmptyResult
 import com.example.foody.feature_recipe.presentation.common.ErrorState
 import com.example.foody.feature_recipe.presentation.search_recipes_screen.components.CustomBasicTextField
 import com.example.foody.feature_recipe.presentation.search_recipes_screen.components.RecipesSearchResult
-import com.example.foody.feature_recipe.presentation.search_recipes_screen.components.RecipesShimmerItems
+import com.example.foody.feature_recipe.presentation.search_recipes_screen.components.SearchRecipesShimmerItems
 import com.example.foody.feature_recipe.presentation.search_recipes_screen.viewmodel.RecipesViewModel
 import com.example.foody.ui.theme.coolGray
 import com.example.foody.ui.theme.softWhite
@@ -72,15 +75,18 @@ fun SearchRecipesScreen(
 
             when {
                 searchState.isLoading -> {
-                    RecipesShimmerItems()
+                    SearchRecipesShimmerItems()
                 }
 
                 searchState.error.isNotBlank() -> {
-                    ErrorState(searchState.error)
+                    ErrorState(modifier = Modifier.fillMaxSize(), errorMsg = searchState.error)
                 }
 
                 searchState.recipes.isEmpty() -> {
-                    EmptyResult(msg = "Nothing Found..")
+                    EmptyResult(
+                        modifier = Modifier.fillMaxSize(),
+                        msg = stringResource(R.string.nothing_found)
+                    )
                 }
 
                 else -> {

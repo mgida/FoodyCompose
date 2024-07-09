@@ -31,8 +31,10 @@ fun RecipesNavHost(
         {
 
             composable(route = Screen.HomeRecipes.route) {
-                HomeScreen(modifier = modifier) { cuisine ->
+                HomeScreen(modifier = modifier, onNavigate = { cuisine ->
                     navController.navigate(Screen.SearchRecipes.createRoute(recipeCuisine = cuisine))
+                }) { recipeId ->
+                    navController.navigate(Screen.RecipeDetails.createRoute(recipeId = recipeId))
                 }
             }
 

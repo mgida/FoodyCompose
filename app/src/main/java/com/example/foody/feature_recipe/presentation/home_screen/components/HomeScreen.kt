@@ -14,9 +14,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.foody.R
+import com.example.foody.feature_recipe.domain.model.random_recipe.RandomRecipeModel
+import com.example.foody.feature_recipe.presentation.common.EmptyResult
+import com.example.foody.feature_recipe.presentation.common.ErrorState
+import com.example.foody.feature_recipe.presentation.home_screen.RandomRecipesState
 import com.example.foody.feature_recipe.presentation.home_screen.viewmodel.HomeScreenViewModel
+import com.example.foody.feature_recipe.util.ThemePreviews
+import com.example.foody.ui.theme.FoodyTheme
 import com.example.foody.ui.theme.softWhite
 
 
@@ -24,11 +32,22 @@ import com.example.foody.ui.theme.softWhite
 fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeScreenViewModel = hiltViewModel(),
-    onNavigate: (String) -> Unit
-) {
+    onNavigate: (String) -> Unit,
+    onRecipeItemClicked: (recipeId: Int) -> Unit,
+
+    ) {
 
     val state = viewModel.state.collectAsState().value
+    HomeContent(modifier, onNavigate, onRecipeItemClicked, state)
+}
 
+@Composable
+private fun HomeContent(
+    modifier: Modifier,
+    onNavigate: (String) -> Unit,
+    onRecipeItemClicked: (recipeId: Int) -> Unit,
+    state: RandomRecipesState
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -56,26 +75,62 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         when {
-            state.recipes.isNotEmpty() -> {
+            state.isLoading -> {
+                RandomRecipesShimmerItems(modifier = Modifier.fillMaxWidth())
+            }
 
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 8.dp, bottom = 16.dp),
-                    text = "Recipe of the week",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = Color.Black
-                )
-                RandomRecipes(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    recipes = state.recipes
-                )
-                Spacer(modifier = Modifier.height(16.dp))
+            state.error.isNotBlank() -> {
+                ErrorState(modifier = Modifier.fillMaxWidth(), errorMsg = state.error)
+            }
 
+            state.recipes.isEmpty() -> {
+                EmptyResult(
+                    modifier = Modifier.fillMaxWidth(),
+                    msg = stringResource(id = R.string.nothing_found)
+                )
+            }
+
+            else -> {
+                RecipesResult(state.recipes, onRecipeItemClicked)
             }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
+    }
+}
+
+@Composable
+private fun RecipesResult(
+    recipes: List<RandomRecipeModel>,
+    onRecipeItemClicked: (recipeId: Int) -> Unit
+) {
+    Text(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 8.dp, bottom = 16.dp),
+        text = stringResource(R.string.recipe_of_the_week),
+        style = MaterialTheme.typography.titleMedium,
+        color = Color.Black
+    )
+    RandomRecipes(
+        modifier = Modifier
+            .fillMaxWidth(),
+        recipes = recipes,
+        onRecipeItemClicked
+    )
+    Spacer(modifier = Modifier.height(16.dp))
+}
+
+
+@ThemePreviews
+@Composable
+private fun HomeContentPreview() {
+    FoodyTheme {
+        HomeContent(
+            modifier = Modifier.fillMaxWidth(),
+            onNavigate = {},
+            onRecipeItemClicked = {},
+            state = RandomRecipesState(isLoading = true)
+        )
     }
 }
