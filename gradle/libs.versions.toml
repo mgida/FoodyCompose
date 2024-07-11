@@ -1,13 +1,13 @@
 [versions]
 agp = "8.3.2"
 kotlin = "1.9.0"
-coreKtx = "1.13.0"
+coreKtx = "1.13.1"
 junit = "4.13.2"
-junitVersion = "1.1.5"
-espressoCore = "3.5.1"
-lifecycleRuntimeKtx = "2.7.0"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+lifecycleRuntimeKtx = "2.8.3"
 activityCompose = "1.9.0"
-composeBom = "2024.04.01"
+composeBom = "2024.06.00"
 
 kotlinxCoroutines = "1.8.0"
 
@@ -16,7 +16,7 @@ gson = "2.11.0"
 
 hilt = "2.49"
 hiltViewModel = "1.2.0"
-hiltViewModelCompose = "2.7.0"
+hiltViewModelCompose = "2.8.3"
 
 coil = "2.5.0"
 
@@ -27,8 +27,10 @@ pager = "0.28.0"
 constraintLayout = "1.1.0-alpha13"
 splash = "1.0.1"
 
-composeAnimation = "1.7.0-beta04"
+composeAnimation = "1.7.0-beta05"
 navigationCompose = "2.7.7"
+
+room = "2.6.1"
 
 
 [libraries]
@@ -84,6 +86,10 @@ pager = { group = "com.google.accompanist", name = "accompanist-pager", version.
 constraint-layout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintLayout" }
 splash = { group = "androidx.core", name = "core-splashscreen", version.ref = "splash" }
 
+#Room
+room = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 
 
 [plugins]

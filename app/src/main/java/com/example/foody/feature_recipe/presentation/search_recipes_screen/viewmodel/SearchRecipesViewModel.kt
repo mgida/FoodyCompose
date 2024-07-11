@@ -5,21 +5,29 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foody.BuildConfig
 import com.example.foody.feature_recipe.domain.mapper.UISearchRecipesMapper
+import com.example.foody.feature_recipe.domain.model.search_recipes.SearchRecipesModel
+import com.example.foody.feature_recipe.domain.use_case.DeleteRecipeUseCase
+import com.example.foody.feature_recipe.domain.use_case.SaveRecipeUseCase
 import com.example.foody.feature_recipe.domain.use_case.SearchRecipesUseCase
 import com.example.foody.feature_recipe.presentation.search_recipes_screen.SearchRecipesEvent
 import com.example.foody.feature_recipe.presentation.search_recipes_screen.SearchRecipesState
 import com.example.foody.feature_recipe.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class RecipesViewModel @Inject constructor(
     private val searchRecipesUseCase: SearchRecipesUseCase,
+    private val saveRecipeUseCase: SaveRecipeUseCase,
+    private val deleteRecipeUseCase: DeleteRecipeUseCase,
     private val uiSearchRecipesMapper: UISearchRecipesMapper,
     savedStateHandle: SavedStateHandle
 ) :
@@ -27,6 +35,9 @@ class RecipesViewModel @Inject constructor(
 
     private val _searchState = MutableStateFlow(SearchRecipesState())
     val searchState: StateFlow<SearchRecipesState> = _searchState
+
+    private val _eventFlow = MutableSharedFlow<UiEvent>()
+    val eventFlow = _eventFlow.asSharedFlow()
 
     init {
         savedStateHandle.get<String>(RECIPE_CUISINE).also { cuisine ->
@@ -42,6 +53,62 @@ class RecipesViewModel @Inject constructor(
             is SearchRecipesEvent.GetRecipes -> {
                 searchRecipes(query = searchRecipesEvent.query)
             }
+
+            is SearchRecipesEvent.SaveRecipe -> {
+                saveRecipe(searchRecipesEvent.searchRecipesModel)
+            }
+
+            is SearchRecipesEvent.DeleteRecipe -> {
+                deleteRecipe(searchRecipesEvent.searchRecipesModel)
+            }
+        }
+    }
+
+    private fun deleteRecipe(searchRecipesModel: SearchRecipesModel) {
+        try {
+            viewModelScope.launch {
+                deleteRecipeUseCase.invoke(searchRecipesModel = searchRecipesModel)
+
+                toggleFavourite(searchRecipesModel)
+
+                _eventFlow.emit(UiEvent.DeleteRecipe)
+            }
+        } catch (e: Exception) {
+            Timber.e("Foody ${e.localizedMessage}")
+        }
+    }
+
+    private suspend fun toggleFavourite(recipe: SearchRecipesModel) {
+
+        if (!recipe.isFav) {
+            saveRecipeUseCase.invoke(recipe)
+        } else {
+            deleteRecipeUseCase.invoke(recipe)
+        }
+
+        val updatedRecipes = _searchState.value.recipes.map {
+            if (it.id == recipe.id) {
+                it.copy(isFav = recipe.isFav)
+            } else {
+                it
+            }
+        }
+        _searchState.value = _searchState.value.copy(recipes = updatedRecipes)
+    }
+
+    private fun saveRecipe(searchRecipesModel: SearchRecipesModel) {
+
+        try {
+            viewModelScope.launch {
+                saveRecipeUseCase.invoke(searchRecipesModel = searchRecipesModel)
+
+                toggleFavourite(searchRecipesModel)
+
+                _eventFlow.emit(UiEvent.SaveRecipe)
+            }
+
+        } catch (e: Exception) {
+            Timber.e("Foody ${e.localizedMessage}")
         }
     }
 
@@ -67,6 +134,11 @@ class RecipesViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    sealed class UiEvent {
+        data object SaveRecipe : UiEvent()
+        data object DeleteRecipe : UiEvent()
     }
 
     companion object {

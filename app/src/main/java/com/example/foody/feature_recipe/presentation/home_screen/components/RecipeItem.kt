@@ -87,7 +87,7 @@ fun RecipeItem(
                     top.linkTo(text.top, margin = 8.dp)
                     bottom.linkTo(text.bottom, margin = 8.dp)
                 },
-            painter = painterResource(id = R.drawable.ic_fav),
+            painter = painterResource(id = R.drawable.ic_fav_outlined),
             contentDescription = null
         )
 

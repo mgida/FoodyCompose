@@ -9,12 +9,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -31,6 +36,7 @@ import com.example.foody.feature_recipe.presentation.search_recipes_screen.compo
 import com.example.foody.feature_recipe.presentation.search_recipes_screen.viewmodel.RecipesViewModel
 import com.example.foody.ui.theme.coolGray
 import com.example.foody.ui.theme.softWhite
+import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
 
 
@@ -44,62 +50,106 @@ fun SearchRecipesScreen(
     animatedVisibilityScope: AnimatedContentScope,
     onItemClick: (id: Int) -> Unit
 ) {
+    var value by rememberSaveable { mutableStateOf("") }
+
+    val searchState = viewModel.searchState.collectAsState().value
+
+
+    val snackbarHostState = remember { SnackbarHostState() }
+    val recipeSavedMessage = stringResource(id = R.string.recipe_saved_to_favourites)
+    val recipeDeletedMessage = stringResource(id = R.string.recipe_removed_from_favourites)
 
     SideEffect {
         Timber.d("Foody recipeCuisine: $cuisine")
     }
 
-    var value by rememberSaveable {
-        mutableStateOf("")
-    }
-
-    val searchState = viewModel.searchState.collectAsState().value
-
-    Surface(modifier = modifier.background(color = softWhite)) {
-
-        Column {
-            CustomBasicTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                value = value,
-                onValueChange = {
-                    value = it
-                    if (it.length > 5)
-                        viewModel.onEvent(SearchRecipesEvent.GetRecipes(it))
-                },
-                backgroundColor = Color.White,
-                textStyle = MaterialTheme.typography.bodyMedium.copy(color = coolGray),
-                hint = "Search recipes..",
-            )
-
-            when {
-                searchState.isLoading -> {
-                    SearchRecipesShimmerItems()
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { value: RecipesViewModel.UiEvent ->
+            when (value) {
+                is RecipesViewModel.UiEvent.SaveRecipe -> {
+                    Timber.i("Foody.. recipe saved")
+                    snackbarHostState.showSnackbar(message = recipeSavedMessage)
                 }
 
-                searchState.error.isNotBlank() -> {
-                    ErrorState(modifier = Modifier.fillMaxSize(), errorMsg = searchState.error)
-                }
-
-                searchState.recipes.isEmpty() -> {
-                    EmptyResult(
-                        modifier = Modifier.fillMaxSize(),
-                        msg = stringResource(R.string.nothing_found)
-                    )
-                }
-
-                else -> {
-                    RecipesSearchResult(
-                        searchState.recipes,
-                        sharedTransitionScope = sharedTransitionScope,
-                        animatedVisibilityScope = animatedVisibilityScope,
-                        onItemClick
-                    )
+                RecipesViewModel.UiEvent.DeleteRecipe -> {
+                    Timber.i("Foody.. recipe deleted")
+                    snackbarHostState.showSnackbar(message = recipeDeletedMessage)
                 }
             }
         }
     }
+
+    Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
+        content = { paddingValues ->
+
+            Surface(modifier = modifier.background(color = softWhite)) {
+
+                Column(modifier = Modifier.padding(paddingValues)) {
+                    CustomBasicTextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        value = value,
+                        onValueChange = {
+                            value = it
+                            if (it.length > 5)
+                                viewModel.onEvent(SearchRecipesEvent.GetRecipes(it))
+                        },
+                        backgroundColor = Color.White,
+                        textStyle = MaterialTheme.typography.bodyMedium.copy(color = coolGray),
+                        hint = "Search recipes..",
+                    )
+
+                    when {
+                        searchState.isLoading -> {
+                            SearchRecipesShimmerItems()
+                        }
+
+                        searchState.error.isNotBlank() -> {
+                            ErrorState(
+                                modifier = Modifier.fillMaxSize(),
+                                errorMsg = searchState.error
+                            )
+                        }
+
+                        searchState.recipes.isEmpty() -> {
+                            EmptyResult(
+                                modifier = Modifier.fillMaxSize(),
+                                msg = stringResource(R.string.nothing_found)
+                            )
+                        }
+
+                        else -> {
+                            RecipesSearchResult(
+                                searchState.recipes,
+                                sharedTransitionScope = sharedTransitionScope,
+                                animatedVisibilityScope = animatedVisibilityScope,
+                                onRecipeClicked = onItemClick,
+                                onFavClicked = { searchRecipeModel ->
+
+                                    if (!searchRecipeModel.isFav) {
+                                        viewModel.onEvent(
+                                            SearchRecipesEvent.DeleteRecipe(
+                                                searchRecipeModel
+                                            )
+                                        )
+                                    } else {
+                                        viewModel.onEvent(
+                                            SearchRecipesEvent.SaveRecipe(
+                                                searchRecipeModel
+                                            )
+                                        )
+                                    }
+                                }
+                            )
+                        }
+                    }
+                }
+            }
+
+        }
+    )
 }
 
 

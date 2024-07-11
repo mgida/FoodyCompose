@@ -21,6 +21,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,6 +34,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.foody.R
+import com.example.foody.feature_recipe.domain.model.search_recipes.SearchRecipesModel
 import com.example.foody.feature_recipe.util.FontScalePreviews
 import com.example.foody.feature_recipe.util.LayoutDirectionPreviews
 import com.example.foody.feature_recipe.util.RECIPE_IMAGE_TRANSITION_KEY
@@ -45,12 +50,20 @@ fun RecipeItem(
     image: String,
     title: String,
     des: String,
+    isFav: Boolean,
     modifier: Modifier = Modifier,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
+    onRecipeClicked: (recipeId: Int) -> Unit,
     onShareClicked: () -> Unit,
-    onFavClicked: () -> Unit
+    onFavClicked: (searchRecipeModel: SearchRecipesModel) -> Unit
 ) {
+
+    var isFavourite by remember {
+        mutableStateOf(isFav)
+    }
+
+
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -59,7 +72,13 @@ fun RecipeItem(
 
     ) {
 
-        Box(modifier = Modifier.padding(end = 8.dp), contentAlignment = Alignment.Center) {
+        Box(
+            modifier = Modifier
+                .padding(end = 8.dp)
+                .clickable {
+                    onRecipeClicked(recipeId)
+                }, contentAlignment = Alignment.Center
+        ) {
 
             with(sharedTransitionScope) {
                 RecipeImage(
@@ -116,16 +135,30 @@ fun RecipeItem(
                     modifier = Modifier,
                     icon = R.drawable.ic_share,
                     des = "Share",
-                    onClick = onShareClicked
+                    onClick = onShareClicked,
+                    isFav = false,
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 CustomIcon(
                     modifier = Modifier,
-                    icon = R.drawable.ic_fav,
+                    icon = if (!isFavourite) R.drawable.ic_fav_outlined else R.drawable.ic_fav_filled,
                     des = "Fav",
-                    onClick = onFavClicked
-                )
+                    isFav = isFavourite,
+                    onClick = {
 
+                        isFavourite = !isFavourite
+
+                        onFavClicked(
+                            SearchRecipesModel(
+                                id = recipeId,
+                                image = image,
+                                title = title,
+                                summary = des,
+                                isFav = isFavourite
+                            )
+                        )
+                    }
+                )
             }
         }
     }
@@ -137,12 +170,12 @@ private fun CustomIcon(
     icon: Int,
     des: String,
     onClick: () -> Unit,
-    tint: Color = blueGray
+    isFav: Boolean
 ) {
     Icon(
         painter = painterResource(id = icon),
         contentDescription = des,
-        tint = tint,
+        tint = if (isFav) Color.Red else blueGray,
         modifier = modifier
             .size(18.dp, 18.dp)
             .clickable(onClick = onClick)
