@@ -1,5 +1,6 @@
 package com.example.foody.feature_recipe.di
 
+import com.example.foody.feature_recipe.data.local.RecipeLocalDataSource
 import com.example.foody.feature_recipe.data.remote.RecipeRemoteDataSource
 import com.example.foody.feature_recipe.data.repo.RecipeRepoImpl
 import com.example.foody.feature_recipe.domain.repo.RecipeRepo
@@ -12,14 +13,16 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RandomRecipesModule {
+object RecipesRepoModule {
 
     @Provides
     @Singleton
     fun provideRecipeRepo(
-        recipeRemoteDataSource: RecipeRemoteDataSource
+        recipeRemoteDataSource: RecipeRemoteDataSource,
+        recipeLocalDataSource: RecipeLocalDataSource
     ): RecipeRepo =
         RecipeRepoImpl(
-            recipeRemoteDataSource = recipeRemoteDataSource
+            recipeRemoteDataSource = recipeRemoteDataSource,
+            recipeLocalDataSource = recipeLocalDataSource
         )
 }

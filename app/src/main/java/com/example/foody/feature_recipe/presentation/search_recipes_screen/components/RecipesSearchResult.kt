@@ -3,7 +3,6 @@ package com.example.foody.feature_recipe.presentation.search_recipes_screen.comp
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -24,7 +23,8 @@ fun RecipesSearchResult(
     recipes: List<SearchRecipesModel>,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
-    onItemClick: (id: Int) -> Unit
+    onRecipeClicked: (id: Int) -> Unit,
+    onFavClicked: (searchRecipeModel: SearchRecipesModel) -> Unit
 ) {
 
     LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -33,16 +33,19 @@ fun RecipesSearchResult(
         }) { recipeItem ->
             RecipeItem(
                 recipeId = recipeItem.id,
-                modifier = Modifier.clickable {
-                    onItemClick(recipeItem.id)
-                },
                 image = recipeItem.image ?: "",
                 title = recipeItem.title ?: "",
                 des = recipeItem.summary ?: "",
+                isFav = recipeItem.isFav,
                 sharedTransitionScope = sharedTransitionScope,
                 animatedVisibilityScope = animatedVisibilityScope,
+                onRecipeClicked = { recipeId ->
+                    onRecipeClicked(recipeId)
+                },
                 onShareClicked = { },
-                onFavClicked = { }
+                onFavClicked = {
+                    onFavClicked.invoke(it)
+                }
             )
             HorizontalDivider(
                 color = Color.Gray.copy(alpha = 0.3F),
@@ -92,7 +95,6 @@ fun RecipesSearchResultPreview() {
                 summary = "but also the leap into electronic typesetting, remaining essentially unchanged",
             )
         )
-
 
 
 //    FoodyTheme {

@@ -101,6 +101,10 @@ dependencies {
     implementation(libs.constraint.layout)
     implementation(libs.splash)
 
+    implementation(libs.room)
+    implementation(libs.room.ktx)
+    kapt(libs.room.compiler)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

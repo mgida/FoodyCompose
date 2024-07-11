@@ -3,4 +3,6 @@
     <string name="nothing_found">Nothing Found..</string>
     <string name="recipe_of_the_week">Recipe of the week</string>
     <string name="recipes">%1$s recipes</string>
+    <string name="recipe_saved_to_favourites">Recipe saved to Favourites!</string>
+    <string name="recipe_removed_from_favourites">Recipe removed from Favourites!</string>
 </resources>
