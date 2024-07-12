@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.example.foody.R
-import com.example.foody.feature_recipe.domain.model.random_recipe.RandomRecipeModel
+import com.example.foody.feature_recipe.domain.model.RecipeModel
 import com.example.foody.feature_recipe.presentation.search_recipes_screen.components.RecipeImage
 import com.example.foody.feature_recipe.util.ThemePreviews
 import com.example.foody.ui.theme.softWhite
@@ -26,7 +26,7 @@ import com.example.foody.ui.theme.softWhite
 @Composable
 fun RecipeItem(
     modifier: Modifier = Modifier,
-    recipeModel: RandomRecipeModel,
+    recipeModel: RecipeModel,
     onRecipeItemClicked: (recipeId: Int) -> Unit
 ) {
 
@@ -98,7 +98,7 @@ fun RecipeItem(
 @Composable
 fun RecipeItemPreview() {
 
-    val recipe = RandomRecipeModel(
+    val recipe = RecipeModel(
         id = 10,
         image = "",
         title = "Lemon Garlic Salmon",

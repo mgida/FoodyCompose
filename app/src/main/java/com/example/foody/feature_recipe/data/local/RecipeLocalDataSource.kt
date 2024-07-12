@@ -5,22 +5,22 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.foody.feature_recipe.domain.model.search_recipes.SearchRecipesModel
+import com.example.foody.feature_recipe.domain.model.RecipeModel
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RecipeLocalDataSource {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertRecipe(recipeModel: SearchRecipesModel)
+    suspend fun insertRecipe(recipeModel: RecipeModel)
 
     @Delete
-    suspend fun deleteRecipe(recipeModel: SearchRecipesModel)
+    suspend fun deleteRecipe(recipeModel: RecipeModel)
 
-    @Query("SELECT * FROM SearchRecipesModel")
-    fun getRecipes(): Flow<List<SearchRecipesModel>>
+    @Query("SELECT * FROM RecipeModel")
+    fun getFavRecipes(): Flow<List<RecipeModel>>
 
-    @Query("SELECT * FROM SearchRecipesModel WHERE id = :id")
-    suspend fun getRecipeById(id: Int): SearchRecipesModel?
+    @Query("SELECT * FROM RecipeModel WHERE id = :id")
+    suspend fun getRecipeById(id: Int): RecipeModel?
 
 }

@@ -6,6 +6,7 @@ import androidx.navigation.navArgument
 private const val HOME_RECIPES = "home_recipes"
 private const val SEARCH_RECIPES = "search_recipes"
 private const val RECIPE_DETAIL = "recipe_details"
+private const val FAV_RECIPES = "fav_recipes"
 const val RECIPE_ID_ARG = "recipeId"
 const val RECIPE_CUISINE_ARG = "recipeCuisine"
 
@@ -32,4 +33,7 @@ sealed class Screen(val route: String) {
             defaultValue = -1
         })
     }
+
+
+    data object FavouriteRecipes : Screen(FAV_RECIPES)
 }

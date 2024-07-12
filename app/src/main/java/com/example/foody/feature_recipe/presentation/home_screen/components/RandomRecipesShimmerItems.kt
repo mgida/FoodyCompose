@@ -49,8 +49,6 @@ fun RandomRecipesShimmerItems(modifier: Modifier = Modifier) {
             }
         }
     }
-
-
 }
 
 @ThemePreviews

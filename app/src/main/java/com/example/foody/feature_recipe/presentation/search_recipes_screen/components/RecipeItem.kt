@@ -34,7 +34,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.foody.R
-import com.example.foody.feature_recipe.domain.model.search_recipes.SearchRecipesModel
+import com.example.foody.feature_recipe.domain.model.RecipeModel
 import com.example.foody.feature_recipe.util.FontScalePreviews
 import com.example.foody.feature_recipe.util.LayoutDirectionPreviews
 import com.example.foody.feature_recipe.util.RECIPE_IMAGE_TRANSITION_KEY
@@ -56,7 +56,7 @@ fun RecipeItem(
     animatedVisibilityScope: AnimatedVisibilityScope,
     onRecipeClicked: (recipeId: Int) -> Unit,
     onShareClicked: () -> Unit,
-    onFavClicked: (searchRecipeModel: SearchRecipesModel) -> Unit
+    onFavClicked: (searchRecipeModel: RecipeModel) -> Unit
 ) {
 
     var isFavourite by remember {
@@ -149,7 +149,7 @@ fun RecipeItem(
                         isFavourite = !isFavourite
 
                         onFavClicked(
-                            SearchRecipesModel(
+                            RecipeModel(
                                 id = recipeId,
                                 image = image,
                                 title = title,

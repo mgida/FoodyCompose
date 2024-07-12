@@ -20,6 +20,7 @@ fun ErrorState(modifier: Modifier = Modifier, errorMsg: String) {
     ) {
         Text(
             text = errorMsg,
+            style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.error
         )
     }

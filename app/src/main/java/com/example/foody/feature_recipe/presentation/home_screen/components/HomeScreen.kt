@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.foody.R
-import com.example.foody.feature_recipe.domain.model.random_recipe.RandomRecipeModel
+import com.example.foody.feature_recipe.domain.model.RecipeModel
 import com.example.foody.feature_recipe.presentation.common.EmptyResult
 import com.example.foody.feature_recipe.presentation.common.ErrorState
 import com.example.foody.feature_recipe.presentation.home_screen.RandomRecipesState
@@ -33,21 +33,24 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeScreenViewModel = hiltViewModel(),
     onNavigate: (String) -> Unit,
+    onNavigateToFav: () -> Unit,
     onRecipeItemClicked: (recipeId: Int) -> Unit,
 
     ) {
 
     val state = viewModel.state.collectAsState().value
-    HomeContent(modifier, onNavigate, onRecipeItemClicked, state)
+    HomeContent(modifier, onNavigate, onNavigateToFav, onRecipeItemClicked, state)
 }
 
 @Composable
 private fun HomeContent(
     modifier: Modifier,
     onNavigate: (String) -> Unit,
+    onNavigateToFav: () -> Unit,
     onRecipeItemClicked: (recipeId: Int) -> Unit,
-    state: RandomRecipesState
-) {
+    state: RandomRecipesState,
+
+    ) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -64,7 +67,9 @@ private fun HomeContent(
                     modifier = modifier
                         .fillMaxWidth()
                         .padding(top = 16.dp)
-                )
+                ) {
+                    onNavigateToFav.invoke()
+                }
             }
             item {
                 CuisinePager(modifier = modifier.fillMaxSize()) { cuisine ->
@@ -101,7 +106,7 @@ private fun HomeContent(
 
 @Composable
 private fun RecipesResult(
-    recipes: List<RandomRecipeModel>,
+    recipes: List<RecipeModel>,
     onRecipeItemClicked: (recipeId: Int) -> Unit
 ) {
     Text(
@@ -129,6 +134,7 @@ private fun HomeContentPreview() {
         HomeContent(
             modifier = Modifier.fillMaxWidth(),
             onNavigate = {},
+            onNavigateToFav = {},
             onRecipeItemClicked = {},
             state = RandomRecipesState(isLoading = true)
         )
