@@ -6,7 +6,7 @@ import com.example.foody.feature_recipe.data.dto.search_recipes.SearchRecipesRes
 import com.example.foody.feature_recipe.data.dto.similar_recipe.SimilarRecipesResponse
 import com.example.foody.feature_recipe.data.local.RecipeLocalDataSource
 import com.example.foody.feature_recipe.data.remote.RecipeRemoteDataSource
-import com.example.foody.feature_recipe.domain.model.search_recipes.SearchRecipesModel
+import com.example.foody.feature_recipe.domain.model.RecipeModel
 import com.example.foody.feature_recipe.domain.repo.RecipeRepo
 import kotlinx.coroutines.flow.Flow
 
@@ -36,16 +36,16 @@ class RecipeRepoImpl(
     ): RecipeInformationResponse =
         recipeRemoteDataSource.getRecipeInformation(apiKey = apiKey, recipeId = recipeId)
 
-    override fun getRecipes(): Flow<List<SearchRecipesModel>> =
-        recipeLocalDataSource.getRecipes()
+    override fun getFavRecipes(): Flow<List<RecipeModel>> =
+        recipeLocalDataSource.getFavRecipes()
 
 
-    override suspend fun getRecipeById(id: Int): SearchRecipesModel? =
+    override suspend fun getRecipeById(id: Int): RecipeModel? =
         recipeLocalDataSource.getRecipeById(id)
 
-    override suspend fun insertRecipe(recipeModel: SearchRecipesModel) =
+    override suspend fun insertRecipe(recipeModel: RecipeModel) =
         recipeLocalDataSource.insertRecipe(recipeModel)
 
-    override suspend fun deleteRecipe(recipeModel: SearchRecipesModel) =
+    override suspend fun deleteRecipe(recipeModel: RecipeModel) =
         recipeLocalDataSource.deleteRecipe(recipeModel)
 }

@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.foody.feature_recipe.presentation.fav_screen.components.FavouriteRecipesScreen
 import com.example.foody.feature_recipe.presentation.home_screen.components.HomeScreen
 import com.example.foody.feature_recipe.presentation.recipe_details_screen.RecipeDetailsScreen
 import com.example.foody.feature_recipe.presentation.search_recipes_screen.SearchRecipesScreen
@@ -33,6 +34,8 @@ fun RecipesNavHost(
             composable(route = Screen.HomeRecipes.route) {
                 HomeScreen(modifier = modifier, onNavigate = { cuisine ->
                     navController.navigate(Screen.SearchRecipes.createRoute(recipeCuisine = cuisine))
+                }, onNavigateToFav = {
+                    navController.navigate(Screen.FavouriteRecipes.route)
                 }) { recipeId ->
                     navController.navigate(Screen.RecipeDetails.createRoute(recipeId = recipeId))
                 }
@@ -67,8 +70,14 @@ fun RecipesNavHost(
                     animatedVisibilityScope = this,
                 )
             }
+
+            composable(route = Screen.FavouriteRecipes.route) {
+                FavouriteRecipesScreen(
+                    modifier = modifier,
+                    sharedTransitionScope = this@SharedTransitionLayout,
+                    animatedVisibilityScope = this
+                )
+            }
         }
     }
-
-
 }

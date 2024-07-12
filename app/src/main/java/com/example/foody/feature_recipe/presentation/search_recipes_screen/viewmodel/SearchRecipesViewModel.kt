@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foody.BuildConfig
 import com.example.foody.feature_recipe.domain.mapper.UISearchRecipesMapper
-import com.example.foody.feature_recipe.domain.model.search_recipes.SearchRecipesModel
+import com.example.foody.feature_recipe.domain.model.RecipeModel
 import com.example.foody.feature_recipe.domain.use_case.DeleteRecipeUseCase
 import com.example.foody.feature_recipe.domain.use_case.SaveRecipeUseCase
 import com.example.foody.feature_recipe.domain.use_case.SearchRecipesUseCase
@@ -64,7 +64,7 @@ class RecipesViewModel @Inject constructor(
         }
     }
 
-    private fun deleteRecipe(searchRecipesModel: SearchRecipesModel) {
+    private fun deleteRecipe(searchRecipesModel: RecipeModel) {
         try {
             viewModelScope.launch {
                 deleteRecipeUseCase.invoke(searchRecipesModel = searchRecipesModel)
@@ -78,13 +78,7 @@ class RecipesViewModel @Inject constructor(
         }
     }
 
-    private suspend fun toggleFavourite(recipe: SearchRecipesModel) {
-
-        if (!recipe.isFav) {
-            saveRecipeUseCase.invoke(recipe)
-        } else {
-            deleteRecipeUseCase.invoke(recipe)
-        }
+    private fun toggleFavourite(recipe: RecipeModel) {
 
         val updatedRecipes = _searchState.value.recipes.map {
             if (it.id == recipe.id) {
@@ -96,7 +90,7 @@ class RecipesViewModel @Inject constructor(
         _searchState.value = _searchState.value.copy(recipes = updatedRecipes)
     }
 
-    private fun saveRecipe(searchRecipesModel: SearchRecipesModel) {
+    private fun saveRecipe(searchRecipesModel: RecipeModel) {
 
         try {
             viewModelScope.launch {

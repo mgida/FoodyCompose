@@ -18,7 +18,7 @@ import com.example.foody.feature_recipe.util.ThemePreviews
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomAppBar(modifier: Modifier = Modifier) {
+fun CustomAppBar(modifier: Modifier = Modifier, onNavigateToFav: () -> Unit) {
 
     TopAppBar(
         modifier = modifier,
@@ -31,7 +31,7 @@ fun CustomAppBar(modifier: Modifier = Modifier) {
             )
         },
         navigationIcon = {
-            IconButton(onClick = { }) {
+            IconButton(onClick = onNavigateToFav) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_food_menu),
                     contentDescription = null,
@@ -55,5 +55,5 @@ fun CustomAppBar(modifier: Modifier = Modifier) {
 @ThemePreviews
 @Composable
 fun CustomAppBarPreview() {
-    CustomAppBar()
+    CustomAppBar {}
 }

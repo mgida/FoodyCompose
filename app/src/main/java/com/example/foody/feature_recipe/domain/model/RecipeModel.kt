@@ -1,15 +1,14 @@
-package com.example.foody.feature_recipe.domain.model.search_recipes
+package com.example.foody.feature_recipe.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-
 @Entity
-data class SearchRecipesModel(
+data class RecipeModel(
     @PrimaryKey
     val id: Int,
     val image: String?,
     val title: String?,
     val summary: String?,
-    val isFav : Boolean = false
+    val isFav: Boolean = false
 )

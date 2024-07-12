@@ -13,18 +13,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.foody.feature_recipe.domain.model.search_recipes.SearchRecipesModel
+import com.example.foody.feature_recipe.domain.model.RecipeModel
 import com.example.foody.feature_recipe.util.OrientationPreviews
 import com.example.foody.feature_recipe.util.ThemePreviews
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun RecipesSearchResult(
-    recipes: List<SearchRecipesModel>,
+    recipes: List<RecipeModel>,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
     onRecipeClicked: (id: Int) -> Unit,
-    onFavClicked: (searchRecipeModel: SearchRecipesModel) -> Unit
+    onFavClicked: (searchRecipeModel: RecipeModel) -> Unit
 ) {
 
     LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -64,31 +64,31 @@ fun RecipesSearchResult(
 fun RecipesSearchResultPreview() {
     val recipes =
         listOf(
-            SearchRecipesModel(
+            RecipeModel(
                 id = 1,
                 image = "",
                 title = "Lorem Ipsum",
                 summary = "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution",
             ),
-            SearchRecipesModel(
+            RecipeModel(
                 id = 2,
                 image = "",
                 title = "Contrary to popula",
                 summary = "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form",
             ),
-            SearchRecipesModel(
+            RecipeModel(
                 id = 3,
                 image = "",
                 title = "He standard chunk of Lorem",
                 summary = "literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in",
             ),
-            SearchRecipesModel(
+            RecipeModel(
                 id = 4,
                 image = "",
                 title = "There are many variations",
                 summary = "The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and",
             ),
-            SearchRecipesModel(
+            RecipeModel(
                 id = 5,
                 image = "",
                 title = "Produced below for those",
