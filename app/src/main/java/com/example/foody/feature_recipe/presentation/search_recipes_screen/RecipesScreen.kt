@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -48,6 +49,7 @@ fun SearchRecipesScreen(
     viewModel: RecipesViewModel = hiltViewModel(),
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedContentScope,
+    onNavigateToFav : () -> Unit,
     onItemClick: (id: Int) -> Unit
 ) {
     var value by rememberSaveable { mutableStateOf("") }
@@ -58,6 +60,7 @@ fun SearchRecipesScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val recipeSavedMessage = stringResource(id = R.string.recipe_saved_to_favourites)
     val recipeDeletedMessage = stringResource(id = R.string.recipe_removed_from_favourites)
+    val actionLabel = stringResource(id = R.string.view_recipe)
 
     SideEffect {
         Timber.d("Foody recipeCuisine: $cuisine")
@@ -68,7 +71,14 @@ fun SearchRecipesScreen(
             when (value) {
                 is RecipesViewModel.UiEvent.SaveRecipe -> {
                     Timber.i("Foody.. recipe saved")
-                    snackbarHostState.showSnackbar(message = recipeSavedMessage)
+                    val snackbarResult =
+                        snackbarHostState.showSnackbar(message = recipeSavedMessage, actionLabel = actionLabel)
+                    when (snackbarResult) {
+                        SnackbarResult.ActionPerformed -> {
+                            onNavigateToFav.invoke()
+                        }
+                        SnackbarResult.Dismissed -> Unit
+                    }
                 }
 
                 RecipesViewModel.UiEvent.DeleteRecipe -> {
