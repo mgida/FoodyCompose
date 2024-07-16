@@ -35,7 +35,7 @@ fun RecipesNavHost(
                 HomeScreen(modifier = modifier, onNavigate = { cuisine ->
                     navController.navigate(Screen.SearchRecipes.createRoute(recipeCuisine = cuisine))
                 }, onNavigateToFav = {
-                    navController.navigate(Screen.FavouriteRecipes.route)
+                    navigateToFavouritesScreen(navController)
                 }) { recipeId ->
                     navController.navigate(Screen.RecipeDetails.createRoute(recipeId = recipeId))
                 }
@@ -52,7 +52,10 @@ fun RecipesNavHost(
                     modifier = modifier,
                     cuisine = cuisine,
                     sharedTransitionScope = this@SharedTransitionLayout,
-                    animatedVisibilityScope = this
+                    animatedVisibilityScope = this,
+                    onNavigateToFav = {
+                        navigateToFavouritesScreen(navController)
+                    }
                 ) { recipeId ->
                     navController.navigate(Screen.RecipeDetails.createRoute(recipeId = recipeId))
                 }
@@ -80,4 +83,8 @@ fun RecipesNavHost(
             }
         }
     }
+}
+
+fun navigateToFavouritesScreen(navController: NavHostController) {
+    navController.navigate(Screen.FavouriteRecipes.route)
 }
