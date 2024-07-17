@@ -6,4 +6,5 @@
     <string name="recipe_saved_to_favourites">Recipe saved to Favourites!</string>
     <string name="recipe_removed_from_favourites">Recipe removed from Favourites!</string>
     <string name="view_recipe">View Recipe!</string>
+    <string name="undo">Undo!</string>
 </resources>
