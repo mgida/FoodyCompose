@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.foody.feature_recipe.util.RECIPE_TITLE_TRANSITION_KEY
+import com.example.foody.feature_recipe.util.TWEEN_DURATION
 import com.example.foody.feature_recipe.util.rememberHtmlText
 
 @OptIn(ExperimentalSharedTransitionApi::class)
@@ -46,7 +47,7 @@ fun RecipeDetailsSummary(
                     state = rememberSharedContentState(key = "$RECIPE_TITLE_TRANSITION_KEY/$title"),
                     animatedVisibilityScope = animatedVisibilityScope,
                     boundsTransform = { _, _ ->
-                        tween(durationMillis = 500)
+                        tween(durationMillis = TWEEN_DURATION)
                     }
                 )
             )

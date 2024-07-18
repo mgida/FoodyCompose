@@ -39,11 +39,14 @@ class FavouriteRecipesViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
+     private var hasFetchedRecipes = false
+
     fun onEvent(favouriteRecipesEvent: FavouriteRecipesEvent) {
         when (favouriteRecipesEvent) {
 
             is FavouriteRecipesEvent.GetRecipes -> {
-                getFavRecipes()
+                if (!hasFetchedRecipes)
+                    getFavRecipes()
             }
 
             is FavouriteRecipesEvent.DeleteRecipe -> {
@@ -118,6 +121,7 @@ class FavouriteRecipesViewModel @Inject constructor(
     }
 
     private fun getFavRecipes() {
+        hasFetchedRecipes = true
         getSavedRecipesUseCase.invoke().onEach { resource ->
             when (resource) {
                 is Resource.Loading -> {

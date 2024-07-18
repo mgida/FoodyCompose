@@ -11,20 +11,26 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.foody.R
 import com.example.foody.feature_recipe.domain.model.recipe_information.RecipeInformationModel
 import com.example.foody.feature_recipe.domain.model.recipe_information.RecipeIngredientModel
 import com.example.foody.feature_recipe.domain.model.similar_recipe.SimilarRecipeModel
+import com.example.foody.feature_recipe.presentation.common.CustomTopBar
 import com.example.foody.feature_recipe.presentation.common.ErrorState
 import com.example.foody.feature_recipe.presentation.recipe_details_screen.components.RecipeDetailsImage
 import com.example.foody.feature_recipe.presentation.recipe_details_screen.components.RecipeDetailsServings
@@ -40,6 +46,7 @@ fun RecipeDetailsScreen(
     modifier: Modifier = Modifier,
     viewModel: RecipeDetailViewModel = hiltViewModel(),
     recipeId: Int,
+    onBackClicked: () -> Unit,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedContentScope
 ) {
@@ -51,20 +58,33 @@ fun RecipeDetailsScreen(
         Timber.d("Foody recipeId: $recipeId")
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 8.dp),
-        horizontalAlignment = Alignment.Start
-    ) {
-        RecipeContentSection(
-            recipeInformationState,
-            modifier,
-            sharedTransitionScope = sharedTransitionScope,
-            animatedVisibilityScope = animatedVisibilityScope,
-        )
-        // SimilarRecipesSection(similarRecipesState, modifier)
-    }
+    Scaffold(
+        topBar = {
+            CustomTopBar(
+                title = stringResource(R.string.recipe_details),
+                icon = Icons.AutoMirrored.Default.ArrowBack
+            ) {
+                onBackClicked.invoke()
+            }
+        },
+        content = { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                horizontalAlignment = Alignment.Start
+            ) {
+                RecipeContentSection(
+                    recipeInformationState,
+                    modifier,
+                    sharedTransitionScope = sharedTransitionScope,
+                    animatedVisibilityScope = animatedVisibilityScope,
+                )
+                // SimilarRecipesSection(similarRecipesState, modifier)
+            }
+        })
+
+
 }
 
 @Composable
@@ -137,7 +157,7 @@ private fun RecipeContent(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .padding(vertical = 16.dp, horizontal = 8.dp)
+            .padding(top = 8.dp, bottom = 16.dp, start = 8.dp, end = 8.dp)
     ) {
 
         item {
