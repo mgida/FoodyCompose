@@ -37,7 +37,7 @@ fun RecipesNavHost(
                 }, onNavigateToFav = {
                     navigateToFavouritesScreen(navController)
                 }) { recipeId ->
-                    navController.navigate(Screen.RecipeDetails.createRoute(recipeId = recipeId))
+                    navigateToDetailsScreen(navController, recipeId)
                 }
             }
 
@@ -57,7 +57,7 @@ fun RecipesNavHost(
                         navigateToFavouritesScreen(navController)
                     }
                 ) { recipeId ->
-                    navController.navigate(Screen.RecipeDetails.createRoute(recipeId = recipeId))
+                    navigateToDetailsScreen(navController, recipeId)
                 }
             }
 
@@ -69,6 +69,7 @@ fun RecipesNavHost(
                 RecipeDetailsScreen(
                     modifier = modifier,
                     recipeId = recipeId,
+                    onBackClicked = { navController.popBackStack() },
                     sharedTransitionScope = this@SharedTransitionLayout,
                     animatedVisibilityScope = this,
                 )
@@ -78,7 +79,11 @@ fun RecipesNavHost(
                 FavouriteRecipesScreen(
                     modifier = modifier,
                     sharedTransitionScope = this@SharedTransitionLayout,
-                    animatedVisibilityScope = this
+                    animatedVisibilityScope = this,
+                    onBackClick = { navController.popBackStack() },
+                    onRecipeClicked = { recipeId ->
+                        navigateToDetailsScreen(navController, recipeId)
+                    }
                 )
             }
         }
@@ -86,5 +91,15 @@ fun RecipesNavHost(
 }
 
 fun navigateToFavouritesScreen(navController: NavHostController) {
-    navController.navigate(Screen.FavouriteRecipes.route)
+    navController.navigate(Screen.FavouriteRecipes.route) {
+        launchSingleTop = true
+        restoreState = true
+    }
+}
+
+fun navigateToDetailsScreen(navController: NavHostController, recipeId: Int) {
+    navController.navigate(Screen.RecipeDetails.createRoute(recipeId = recipeId)) {
+        launchSingleTop = true
+        restoreState = true
+    }
 }

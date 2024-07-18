@@ -42,6 +42,7 @@ import com.example.foody.feature_recipe.util.FontScalePreviews
 import com.example.foody.feature_recipe.util.LayoutDirectionPreviews
 import com.example.foody.feature_recipe.util.RECIPE_IMAGE_TRANSITION_KEY
 import com.example.foody.feature_recipe.util.RECIPE_TITLE_TRANSITION_KEY
+import com.example.foody.feature_recipe.util.TWEEN_DURATION
 import com.example.foody.feature_recipe.util.ThemePreviews
 import com.example.foody.feature_recipe.util.rememberHtmlText
 import com.example.foody.ui.theme.blueGray
@@ -79,7 +80,9 @@ fun RecipeItem(
             .clip(shape = RoundedCornerShape(12.dp))
             .background(backgroundColor)
             .combinedClickable(
-                onClick = { onRecipeClicked(recipeId) },
+                onClick = {
+                    onRecipeClicked(recipeId)
+                },
                 onLongClick = {
                     onToggleSelection(!isSelected)
                 }
@@ -106,7 +109,7 @@ fun RecipeItem(
                             state = rememberSharedContentState(key = "${RECIPE_IMAGE_TRANSITION_KEY}/$recipeId"),
                             animatedVisibilityScope = animatedVisibilityScope,
                             boundsTransform = { _, _ ->
-                                tween(durationMillis = 500)
+                                tween(durationMillis = TWEEN_DURATION)
                             }
                         ),
                     imageUrl = image
@@ -128,7 +131,7 @@ fun RecipeItem(
                         state = rememberSharedContentState(key = "${RECIPE_TITLE_TRANSITION_KEY}/$title"),
                         animatedVisibilityScope = animatedVisibilityScope,
                         boundsTransform = { _, _ ->
-                            tween(durationMillis = 500)
+                            tween(durationMillis = TWEEN_DURATION)
                         }
                     )
                 )

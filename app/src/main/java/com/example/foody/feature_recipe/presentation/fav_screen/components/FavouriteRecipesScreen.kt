@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.foody.R
 import com.example.foody.feature_recipe.domain.model.RecipeModel
+import com.example.foody.feature_recipe.presentation.common.CustomTopBar
 import com.example.foody.feature_recipe.presentation.common.EmptyResult
 import com.example.foody.feature_recipe.presentation.common.ErrorState
 import com.example.foody.feature_recipe.presentation.fav_screen.FavouriteRecipesEvent
@@ -33,7 +35,6 @@ import com.example.foody.feature_recipe.presentation.fav_screen.viewmodel.Favour
 import com.example.foody.feature_recipe.presentation.search_recipes_screen.components.RecipesSearchResult
 import com.example.foody.feature_recipe.presentation.search_recipes_screen.components.SearchRecipesShimmerItems
 import kotlinx.coroutines.flow.collectLatest
-import timber.log.Timber
 
 
 @OptIn(ExperimentalSharedTransitionApi::class)
@@ -41,6 +42,8 @@ import timber.log.Timber
 fun FavouriteRecipesScreen(
     modifier: Modifier = Modifier,
     viewModel: FavouriteRecipesViewModel = hiltViewModel(),
+    onBackClick: () -> Unit,
+    onRecipeClicked: (id: Int) -> Unit,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedContentScope,
 ) {
@@ -54,7 +57,7 @@ fun FavouriteRecipesScreen(
     val savedRecipesMessage = stringResource(id = R.string.recipes_saved)
     val actionLabel = stringResource(R.string.undo)
 
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(Unit) {
         viewModel.onEvent(FavouriteRecipesEvent.GetRecipes)
     }
 
@@ -62,7 +65,6 @@ fun FavouriteRecipesScreen(
         viewModel.eventFlow.collectLatest { value: FavouriteRecipesViewModel.UiEvent ->
             when (value) {
                 is FavouriteRecipesViewModel.UiEvent.DeleteRecipe -> {
-                    Timber.i("Foody.. recipe deleted")
                     val snackbarResult = snackbarHostState.showSnackbar(
                         message = recipeDeletedMessage,
                         actionLabel = actionLabel
@@ -107,6 +109,14 @@ fun FavouriteRecipesScreen(
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
+        topBar = {
+            CustomTopBar(
+                title = stringResource(id = R.string.favourite_recipes),
+                icon = Icons.AutoMirrored.Default.ArrowBack
+            ) {
+                onBackClick.invoke()
+            }
+        },
         floatingActionButton = {
             if (selectedRecipes.isNotEmpty()) {
                 FloatingActionButton(onClick = {
@@ -129,7 +139,7 @@ fun FavouriteRecipesScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(vertical = 16.dp, horizontal = 8.dp)
+                        .padding(horizontal = 8.dp)
                 ) {
                     when {
                         favState.isLoading -> {
@@ -156,7 +166,9 @@ fun FavouriteRecipesScreen(
                                 sharedTransitionScope = sharedTransitionScope,
                                 animatedVisibilityScope = animatedVisibilityScope,
                                 selectedRecipes = selectedRecipes,
-                                onRecipeClicked = {},
+                                onRecipeClicked = { recipeId ->
+                                    onRecipeClicked.invoke(recipeId)
+                                },
                                 onFavClicked = { recipeModel ->
                                     viewModel.onEvent(FavouriteRecipesEvent.DeleteRecipe(recipeModel = recipeModel))
                                 }

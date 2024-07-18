@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.foody.feature_recipe.presentation.search_recipes_screen.components.RecipeImage
 import com.example.foody.feature_recipe.util.RECIPE_IMAGE_TRANSITION_KEY
+import com.example.foody.feature_recipe.util.TWEEN_DURATION
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -40,7 +41,7 @@ fun RecipeDetailsImage(
                     state = rememberSharedContentState(key = "${RECIPE_IMAGE_TRANSITION_KEY}/$recipeId"),
                     animatedVisibilityScope = animatedVisibilityScope,
                     boundsTransform = { _, _ ->
-                        tween(durationMillis = 500)
+                        tween(durationMillis = TWEEN_DURATION)
                     }
                 )
             )
