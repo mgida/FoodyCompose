@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foody.feature_recipe.domain.model.RecipeModel
 import com.example.foody.feature_recipe.domain.use_case.DeleteRecipeUseCase
+import com.example.foody.feature_recipe.domain.use_case.DeleteRecipesUseCase
 import com.example.foody.feature_recipe.domain.use_case.GetFavRecipesUseCase
 import com.example.foody.feature_recipe.domain.use_case.SaveRecipeUseCase
+import com.example.foody.feature_recipe.domain.use_case.SaveRecipesUseCase
 import com.example.foody.feature_recipe.presentation.fav_screen.FavouriteRecipesEvent
 import com.example.foody.feature_recipe.presentation.fav_screen.FavouriteRecipesState
 import com.example.foody.feature_recipe.util.Resource
@@ -25,7 +27,9 @@ import javax.inject.Inject
 class FavouriteRecipesViewModel @Inject constructor(
     private val getSavedRecipesUseCase: GetFavRecipesUseCase,
     private val saveRecipeUseCase: SaveRecipeUseCase,
+    private val saveRecipesUseCase: SaveRecipesUseCase,
     private val deleteRecipeUseCase: DeleteRecipeUseCase,
+    private val deleteRecipesUseCase: DeleteRecipesUseCase,
 ) : ViewModel() {
 
 
@@ -49,6 +53,41 @@ class FavouriteRecipesViewModel @Inject constructor(
             is FavouriteRecipesEvent.SaveRecipe -> {
                 saveRecipeToFavourites(favouriteRecipesEvent.recipeModel)
             }
+
+            is FavouriteRecipesEvent.DeleteRecipes -> {
+                deleteRecipes(favouriteRecipesEvent.recipes)
+            }
+
+            is FavouriteRecipesEvent.SaveRecipes -> {
+                saveRecipesToFavourites(favouriteRecipesEvent.recipes)
+            }
+        }
+    }
+
+    private fun saveRecipesToFavourites(recipes: List<RecipeModel>) {
+        try {
+            viewModelScope.launch {
+                recipes.map {
+                    it.copy(isFav = true)
+                }.also { favRecipes ->
+                    saveRecipesUseCase.invoke(favRecipes)
+                    _eventFlow.emit(UiEvent.MultipleRecipesSaved(recipes = favRecipes))
+                }
+            }
+        } catch (e: Exception) {
+            Timber.e("Foody ${e.localizedMessage}")
+        }
+    }
+
+    private fun deleteRecipes(recipes: List<RecipeModel>) {
+        try {
+            viewModelScope.launch {
+                deleteRecipesUseCase.invoke(recipes)
+
+                _eventFlow.emit(UiEvent.MultipleRecipesDeleted(recipes))
+            }
+        } catch (e: Exception) {
+            Timber.e("Foody ${e.localizedMessage}")
         }
     }
 
@@ -98,7 +137,9 @@ class FavouriteRecipesViewModel @Inject constructor(
 
     sealed class UiEvent {
         data class SaveRecipe(val recipeModel: RecipeModel) : UiEvent()
+        data class MultipleRecipesSaved(val recipes: List<RecipeModel>) : UiEvent()
         data class DeleteRecipe(val recipeModel: RecipeModel) : UiEvent()
+        data class MultipleRecipesDeleted(val recipes: List<RecipeModel>) : UiEvent()
     }
 
 }

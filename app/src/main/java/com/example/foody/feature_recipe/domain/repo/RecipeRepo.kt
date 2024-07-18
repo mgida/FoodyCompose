@@ -26,5 +26,7 @@ interface RecipeRepo {
     fun getFavRecipes(): Flow<List<RecipeModel>>
     suspend fun getRecipeById(id: Int): RecipeModel?
     suspend fun insertRecipe(recipeModel: RecipeModel)
+    suspend fun insertRecipes(recipes: List<RecipeModel>)
     suspend fun deleteRecipe(recipeModel: RecipeModel)
+    suspend fun deleteRecipes(recipes: List<RecipeModel>)
 }

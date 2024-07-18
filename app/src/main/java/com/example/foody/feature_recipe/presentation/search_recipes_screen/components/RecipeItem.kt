@@ -3,9 +3,12 @@ package com.example.foody.feature_recipe.presentation.search_recipes_screen.comp
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,8 +45,9 @@ import com.example.foody.feature_recipe.util.RECIPE_TITLE_TRANSITION_KEY
 import com.example.foody.feature_recipe.util.ThemePreviews
 import com.example.foody.feature_recipe.util.rememberHtmlText
 import com.example.foody.ui.theme.blueGray
+import com.example.foody.ui.theme.delicateWhite
 
-@OptIn(ExperimentalSharedTransitionApi::class)
+@OptIn(ExperimentalSharedTransitionApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun RecipeItem(
     recipeId: Int,
@@ -54,6 +58,8 @@ fun RecipeItem(
     modifier: Modifier = Modifier,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
+    isSelected: Boolean = false,
+    onToggleSelection: (isSelected: Boolean) -> Unit,
     onRecipeClicked: (recipeId: Int) -> Unit,
     onShareClicked: () -> Unit,
     onFavClicked: (searchRecipeModel: RecipeModel) -> Unit
@@ -62,13 +68,24 @@ fun RecipeItem(
     var isFavourite by remember {
         mutableStateOf(isFav)
     }
-
+    val backgroundColor by animateColorAsState(
+        if (isSelected) delicateWhite else Color.White,
+        label = ""
+    )
 
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(Color.White)
+            .clip(shape = RoundedCornerShape(12.dp))
+            .background(backgroundColor)
+            .combinedClickable(
+                onClick = { onRecipeClicked(recipeId) },
+                onLongClick = {
+                    onToggleSelection(!isSelected)
+                }
+            )
             .padding(horizontal = 8.dp, vertical = 8.dp)
+
 
     ) {
 
