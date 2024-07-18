@@ -7,4 +7,6 @@
     <string name="recipe_removed_from_favourites">Recipe removed from Favourites!</string>
     <string name="view_recipe">View Recipe!</string>
     <string name="undo">Undo!</string>
+    <string name="recipes_saved">Recipes Saved!</string>
+    <string name="recipes_deleted">Recipes deleted</string>
 </resources>

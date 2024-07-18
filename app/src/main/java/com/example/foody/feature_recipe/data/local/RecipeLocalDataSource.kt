@@ -14,8 +14,14 @@ interface RecipeLocalDataSource {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRecipe(recipeModel: RecipeModel)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertRecipes(recipes: List<RecipeModel>)
+
     @Delete
     suspend fun deleteRecipe(recipeModel: RecipeModel)
+
+    @Delete
+    suspend fun deleteRecipes(recipes: List<RecipeModel>)
 
     @Query("SELECT * FROM RecipeModel")
     fun getFavRecipes(): Flow<List<RecipeModel>>

@@ -23,6 +23,7 @@ fun RecipesSearchResult(
     recipes: List<RecipeModel>,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
+    selectedRecipes: MutableList<RecipeModel> = mutableListOf(),
     onRecipeClicked: (id: Int) -> Unit,
     onFavClicked: (searchRecipeModel: RecipeModel) -> Unit
 ) {
@@ -39,6 +40,14 @@ fun RecipesSearchResult(
                 isFav = recipeItem.isFav,
                 sharedTransitionScope = sharedTransitionScope,
                 animatedVisibilityScope = animatedVisibilityScope,
+                isSelected = selectedRecipes.contains(recipeItem),
+                onToggleSelection = { isSelected ->
+                    if (isSelected) {
+                        selectedRecipes.add(recipeItem)
+                    } else {
+                        selectedRecipes.remove(recipeItem)
+                    }
+                },
                 onRecipeClicked = { recipeId ->
                     onRecipeClicked(recipeId)
                 },

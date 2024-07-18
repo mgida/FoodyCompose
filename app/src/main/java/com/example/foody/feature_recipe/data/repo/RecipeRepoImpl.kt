@@ -48,4 +48,12 @@ class RecipeRepoImpl(
 
     override suspend fun deleteRecipe(recipeModel: RecipeModel) =
         recipeLocalDataSource.deleteRecipe(recipeModel)
+
+    override suspend fun insertRecipes(recipes: List<RecipeModel>) {
+        recipeLocalDataSource.insertRecipes(recipes)
+    }
+
+    override suspend fun deleteRecipes(recipes: List<RecipeModel>) {
+        recipeLocalDataSource.deleteRecipes(recipes)
+    }
 }
