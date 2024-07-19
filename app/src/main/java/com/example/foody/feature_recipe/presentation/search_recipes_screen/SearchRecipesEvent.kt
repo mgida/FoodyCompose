@@ -6,4 +6,6 @@ sealed class SearchRecipesEvent {
     data class GetRecipes(val query: String) : SearchRecipesEvent()
     data class SaveRecipe(val searchRecipesModel: RecipeModel) : SearchRecipesEvent()
     data class DeleteRecipe(val searchRecipesModel: RecipeModel) : SearchRecipesEvent()
+    data object GetRecentSearches : SearchRecipesEvent()
+    data class SaveSearchQuery(val query: String) : SearchRecipesEvent()
 }
