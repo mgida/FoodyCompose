@@ -53,6 +53,7 @@ fun RecipesNavHost(
                     cuisine = cuisine,
                     sharedTransitionScope = this@SharedTransitionLayout,
                     animatedVisibilityScope = this,
+                    onBackClicked = { navController.popBackStack() },
                     onNavigateToFav = {
                         navigateToFavouritesScreen(navController)
                     }

@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -29,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.foody.R
+import com.example.foody.feature_recipe.presentation.common.CustomTopBar
 import com.example.foody.feature_recipe.presentation.common.EmptyResult
 import com.example.foody.feature_recipe.presentation.common.ErrorState
 import com.example.foody.feature_recipe.presentation.search_recipes_screen.components.CustomBasicTextField
@@ -49,7 +52,8 @@ fun SearchRecipesScreen(
     viewModel: RecipesViewModel = hiltViewModel(),
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedContentScope,
-    onNavigateToFav : () -> Unit,
+    onBackClicked: () -> Unit,
+    onNavigateToFav: () -> Unit,
     onItemClick: (id: Int) -> Unit
 ) {
     var value by rememberSaveable { mutableStateOf("") }
@@ -91,6 +95,11 @@ fun SearchRecipesScreen(
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
+        topBar = {
+            CustomTopBar(title = stringResource(R.string.food, cuisine), icon = Icons.AutoMirrored.Default.ArrowBack) {
+                onBackClicked.invoke()
+            }
+        },
         content = { paddingValues ->
 
             Surface(modifier = modifier.background(color = softWhite)) {
@@ -99,7 +108,7 @@ fun SearchRecipesScreen(
                     CustomBasicTextField(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp),
+                            .padding(bottom = 16.dp, start = 8.dp, end = 8.dp),
                         value = value,
                         onValueChange = {
                             value = it
