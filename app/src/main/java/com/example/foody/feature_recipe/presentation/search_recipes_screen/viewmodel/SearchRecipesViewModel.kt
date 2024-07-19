@@ -7,7 +7,9 @@ import com.example.foody.BuildConfig
 import com.example.foody.feature_recipe.domain.mapper.UISearchRecipesMapper
 import com.example.foody.feature_recipe.domain.model.RecipeModel
 import com.example.foody.feature_recipe.domain.use_case.DeleteRecipeUseCase
+import com.example.foody.feature_recipe.domain.use_case.GetRecentSearchesUseCase
 import com.example.foody.feature_recipe.domain.use_case.SaveRecipeUseCase
+import com.example.foody.feature_recipe.domain.use_case.SaveSearchQueryUseCase
 import com.example.foody.feature_recipe.domain.use_case.SearchRecipesUseCase
 import com.example.foody.feature_recipe.presentation.search_recipes_screen.SearchRecipesEvent
 import com.example.foody.feature_recipe.presentation.search_recipes_screen.SearchRecipesState
@@ -17,6 +19,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -29,12 +32,17 @@ class RecipesViewModel @Inject constructor(
     private val saveRecipeUseCase: SaveRecipeUseCase,
     private val deleteRecipeUseCase: DeleteRecipeUseCase,
     private val uiSearchRecipesMapper: UISearchRecipesMapper,
+    private val getRecentSearchesUseCase: GetRecentSearchesUseCase,
+    private val saveSearchQueryUseCase: SaveSearchQueryUseCase,
     savedStateHandle: SavedStateHandle
 ) :
     ViewModel() {
 
     private val _searchState = MutableStateFlow(SearchRecipesState())
     val searchState: StateFlow<SearchRecipesState> = _searchState
+
+    private val _recentSearches = MutableStateFlow<Set<String>>(emptySet())
+    val recentSearches: StateFlow<Set<String>> = _recentSearches.asStateFlow()
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
@@ -43,6 +51,7 @@ class RecipesViewModel @Inject constructor(
         savedStateHandle.get<String>(RECIPE_CUISINE).also { cuisine ->
             cuisine?.let {
                 searchRecipes(cuisine = cuisine)
+                getRecentSearches()
             }
         }
     }
@@ -60,6 +69,28 @@ class RecipesViewModel @Inject constructor(
 
             is SearchRecipesEvent.DeleteRecipe -> {
                 deleteRecipe(searchRecipesEvent.searchRecipesModel)
+            }
+
+            SearchRecipesEvent.GetRecentSearches -> {
+                getRecentSearches()
+            }
+
+            is SearchRecipesEvent.SaveSearchQuery -> {
+                saveSearchQuery(searchRecipesEvent.query)
+            }
+        }
+    }
+
+    private fun saveSearchQuery(query: String) {
+        viewModelScope.launch {
+            saveSearchQueryUseCase.invoke(query)
+        }
+    }
+
+    private fun getRecentSearches() {
+        viewModelScope.launch {
+            getRecentSearchesUseCase.invoke().collect { searches ->
+                _recentSearches.value = searches
             }
         }
     }

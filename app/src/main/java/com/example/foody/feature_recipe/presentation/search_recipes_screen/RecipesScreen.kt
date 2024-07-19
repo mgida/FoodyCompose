@@ -26,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -38,6 +39,7 @@ import com.example.foody.feature_recipe.presentation.search_recipes_screen.compo
 import com.example.foody.feature_recipe.presentation.search_recipes_screen.components.RecipesSearchResult
 import com.example.foody.feature_recipe.presentation.search_recipes_screen.components.SearchRecipesShimmerItems
 import com.example.foody.feature_recipe.presentation.search_recipes_screen.viewmodel.RecipesViewModel
+import com.example.foody.feature_recipe.util.MIN_SEARCH_LENGTH
 import com.example.foody.ui.theme.coolGray
 import com.example.foody.ui.theme.softWhite
 import kotlinx.coroutines.flow.collectLatest
@@ -56,10 +58,13 @@ fun SearchRecipesScreen(
     onNavigateToFav: () -> Unit,
     onItemClick: (id: Int) -> Unit
 ) {
-    var value by rememberSaveable { mutableStateOf("") }
+    var searchQuery by rememberSaveable { mutableStateOf("") }
+    var isFocused by remember {
+        mutableStateOf(false)
+    }
 
     val searchState = viewModel.searchState.collectAsState().value
-
+    val recentSearches = viewModel.recentSearches.collectAsState().value
 
     val snackbarHostState = remember { SnackbarHostState() }
     val recipeSavedMessage = stringResource(id = R.string.recipe_saved_to_favourites)
@@ -76,11 +81,15 @@ fun SearchRecipesScreen(
                 is RecipesViewModel.UiEvent.SaveRecipe -> {
                     Timber.i("Foody.. recipe saved")
                     val snackbarResult =
-                        snackbarHostState.showSnackbar(message = recipeSavedMessage, actionLabel = actionLabel)
+                        snackbarHostState.showSnackbar(
+                            message = recipeSavedMessage,
+                            actionLabel = actionLabel
+                        )
                     when (snackbarResult) {
                         SnackbarResult.ActionPerformed -> {
                             onNavigateToFav.invoke()
                         }
+
                         SnackbarResult.Dismissed -> Unit
                     }
                 }
@@ -96,7 +105,10 @@ fun SearchRecipesScreen(
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
-            CustomTopBar(title = stringResource(R.string.food, cuisine), icon = Icons.AutoMirrored.Default.ArrowBack) {
+            CustomTopBar(
+                title = stringResource(R.string.food, cuisine),
+                icon = Icons.AutoMirrored.Default.ArrowBack
+            ) {
                 onBackClicked.invoke()
             }
         },
@@ -108,17 +120,28 @@ fun SearchRecipesScreen(
                     CustomBasicTextField(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = 16.dp, start = 8.dp, end = 8.dp),
-                        value = value,
+                            .padding(bottom = 16.dp, start = 8.dp, end = 8.dp)
+                            .onFocusChanged {
+                                isFocused = it.isFocused
+                            },
+                        value = searchQuery,
                         onValueChange = {
-                            value = it
-                            if (it.length > 5)
-                                viewModel.onEvent(SearchRecipesEvent.GetRecipes(it))
+                            searchQuery = it
+                            if (it.length > MIN_SEARCH_LENGTH) {
+                                with(viewModel) {
+                                    onEvent(SearchRecipesEvent.GetRecipes(it))
+                                    onEvent(SearchRecipesEvent.SaveSearchQuery(it))
+                                }
+                            }
                         },
                         backgroundColor = Color.White,
                         textStyle = MaterialTheme.typography.bodyMedium.copy(color = coolGray),
-                        hint = "Search recipes..",
-                    )
+                        hint = stringResource(R.string.search_recipes),
+                        recentSearches = recentSearches
+                    ) { recentSearch ->
+                        searchQuery = recentSearch
+                        viewModel.onEvent(SearchRecipesEvent.GetRecipes(query = recentSearch))
+                    }
 
                     when {
                         searchState.isLoading -> {
@@ -166,12 +189,6 @@ fun SearchRecipesScreen(
                     }
                 }
             }
-
         }
     )
 }
-
-
-
-
-

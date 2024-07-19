@@ -12,4 +12,6 @@
     <string name="favourite_recipes">Favourite Recipes</string>
     <string name="recipe_details">Recipe Details</string>
     <string name="food">%1$s Food</string>
+    <string name="recent_searches">Recent Searches</string>
+    <string name="search_recipes">Search recipes..</string>
 </resources>
