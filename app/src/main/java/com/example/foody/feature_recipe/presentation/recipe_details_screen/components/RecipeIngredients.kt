@@ -17,11 +17,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.foody.feature_recipe.domain.model.recipe_information.RecipeIngredientModel
 import com.example.foody.feature_recipe.util.ThemePreviews
+import com.example.foody.ui.theme.FoodyTheme
+import com.example.foody.ui.theme.darkCharcoal
+import com.example.foody.ui.theme.honeydew
 
 
 @Composable
@@ -34,7 +37,7 @@ fun RecipesIngredients(modifier: Modifier = Modifier, ingredients: List<RecipeIn
         contentPadding = PaddingValues(vertical = 16.dp),
         //todo check fixed height
         modifier = modifier
-            .fillMaxWidth()
+            .fillMaxWidth().padding(horizontal = 8.dp)
             .height(300.dp)
 
     ) {
@@ -48,9 +51,9 @@ fun RecipesIngredients(modifier: Modifier = Modifier, ingredients: List<RecipeIn
 @Composable
 fun RecipesIngredientsP() {
     val ingredients = listOf(
-        RecipeIngredientModel(name = "Spaghetti", amount = 200.0),
-        RecipeIngredientModel(name = "Pancetta", amount = 100.0),
-        RecipeIngredientModel(name = "Eggs", amount = 2.0),
+        RecipeIngredientModel(name = "Spaghetti Spaghetti Spaghetti", amount = 200.0),
+        RecipeIngredientModel(name = "Pancetta Pancetta", amount = 100.0),
+        RecipeIngredientModel(name = "Eggs Eggs Eggs Eggs Eggs", amount = 2.0),
         RecipeIngredientModel(name = "Parmesan Cheese", amount = 50.0),
         RecipeIngredientModel(name = "Black Pepper", amount = 1.0),
         RecipeIngredientModel(name = "Salt", amount = 1.0)
@@ -64,13 +67,14 @@ fun RecipeIngredientItem(modifier: Modifier = Modifier, name: String, amount: Do
     Box(
         modifier = modifier
             .clip(shape = RoundedCornerShape(12))
-            .background(color = Color.Green.copy(alpha = 0.2F))
+            .background(color = honeydew)
             .padding(16.dp), contentAlignment = Alignment.Center
     ) {
         Text(
             text = "${amount.toInt()} $name",
             style = MaterialTheme.typography.bodyMedium,
-            color = Color.Black
+            color = darkCharcoal,
+            textAlign = TextAlign.Center
         )
     }
 }
@@ -78,5 +82,7 @@ fun RecipeIngredientItem(modifier: Modifier = Modifier, name: String, amount: Do
 @ThemePreviews
 @Composable
 fun RecipeIngredientItemP() {
-    RecipeIngredientItem(name = "Black Pepper", amount = 1.0)
+    FoodyTheme {
+        RecipeIngredientItem(name = "Black Pepper ", amount = 1.0)
+    }
 }

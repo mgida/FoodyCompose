@@ -202,7 +202,7 @@ fun IngredientHeader(modifier: Modifier = Modifier) {
         style = MaterialTheme.typography.titleMedium.copy(fontSize = 16.sp),
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 16.dp)
+            .padding(top = 16.dp, start = 8.dp, end = 8.dp)
     )
 }
 
