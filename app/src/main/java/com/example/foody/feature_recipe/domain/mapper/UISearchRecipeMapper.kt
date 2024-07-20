@@ -10,6 +10,7 @@ class UISearchRecipeMapper @Inject constructor() : IMapper<SearchResult, RecipeM
             id = input.id,
             image = input.image,
             title = input.title,
-            summary = input.summary
+            summary = input.summary,
+            sourceUrl = input.sourceUrl
         )
 }

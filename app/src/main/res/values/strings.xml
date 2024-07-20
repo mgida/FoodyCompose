@@ -14,4 +14,5 @@
     <string name="food">%1$s Food</string>
     <string name="recent_searches">Recent Searches</string>
     <string name="search_recipes">Search recipes..</string>
+    <string name="check_out_this_recipe">Check out this recipe: \n%1$s</string>
 </resources>

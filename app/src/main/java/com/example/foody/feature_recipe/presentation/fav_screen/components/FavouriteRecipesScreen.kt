@@ -171,6 +171,9 @@ fun FavouriteRecipesScreen(
                                 },
                                 onFavClicked = { recipeModel ->
                                     viewModel.onEvent(FavouriteRecipesEvent.DeleteRecipe(recipeModel = recipeModel))
+                                },
+                                onShareClicked = {sourceUrl ->
+                                    viewModel.onEvent(FavouriteRecipesEvent.ShareRecipe(sourceUrl = sourceUrl))
                                 }
                             )
                         }
