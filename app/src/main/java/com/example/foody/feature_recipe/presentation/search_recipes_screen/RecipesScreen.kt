@@ -183,6 +183,9 @@ fun SearchRecipesScreen(
                                             )
                                         )
                                     }
+                                },
+                                onShareClicked = { sourceUrl ->
+                                    viewModel.onEvent(SearchRecipesEvent.ShareRecipe(sourceUrl = sourceUrl))
                                 }
                             )
                         }

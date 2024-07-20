@@ -1,8 +1,11 @@
 package com.example.foody.feature_recipe.presentation.fav_screen.viewmodel
 
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import android.content.Intent
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.foody.R
 import com.example.foody.feature_recipe.domain.model.RecipeModel
 import com.example.foody.feature_recipe.domain.use_case.DeleteRecipeUseCase
 import com.example.foody.feature_recipe.domain.use_case.DeleteRecipesUseCase
@@ -29,8 +32,9 @@ class FavouriteRecipesViewModel @Inject constructor(
     private val saveRecipeUseCase: SaveRecipeUseCase,
     private val saveRecipesUseCase: SaveRecipesUseCase,
     private val deleteRecipeUseCase: DeleteRecipeUseCase,
+    private val application: Application,
     private val deleteRecipesUseCase: DeleteRecipesUseCase,
-) : ViewModel() {
+) : AndroidViewModel(application) {
 
 
     private val _favState = MutableStateFlow(FavouriteRecipesState())
@@ -39,7 +43,7 @@ class FavouriteRecipesViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
-     private var hasFetchedRecipes = false
+    private var hasFetchedRecipes = false
 
     fun onEvent(favouriteRecipesEvent: FavouriteRecipesEvent) {
         when (favouriteRecipesEvent) {
@@ -64,7 +68,25 @@ class FavouriteRecipesViewModel @Inject constructor(
             is FavouriteRecipesEvent.SaveRecipes -> {
                 saveRecipesToFavourites(favouriteRecipesEvent.recipes)
             }
+
+            is FavouriteRecipesEvent.ShareRecipe -> {
+                shareRecipe(favouriteRecipesEvent.sourceUrl)
+            }
         }
+    }
+
+    private fun shareRecipe(sourceUrl: String) {
+        val sendIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(
+                Intent.EXTRA_TEXT,
+                application.getString(R.string.check_out_this_recipe, sourceUrl)
+            )
+            type = "text/plain"
+        }
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        application.startActivity(shareIntent)
     }
 
     private fun saveRecipesToFavourites(recipes: List<RecipeModel>) {

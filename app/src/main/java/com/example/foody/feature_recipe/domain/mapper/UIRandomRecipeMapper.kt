@@ -11,6 +11,7 @@ class UIRandomRecipeMapper @Inject constructor() : IMapper<RecipeResponse, Recip
             id = input.id,
             image = input.image,
             summary = input.summary,
-            title = input.title
+            title = input.title,
+            sourceUrl = input.sourceUrl
         )
 }

@@ -55,6 +55,7 @@ fun RecipeItem(
     image: String,
     title: String,
     des: String,
+    sourceUrl:String,
     isFav: Boolean,
     modifier: Modifier = Modifier,
     sharedTransitionScope: SharedTransitionScope,
@@ -62,7 +63,7 @@ fun RecipeItem(
     isSelected: Boolean = false,
     onToggleSelection: (isSelected: Boolean) -> Unit,
     onRecipeClicked: (recipeId: Int) -> Unit,
-    onShareClicked: () -> Unit,
+    onShareClicked: (source:String) -> Unit,
     onFavClicked: (searchRecipeModel: RecipeModel) -> Unit
 ) {
 
@@ -155,7 +156,7 @@ fun RecipeItem(
                     modifier = Modifier,
                     icon = R.drawable.ic_share,
                     des = "Share",
-                    onClick = onShareClicked,
+                    onClick = { onShareClicked(sourceUrl) },
                     isFav = false,
                 )
                 Spacer(modifier = Modifier.width(8.dp))
@@ -174,6 +175,7 @@ fun RecipeItem(
                                 image = image,
                                 title = title,
                                 summary = des,
+                                sourceUrl =sourceUrl ,
                                 isFav = isFavourite
                             )
                         )

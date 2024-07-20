@@ -8,4 +8,5 @@ sealed class FavouriteRecipesEvent {
     data class SaveRecipe(val recipeModel: RecipeModel) : FavouriteRecipesEvent()
     data class SaveRecipes(val recipes: List<RecipeModel>) : FavouriteRecipesEvent()
     data class DeleteRecipes(val recipes: List<RecipeModel>) : FavouriteRecipesEvent()
+    data class ShareRecipe(val sourceUrl: String) : FavouriteRecipesEvent()
 }

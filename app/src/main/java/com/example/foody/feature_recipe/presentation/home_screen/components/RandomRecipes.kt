@@ -33,31 +33,36 @@ fun RandomRecipesPreview() {
             id = 1,
             image = "",
             title = "Spaghetti Carbonara",
-            summary = "A classic Italian pasta dish made with eggs, cheese, pancetta, and pepper."
+            summary = "A classic Italian pasta dish made with eggs, cheese, pancetta, and pepper.",
+            sourceUrl = ""
         ),
         RecipeModel(
             id = 2,
             image = "",
             title = "Chicken Tikka Masala",
-            summary = "A popular Indian dish made with grilled chunks of chicken enveloped in a creamy tomato curry."
+            summary = "A popular Indian dish made with grilled chunks of chicken enveloped in a creamy tomato curry.",
+            sourceUrl = ""
         ),
         RecipeModel(
             id = 3,
             image = "",
             title = "Beef Stroganoff",
-            summary = "A Russian dish of sautéed pieces of beef served in a sauce with sour cream."
+            summary = "A Russian dish of sautéed pieces of beef served in a sauce with sour cream.",
+            sourceUrl = ""
         ),
         RecipeModel(
             id = 4,
             image = "",
             title = "Vegetable Stir Fry",
-            summary = "A quick and healthy dish made with a mix of fresh vegetables stir-fried in a savory sauce."
+            summary = "A quick and healthy dish made with a mix of fresh vegetables stir-fried in a savory sauce.",
+            sourceUrl = ""
         ),
         RecipeModel(
             id = 5,
             image = "",
             title = "Chocolate Chip Cookies",
-            summary = "Classic cookies filled with gooey chocolate chips, perfect for any occasion."
+            summary = "Classic cookies filled with gooey chocolate chips, perfect for any occasion.",
+            sourceUrl = ""
         )
     )
 

@@ -102,7 +102,8 @@ fun RecipeItemPreview() {
         id = 10,
         image = "",
         title = "Lemon Garlic Salmon",
-        summary = "A simple and delicious dish featuring salmon fillets marinated in lemon juice and garlic."
+        summary = "A simple and delicious dish featuring salmon fillets marinated in lemon juice and garlic.",
+        sourceUrl = ""
     )
     RecipeItem(recipeModel = recipe) {}
 }

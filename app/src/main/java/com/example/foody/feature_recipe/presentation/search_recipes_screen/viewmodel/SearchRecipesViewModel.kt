@@ -1,9 +1,12 @@
 package com.example.foody.feature_recipe.presentation.search_recipes_screen.viewmodel
 
+import android.app.Application
+import android.content.Intent
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foody.BuildConfig
+import com.example.foody.R
 import com.example.foody.feature_recipe.domain.mapper.UISearchRecipesMapper
 import com.example.foody.feature_recipe.domain.model.RecipeModel
 import com.example.foody.feature_recipe.domain.use_case.DeleteRecipeUseCase
@@ -34,9 +37,10 @@ class RecipesViewModel @Inject constructor(
     private val uiSearchRecipesMapper: UISearchRecipesMapper,
     private val getRecentSearchesUseCase: GetRecentSearchesUseCase,
     private val saveSearchQueryUseCase: SaveSearchQueryUseCase,
-    savedStateHandle: SavedStateHandle
+    private val application: Application,
+    savedStateHandle: SavedStateHandle,
 ) :
-    ViewModel() {
+    AndroidViewModel(application) {
 
     private val _searchState = MutableStateFlow(SearchRecipesState())
     val searchState: StateFlow<SearchRecipesState> = _searchState
@@ -78,7 +82,26 @@ class RecipesViewModel @Inject constructor(
             is SearchRecipesEvent.SaveSearchQuery -> {
                 saveSearchQuery(searchRecipesEvent.query)
             }
+
+            is SearchRecipesEvent.ShareRecipe -> {
+                shareRecipe(searchRecipesEvent.sourceUrl)
+            }
         }
+    }
+
+    private fun shareRecipe(recipeUrl: String) {
+
+        val sendIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(
+                Intent.EXTRA_TEXT,
+                application.getString(R.string.check_out_this_recipe, recipeUrl)
+            )
+            type = "text/plain"
+        }
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        application.startActivity(shareIntent)
     }
 
     private fun saveSearchQuery(query: String) {

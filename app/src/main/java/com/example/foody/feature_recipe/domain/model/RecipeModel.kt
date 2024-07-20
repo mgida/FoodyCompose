@@ -10,5 +10,6 @@ data class RecipeModel(
     val image: String?,
     val title: String?,
     val summary: String?,
+    val sourceUrl: String?,
     val isFav: Boolean = false
 )
