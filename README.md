@@ -17,3 +17,13 @@ FoodyCompose offers a seamless and interactive experience for users to discover 
  - **🔹 Multiple Selection for Deletion** &rarr; select multiple recipes to delete from favorites, with the option to reinsert them.
  - **🔹 Save Recent Searches** &rarr; enhance user experience by saving recent search queries.
  - **🔹 Detailed Recipe Information** &rarr; view detailed information about recipes, including ingredients.
+
+## Tools Used
+
+- **Jetpack Compose:** for building and displaying the modern UI.
+- **Retrofit:** to handle all network operations.
+- **Room Database:** for managing CRUD operations for favorite recipes.
+- **DataStore:** to save and retrieve recent searches for an improved user experience.
+- **Coroutines:** to manage asynchronous operations.
+- **StateFlow:** for observing and handling state updates.
+- **Hilt:** for dependency injection.
