@@ -1,10 +1,10 @@
 # FoodyCompose
 
-FoodyCompose is a modern and intuitive recipe application built with Jetpack Compose. This app allows users to explore various recipes, search for specific dishes based on cuisine type, and manage their favorite recipes. Users can also share their favorite recipes and keep track of recent searches for a more personalized experience.
+==FoodyCompose== is a modern and intuitive recipe application built with Jetpack Compose. This app allows users to explore various recipes, search for specific dishes based on cuisine type, and manage their favorite recipes. Users can also share their favorite recipes and keep track of recent searches for a more personalized experience.
 
 ## Usage
 
-FoodyCompose offers a seamless and interactive experience for users to discover and manage recipes. Whether you're looking for recipes of the week, searching for a specific type of cuisine, or saving your favorite recipes, FoodyCompose has got you covered. The app also allows for easy sharing of recipes and provides detailed information, including ingredients, for each recipe.
+==FoodyCompose== offers a seamless and interactive experience for users to discover and manage recipes. Whether you're looking for recipes of the week, searching for a specific type of cuisine, or saving your favorite recipes, FoodyCompose has got you covered. The app also allows for easy sharing of recipes and provides detailed information, including ingredients, for each recipe.
 ## Key Features
 
 - Define Recipes with Cuisine: Easily categorize and explore recipes by their cuisine type.
