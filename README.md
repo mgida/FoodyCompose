@@ -29,6 +29,7 @@ FoodyCompose offers a seamless and interactive experience for users to discover 
 - **Hilt:** for dependency injection.
 
 ## Screens
+![image](https://github.com/user-attachments/assets/61414266-6f8b-426e-9554-17db31c6f608) ![image](https://github.com/user-attachments/assets/111d8c88-87ab-4598-95ab-d11e02decba7)
 ![image](https://github.com/user-attachments/assets/ac2181cd-4c92-49d1-9330-34b045cee23e) ![image](https://github.com/user-attachments/assets/9d3f8ad7-4008-4c7f-87dd-9cc6d6668974)
 ![image](https://github.com/user-attachments/assets/d33cd82c-e268-4b5b-a830-46a51230550e) ![image](https://github.com/user-attachments/assets/33273323-5295-4e92-a244-7fcc9c37cd2c)
 ![image](https://github.com/user-attachments/assets/e3da2dd0-9297-4e8e-96f4-0a5e19f7ab67) ![image](https://github.com/user-attachments/assets/98fccdeb-2922-4b09-be7b-753458bfdb16) ![image](https://github.com/user-attachments/assets/b61df277-e28c-4dfe-baf3-1c5a1c13d291)
