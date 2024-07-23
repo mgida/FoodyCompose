@@ -83,6 +83,10 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.kotlinx.coroutines)
+    implementation(libs.kotlinx.coroutines.test)
+
+    implementation(libs.mockito.test)
+    implementation(libs.mockito.kotlin.test)
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
@@ -103,6 +107,7 @@ dependencies {
 
     implementation(libs.room)
     implementation(libs.room.ktx)
+    implementation(libs.room.testing)
     kapt(libs.room.compiler)
 
     implementation(libs.data.store)
@@ -110,6 +115,7 @@ dependencies {
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.truth)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
