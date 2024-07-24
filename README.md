@@ -37,4 +37,5 @@ FoodyCompose offers a seamless and interactive experience for users to discover 
 <img src="https://github.com/user-attachments/assets/e3da2dd0-9297-4e8e-96f4-0a5e19f7ab67" width="200"> <img src="https://github.com/user-attachments/assets/98fccdeb-2922-4b09-be7b-753458bfdb16" width="200">
 <img src="https://github.com/user-attachments/assets/b61df277-e28c-4dfe-baf3-1c5a1c13d291" width="200">
 
+<img width="250" alt="Screenshot 2024-07-25 at 1 36 35 AM" src="https://github.com/user-attachments/assets/0baf8615-4ac4-4883-90a7-c2f07c8698df">
 
