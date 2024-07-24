@@ -32,10 +32,6 @@ FoodyCompose offers a seamless and interactive experience for users to discover 
 
 ## Screens
 
-<img src="https://github.com/user-attachments/assets/ac2181cd-4c92-49d1-9330-34b045cee23e" width="200"> <img src="https://github.com/user-attachments/assets/9d3f8ad7-4008-4c7f-87dd-9cc6d6668974" width="200">
-<img src="https://github.com/user-attachments/assets/d33cd82c-e268-4b5b-a830-46a51230550e" width="200"> <img src="https://github.com/user-attachments/assets/33273323-5295-4e92-a244-7fcc9c37cd2c" width="200">
-<img src="https://github.com/user-attachments/assets/e3da2dd0-9297-4e8e-96f4-0a5e19f7ab67" width="200"> <img src="https://github.com/user-attachments/assets/98fccdeb-2922-4b09-be7b-753458bfdb16" width="200">
-<img src="https://github.com/user-attachments/assets/b61df277-e28c-4dfe-baf3-1c5a1c13d291" width="200">
-
-<img width="250" alt="Screenshot 2024-07-25 at 1 36 35 AM" src="https://github.com/user-attachments/assets/0baf8615-4ac4-4883-90a7-c2f07c8698df">
+<img width="280" src="https://github.com/user-attachments/assets/0baf8615-4ac4-4883-90a7-c2f07c8698df"> <img width="280" src="https://github.com/user-attachments/assets/43490a85-f9e0-4b25-a74f-44953c29e528"> <img width="280" src="https://github.com/user-attachments/assets/d47007c9-bfa0-46e6-bb58-22f654852950"> <img width="280" src="https://github.com/user-attachments/assets/4649ef30-b64a-419a-a677-38aa70995506"> <img width="280" src="https://github.com/user-attachments/assets/27a86240-1e86-4df6-a299-339b90768cd6"> <img width="280" src="https://github.com/user-attachments/assets/62b7d3a5-5b30-414a-8e1f-92155902e052"> <img width="280" src="https://github.com/user-attachments/assets/968cb7d0-c7f6-4c98-b6c9-effb4949ede7"> <img width="280" src="https://github.com/user-attachments/assets/83cd01d9-4e61-4b8c-bd37-3cb23c8ce126"> <img width="280" src="https://github.com/user-attachments/assets/8f429aec-1112-4978-bf9c-56469d7c2722">
+<img width="280" src="https://github.com/user-attachments/assets/91b556cf-f7d1-45af-9753-e31490e417e7">
 
