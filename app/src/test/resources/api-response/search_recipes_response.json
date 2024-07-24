@@ -1,0 +1,134 @@
+{
+  "number": 3,
+  "offset": 0,
+  "results": [
+    {
+      "aggregateLikes": 150,
+      "cheap": false,
+      "cookingMinutes": 45,
+      "creditsText": "Chef John",
+      "cuisines": [
+        "Italian"
+      ],
+      "dairyFree": true,
+      "diets": [
+        "Gluten Free",
+        "Paleo"
+      ],
+      "dishTypes": [
+        "main course",
+        "dinner"
+      ],
+      "gaps": "no",
+      "glutenFree": true,
+      "healthScore": 80,
+      "id": 1,
+      "image": "https://example.com/image1.jpg",
+      "imageType": "jpg",
+      "lowFodmap": false,
+      "occasions": [],
+      "preparationMinutes": 15,
+      "pricePerServing": 4.5,
+      "readyInMinutes": 60,
+      "servings": 4,
+      "sourceName": "Food Network",
+      "sourceUrl": "https://example.com/recipe1",
+      "spoonacularScore": 95.0,
+      "spoonacularSourceUrl": "https://spoonacular.com/recipe1",
+      "summary": "A delicious homemade pizza with fresh ingredients.",
+      "sustainable": true,
+      "title": "Homemade Pizza",
+      "vegan": false,
+      "vegetarian": true,
+      "veryHealthy": true,
+      "veryPopular": true,
+      "weightWatcherSmartPoints": 10
+    },
+    {
+      "aggregateLikes": 200,
+      "cheap": true,
+      "cookingMinutes": 30,
+      "creditsText": "Jamie Oliver",
+      "cuisines": [
+        "Mexican"
+      ],
+      "dairyFree": false,
+      "diets": [
+        "Vegetarian"
+      ],
+      "dishTypes": [
+        "lunch"
+      ],
+      "gaps": "yes",
+      "glutenFree": false,
+      "healthScore": 70,
+      "id": 2,
+      "image": "https://example.com/image2.jpg",
+      "imageType": "jpg",
+      "lowFodmap": true,
+      "occasions": [
+        "party"
+      ],
+      "preparationMinutes": 10,
+      "pricePerServing": 2.5,
+      "readyInMinutes": 40,
+      "servings": 6,
+      "sourceName": "All Recipes",
+      "sourceUrl": "https://example.com/recipe2",
+      "spoonacularScore": 88.0,
+      "spoonacularSourceUrl": "https://spoonacular.com/recipe2",
+      "summary": "A quick and easy Mexican salad.",
+      "sustainable": false,
+      "title": "Mexican Salad",
+      "vegan": true,
+      "vegetarian": true,
+      "veryHealthy": true,
+      "veryPopular": false,
+      "weightWatcherSmartPoints": 8
+    },
+    {
+      "aggregateLikes": 300,
+      "cheap": false,
+      "cookingMinutes": 50,
+      "creditsText": "Martha Stewart",
+      "cuisines": [
+        "Chinese"
+      ],
+      "dairyFree": true,
+      "diets": [
+        "Vegan"
+      ],
+      "dishTypes": [
+        "dinner"
+      ],
+      "gaps": "no",
+      "glutenFree": true,
+      "healthScore": 85,
+      "id": 3,
+      "image": "https://example.com/image3.jpg",
+      "imageType": "jpg",
+      "lowFodmap": false,
+      "occasions": [
+        "family gathering"
+      ],
+      "preparationMinutes": 20,
+      "pricePerServing": 5.0,
+      "readyInMinutes": 70,
+      "servings": 5,
+      "sourceName": "Epicurious",
+      "sourceUrl": "https://example.com/recipe3",
+      "spoonacularScore": 90.0,
+      "spoonacularSourceUrl": "https://spoonacular.com/recipe3",
+      "summary": "A healthy and delicious Chinese stir-fry.",
+      "sustainable": true,
+      "title": "Chinese Stir-Fry",
+      "vegan": true,
+      "vegetarian": true,
+      "veryHealthy": true,
+      "veryPopular": true,
+      "weightWatcherSmartPoints": 12
+    }
+  ],
+  "totalResults": 100
+}
+

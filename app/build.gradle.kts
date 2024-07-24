@@ -90,6 +90,7 @@ dependencies {
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
+    implementation(libs.mock.webserver)
 
     implementation(libs.dagger.hilt)
     implementation(libs.dagger.hilt.navigation.compose)
@@ -116,6 +117,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.truth)
+    implementation(libs.androidx.truth)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
