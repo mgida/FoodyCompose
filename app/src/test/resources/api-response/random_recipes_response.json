@@ -1,0 +1,144 @@
+{
+  "recipes": [
+    {
+      "aggregateLikes": 125,
+      "analyzedInstructions": [
+        {
+          "name": "Step 1",
+          "steps": [
+            {
+              "number": 1,
+              "step": "Preheat the oven to 350°F (175°C).",
+              "ingredients": [],
+              "equipment": []
+            },
+            {
+              "number": 2,
+              "step": "Mix all the ingredients in a bowl.",
+              "ingredients": [],
+              "equipment": []
+            }
+          ]
+        }
+      ],
+      "cheap": false,
+      "cookingMinutes": 45,
+      "creditsText": "Recipe provided by Chef John",
+      "cuisines": ["American"],
+      "dairyFree": false,
+      "diets": [],
+      "dishTypes": ["Main Course"],
+      "extendedIngredients": [
+        {
+          "id": 1001,
+          "name": "flour",
+          "amount": 2.0,
+          "unit": "cups"
+        },
+        {
+          "id": 1002,
+          "name": "sugar",
+          "amount": 1.0,
+          "unit": "cup"
+        }
+      ],
+      "gaps": "",
+      "glutenFree": false,
+      "healthScore": 60,
+      "id": 12345,
+      "image": "https://example.com/image1.jpg",
+      "imageType": "jpg",
+      "instructions": "1. Preheat the oven. 2. Mix ingredients. 3. Bake for 30 minutes.",
+      "license": "CC BY-SA 4.0",
+      "lowFodmap": false,
+      "occasions": [],
+      "originalId": null,
+      "preparationMinutes": 15,
+      "pricePerServing": 2.5,
+      "readyInMinutes": 60,
+      "servings": 4,
+      "sourceName": "Chef John's Recipes",
+      "sourceUrl": "https://example.com/recipe1",
+      "spoonacularScore": 85.0,
+      "spoonacularSourceUrl": "https://example.com/recipe1",
+      "summary": "A delicious and easy-to-make recipe.",
+      "sustainable": true,
+      "title": "Delicious Recipe",
+      "vegan": false,
+      "vegetarian": false,
+      "veryHealthy": true,
+      "veryPopular": true,
+      "weightWatcherSmartPoints": 5
+    },
+    {
+      "aggregateLikes": 98,
+      "analyzedInstructions": [
+        {
+          "name": "Step 1",
+          "steps": [
+            {
+              "number": 1,
+              "step": "Prepare all the ingredients.",
+              "ingredients": [],
+              "equipment": []
+            },
+            {
+              "number": 2,
+              "step": "Cook according to the recipe instructions.",
+              "ingredients": [],
+              "equipment": []
+            }
+          ]
+        }
+      ],
+      "cheap": true,
+      "cookingMinutes": 30,
+      "creditsText": "Recipe provided by Chef Jane",
+      "cuisines": ["Italian"],
+      "dairyFree": true,
+      "diets": [],
+      "dishTypes": ["Appetizer"],
+      "extendedIngredients": [
+        {
+          "id": 1003,
+          "name": "tomato",
+          "amount": 3.0,
+          "unit": "units"
+        },
+        {
+          "id": 1004,
+          "name": "basil",
+          "amount": 0.5,
+          "unit": "cup"
+        }
+      ],
+      "gaps": "",
+      "glutenFree": true,
+      "healthScore": 70,
+      "id": 67890,
+      "image": "https://example.com/image2.jpg",
+      "imageType": "jpg",
+      "instructions": "1. Prepare the ingredients. 2. Cook and serve.",
+      "license": "CC BY-SA 4.0",
+      "lowFodmap": false,
+      "occasions": [],
+      "originalId": null,
+      "preparationMinutes": 10,
+      "pricePerServing": 1.8,
+      "readyInMinutes": 40,
+      "servings": 2,
+      "sourceName": "Chef Jane's Kitchen",
+      "sourceUrl": "https://example.com/recipe2",
+      "spoonacularScore": 90.0,
+      "spoonacularSourceUrl": "https://example.com/recipe2",
+      "summary": "An Italian classic that's simple and satisfying.",
+      "sustainable": true,
+      "title": "Italian Tomato Basil Soup",
+      "vegan": true,
+      "vegetarian": true,
+      "veryHealthy": true,
+      "veryPopular": false,
+      "weightWatcherSmartPoints": 4
+    }
+  ]
+}
