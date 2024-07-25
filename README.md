@@ -38,6 +38,7 @@ FoodyCompose offers a seamless and interactive experience for users to discover 
 - **StateFlow:** for observing and handling state updates.
 - **Hilt:** for dependency injection.
 - **Unit Testing:** test local datasource & remote datasource & recipeRepo
+- **UI Testing:** compose testing
 - **Truth, JUnit, Mockito, Turbine, WebMockServer, coroutines & StateFlow testing:** ensure robust and reliable code through comprehensive testing
 
 
