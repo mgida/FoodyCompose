@@ -115,6 +115,7 @@ dependencies {
 
 
     testImplementation(libs.junit)
+    testImplementation(libs.turbine)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.truth)
     implementation(libs.androidx.truth)
