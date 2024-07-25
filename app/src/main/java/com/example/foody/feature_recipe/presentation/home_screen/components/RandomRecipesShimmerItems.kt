@@ -15,7 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.foody.R
 import com.example.foody.feature_recipe.util.ThemePreviews
 import com.example.foody.feature_recipe.util.shimmerEffect
 import com.example.foody.ui.theme.FoodyTheme
@@ -23,8 +26,9 @@ import com.example.foody.ui.theme.FoodyTheme
 
 @Composable
 fun RandomRecipesShimmerItems(modifier: Modifier = Modifier) {
+    val shimmerItemsTag = stringResource(id = R.string.shimmer_items_tag)
 
-    LazyRow(modifier = modifier) {
+    LazyRow(modifier = modifier.testTag(shimmerItemsTag)) {
         items(8) {
             Column(
                 modifier = modifier

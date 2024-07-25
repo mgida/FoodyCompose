@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -43,7 +44,7 @@ fun HomeScreen(
 }
 
 @Composable
-private fun HomeContent(
+fun HomeContent(
     modifier: Modifier,
     onNavigate: (String) -> Unit,
     onNavigateToFav: () -> Unit,
@@ -85,7 +86,12 @@ private fun HomeContent(
             }
 
             state.error.isNotBlank() -> {
-                ErrorState(modifier = Modifier.fillMaxWidth(), errorMsg = state.error)
+                ErrorState(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag(stringResource(id = R.string.error_message)),
+                    errorMsg = state.error
+                )
             }
 
             state.recipes.isEmpty() -> {
