@@ -15,22 +15,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.foody.R
 import com.example.foody.feature_recipe.util.ThemePreviews
+import com.example.foody.feature_recipe.util.formatErrorMessage
 import com.example.foody.ui.theme.FoodyTheme
 
 @Composable
 fun ErrorState(modifier: Modifier = Modifier, errorMsg: String) {
+    val context = LocalContext.current
     Box(
         modifier = modifier
             .padding(16.dp), contentAlignment = Alignment.Center
     ) {
         Text(
-            text = errorMsg,
+            text = errorMsg.formatErrorMessage(context = context),
             style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.error
+            color = MaterialTheme.colorScheme.error,
+            textAlign = TextAlign.Center
         )
     }
 }
@@ -44,7 +49,8 @@ fun EmptyResult(modifier: Modifier = Modifier, msg: String) {
         Text(
             text = msg,
             style = MaterialTheme.typography.titleMedium,
-            color = Color.Black
+            color = Color.Black.copy(alpha = 0.6F),
+            textAlign = TextAlign.Center
         )
     }
 }

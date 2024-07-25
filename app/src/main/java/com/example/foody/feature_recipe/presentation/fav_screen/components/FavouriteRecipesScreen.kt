@@ -156,7 +156,7 @@ fun FavouriteRecipesScreen(
                         favState.recipes.isEmpty() -> {
                             EmptyResult(
                                 modifier = Modifier.fillMaxSize(),
-                                msg = stringResource(R.string.nothing_found)
+                                msg = stringResource(R.string.no_favourites_yet)
                             )
                         }
 

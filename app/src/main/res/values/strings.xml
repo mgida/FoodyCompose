@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Foody</string>
-    <string name="nothing_found">Nothing Found..</string>
+    <string name="nothing_found">No results found..</string>
     <string name="recipe_of_the_week">Recipe of the week</string>
     <string name="recipes">%1$s recipes</string>
     <string name="recipe_saved_to_favourites">Recipe saved to Favourites!</string>
@@ -19,4 +19,8 @@
     <string name="app_bar_tag">custom_app_bar</string>
     <string name="error_message">An error occurred</string>
     <string name="for_you">For You</string>
+    <string name="no_favourites_yet">No Favourites yet!</string>
+    <string name="request_limit_reached_please_try_again_later">Request limit reached. Please try again later.</string>
+    <string name="request_timed_out_please_check_your_connection_and_try_again">Request timed out. Please check your connection and try again.</string>
+    <string name="an_unexpected_error_occurred_please_try_again">An unexpected error occurred. Please try again.</string>
 </resources>

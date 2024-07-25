@@ -1,5 +1,6 @@
 package com.example.foody.feature_recipe.util
 
+import android.content.Context
 import android.text.Spanned
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -21,6 +22,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.IntSize
 import androidx.core.text.HtmlCompat
+import com.example.foody.R
 
 fun Modifier.shimmerEffect(): Modifier = composed {
     var size by remember {
@@ -67,4 +69,23 @@ private fun htmlToAnnotatedString(html: String): AnnotatedString {
         append(spanned.toString())
     }
 }
+
+fun String.formatErrorMessage(context: Context): String {
+    return when {
+        this.contains(REQUEST_LIMIT_CODE) or this.contains(REQUEST_RATE_LIMIT_CODE) -> context.getString(
+            R.string.request_limit_reached_please_try_again_later
+        )
+
+        this.contains(
+            TIMEOUT,
+            true
+        ) -> context.getString(R.string.request_timed_out_please_check_your_connection_and_try_again)
+
+        else -> context.getString(R.string.an_unexpected_error_occurred_please_try_again)
+    }
+}
+
+private const val REQUEST_LIMIT_CODE = "402"
+private const val TIMEOUT = "timeout"
+private const val REQUEST_RATE_LIMIT_CODE = "429"
 
