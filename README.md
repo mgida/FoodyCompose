@@ -37,8 +37,8 @@ FoodyCompose offers a seamless and interactive experience for users to discover 
 - **Coroutines:** to manage asynchronous operations.
 - **StateFlow:** for observing and handling state updates.
 - **Hilt:** for dependency injection.
-- **Unit Testing:** test local datasource & remote datasource $ recipeRepo
-- **Truth, JUnit, WebMockServer, coroutines & StateFlow testing:** ensure robust and reliable code through comprehensive testing
+- **Unit Testing:** test local datasource & remote datasource & recipeRepo
+- **Truth, JUnit, Mockito, Turbine, WebMockServer, coroutines & StateFlow testing:** ensure robust and reliable code through comprehensive testing
 
 
 
