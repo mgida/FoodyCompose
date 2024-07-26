@@ -82,7 +82,7 @@ fun SpanishRecipes() {
         color = alphaRed,
         page = "#1",
         recipesCount = 10,
-        imageRes = R.drawable.spanish_recipe
+        imageRes = R.drawable.spanish_recipe_beans
     )
 }
 
@@ -138,10 +138,12 @@ private fun CustomCuisineBox(
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
+                .clip(RoundedCornerShape(topStart = 24.dp, bottomStart = 24.dp))
                 .size(width = 320.dp, height = 390.dp)
                 .align(
                     Alignment.BottomEnd
                 )
+
         )
     }
 }
