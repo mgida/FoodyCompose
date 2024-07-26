@@ -26,13 +26,15 @@ FoodyCompose offers a seamless and interactive experience for users to discover 
 
  - **📃 Detailed Recipe Information** &rarr; view detailed information about recipes, including ingredients.
 
-## API Provider
+## Data Provider
 
-This application uses the Spoonacular API for retrieving recipe data.
+This application uses [Spoonacular API](https://spoonacular.com/food-api)
+
 
 ## Design Inspiration
 
-The design inspiration for FoodyCompose comes from a Figma community project. 
+The design inspiration for FoodyCompose comes from a [Figma community project](https://www.figma.com/design/fWEeS9OWrqbwA3IsAdPb8m/Recipe-Food-App-(Community)?node-id=1-826&t=i4jdogD12WFXfZyi-0)
+
 
 ## Tools Used
 
