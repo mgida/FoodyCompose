@@ -2,7 +2,7 @@
 
 FoodyCompose is a modern and intuitive recipe application built with Jetpack Compose. This app allows users to explore various recipes, search for specific dishes based on cuisine type, and manage their favorite recipes. Users can also share their favorite recipes and keep track of recent searches for a more personalized experience.
 
-## Usage
+## Description
 
 FoodyCompose offers a seamless and interactive experience for users to discover and manage recipes. Whether you're looking for recipes of the week, searching for a specific type of cuisine, or saving your favorite recipes, FoodyCompose has got you covered. The app also allows for easy sharing of recipes and provides detailed information, including ingredients, for each recipe.
 
@@ -26,6 +26,14 @@ FoodyCompose offers a seamless and interactive experience for users to discover 
 
  - **📃 Detailed Recipe Information** &rarr; view detailed information about recipes, including ingredients.
 
+## API Provider
+
+This application uses the Spoonacular API for retrieving recipe data.
+
+## Design Inspiration
+
+The design inspiration for FoodyCompose comes from a Figma community project. 
+
 ## Tools Used
 
 - **Jetpack Compose:** for building and displaying the modern UI.
@@ -40,7 +48,6 @@ FoodyCompose offers a seamless and interactive experience for users to discover 
 - **Unit Testing:** test local datasource & remote datasource & recipeRepo
 - **UI Testing:** compose testing
 - **Truth, JUnit, Mockito, Turbine, WebMockServer, coroutines & StateFlow testing:** ensure robust and reliable code through comprehensive testing
-
 
 
 ## Screens
