@@ -68,60 +68,61 @@ android {
 }
 
 dependencies {
-
+    // Core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
 
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.compose.animation)
-
-
+    // Compose
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    implementation(libs.kotlinx.coroutines)
-    implementation(libs.kotlinx.coroutines.test)
+    implementation(libs.bundles.compose)
 
-    implementation(libs.mockito.test)
-    implementation(libs.mockito.kotlin.test)
+    // Coroutines
+    implementation(libs.bundles.coroutines)
 
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
+    // Retrofit
+    implementation(libs.bundles.retrofit)
     implementation(libs.mock.webserver)
 
-    implementation(libs.dagger.hilt)
-    implementation(libs.dagger.hilt.navigation.compose)
+    // Mockito
+    testImplementation(libs.bundles.mockito)
+
+    // Hilt
+    implementation(libs.bundles.hilt)
     ksp(libs.dagger.hilt.compiler)
 
-    implementation(libs.lifecycle.viewmodel.compose)
-
+    // Coil
     implementation(libs.coil)
 
-    implementation(libs.androidx.navigation)
+    // Timber
     implementation(libs.timber)
+
+    // Navigation
+    implementation(libs.androidx.navigation)
+
+    // Pager & Constraint Layout
     implementation(libs.pager)
     implementation(libs.constraint.layout)
+
+    // Splash
     implementation(libs.splash)
 
-    implementation(libs.room)
-    implementation(libs.room.ktx)
-    implementation(libs.room.testing)
+    // Room
+    implementation(libs.bundles.room)
     ksp(libs.room.compiler)
 
+    // DataStore
     implementation(libs.data.store)
 
-
-    testImplementation(libs.junit)
-    testImplementation(libs.turbine)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.truth)
+    // Unit Testing
+    testImplementation(libs.bundles.unitTest)
     implementation(libs.androidx.truth)
-    androidTestImplementation(libs.androidx.espresso.core)
+
+    // Instrumentation Testing
+    androidTestImplementation(libs.bundles.instrumentationTest)
+
+    // Compose UI Test
     androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.bundles.uiTest)
     debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
 }

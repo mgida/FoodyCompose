@@ -114,6 +114,69 @@ room-testing = { group = "androidx.room", name = "room-testing", version.ref = "
 #DataStore
 data-store = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "dataStore" }
 
+[bundles]
+
+# Retrofit
+retrofit = ["retrofit", "retrofit-converter-gson"]
+
+# Compose
+compose = [
+    "androidx.compose.bom",
+    "androidx.ui",
+    "androidx.ui.graphics",
+    "androidx.ui.tooling.preview",
+    "androidx.material3",
+    "androidx.compose.animation",
+    "androidx.navigation.compose"
+]
+
+# Coroutines
+coroutines = [
+    "kotlinx.coroutines",
+    "kotlinx.coroutines.test"
+]
+
+# Room
+room = [
+    "room",
+    "room.ktx",
+    "room.testing"
+]
+
+# Hilt
+hilt = [
+    "dagger.hilt",
+    "dagger.hilt.navigation.compose",
+    "lifecycle.viewmodel.compose"
+]
+
+# Mockito
+mockito = [
+    "mockito.test",
+    "mockito.kotlin.test"
+]
+
+# UI Test
+uiTest = [
+    "androidx.ui.test.junit4",
+    "androidx.ui.test.manifest"
+]
+
+# Instrumentation Tests
+instrumentationTest = [
+    "androidx.junit",
+    "androidx.truth",
+    "androidx.espresso.core"
+]
+
+# JUnit Tests
+unitTest = [
+    "junit",
+    "turbine"
+]
+
+
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
