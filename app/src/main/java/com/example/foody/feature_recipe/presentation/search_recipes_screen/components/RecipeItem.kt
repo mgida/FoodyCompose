@@ -55,7 +55,7 @@ fun RecipeItem(
     image: String,
     title: String,
     des: String,
-    sourceUrl:String,
+    sourceUrl: String,
     isFav: Boolean,
     modifier: Modifier = Modifier,
     sharedTransitionScope: SharedTransitionScope,
@@ -63,7 +63,7 @@ fun RecipeItem(
     isSelected: Boolean = false,
     onToggleSelection: (isSelected: Boolean) -> Unit,
     onRecipeClicked: (recipeId: Int) -> Unit,
-    onShareClicked: (source:String) -> Unit,
+    onShareClicked: (source: String) -> Unit,
     onFavClicked: (searchRecipeModel: RecipeModel) -> Unit
 ) {
 
@@ -107,7 +107,7 @@ fun RecipeItem(
                         .size(125.dp, 100.dp)
                         .clip(RoundedCornerShape(12))
                         .sharedElement(
-                            state = rememberSharedContentState(key = "${RECIPE_IMAGE_TRANSITION_KEY}/$recipeId"),
+                            sharedContentState = rememberSharedContentState(key = "${RECIPE_IMAGE_TRANSITION_KEY}/$recipeId"),
                             animatedVisibilityScope = animatedVisibilityScope,
                             boundsTransform = { _, _ ->
                                 tween(durationMillis = TWEEN_DURATION)
@@ -129,7 +129,7 @@ fun RecipeItem(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.sharedElement(
-                        state = rememberSharedContentState(key = "${RECIPE_TITLE_TRANSITION_KEY}/$title"),
+                        sharedContentState = rememberSharedContentState(key = "${RECIPE_TITLE_TRANSITION_KEY}/$title"),
                         animatedVisibilityScope = animatedVisibilityScope,
                         boundsTransform = { _, _ ->
                             tween(durationMillis = TWEEN_DURATION)
@@ -175,7 +175,7 @@ fun RecipeItem(
                                 image = image,
                                 title = title,
                                 summary = des,
-                                sourceUrl =sourceUrl ,
+                                sourceUrl = sourceUrl,
                                 isFav = isFavourite
                             )
                         )

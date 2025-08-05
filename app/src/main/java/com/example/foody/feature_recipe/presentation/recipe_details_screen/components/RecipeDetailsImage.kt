@@ -35,15 +35,16 @@ fun RecipeDetailsImage(
     ) {
 
         with(sharedTransitionScope) {
-            RecipeImage(imageUrl = image, modifier = modifier
-                .fillMaxSize()
-                .sharedElement(
-                    state = rememberSharedContentState(key = "${RECIPE_IMAGE_TRANSITION_KEY}/$recipeId"),
-                    animatedVisibilityScope = animatedVisibilityScope,
-                    boundsTransform = { _, _ ->
-                        tween(durationMillis = TWEEN_DURATION)
-                    }
-                )
+            RecipeImage(
+                imageUrl = image, modifier = modifier
+                    .fillMaxSize()
+                    .sharedElement(
+                        sharedContentState = rememberSharedContentState(key = "${RECIPE_IMAGE_TRANSITION_KEY}/$recipeId"),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        boundsTransform = { _, _ ->
+                            tween(durationMillis = TWEEN_DURATION)
+                        }
+                    )
             )
         }
     }

@@ -44,7 +44,7 @@ fun RecipeDetailsSummary(
                 style = MaterialTheme.typography.titleMedium,
                 color = Color.Black,
                 modifier = Modifier.sharedElement(
-                    state = rememberSharedContentState(key = "$RECIPE_TITLE_TRANSITION_KEY/$title"),
+                    sharedContentState = rememberSharedContentState(key = "$RECIPE_TITLE_TRANSITION_KEY/$title"),
                     animatedVisibilityScope = animatedVisibilityScope,
                     boundsTransform = { _, _ ->
                         tween(durationMillis = TWEEN_DURATION)
