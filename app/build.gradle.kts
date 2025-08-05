@@ -3,7 +3,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
     alias(libs.plugins.hilt)
 }
 
@@ -94,7 +94,7 @@ dependencies {
 
     implementation(libs.dagger.hilt)
     implementation(libs.dagger.hilt.navigation.compose)
-    kapt(libs.dagger.hilt.compiler)
+    ksp(libs.dagger.hilt.compiler)
 
     implementation(libs.lifecycle.viewmodel.compose)
 
@@ -109,7 +109,7 @@ dependencies {
     implementation(libs.room)
     implementation(libs.room.ktx)
     implementation(libs.room.testing)
-    kapt(libs.room.compiler)
+    ksp(libs.room.compiler)
 
     implementation(libs.data.store)
 
