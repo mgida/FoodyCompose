@@ -38,6 +38,14 @@ room = "2.7.2"
 
 dataStore = "1.1.7"
 
+jetbrainsKotlinJvm = "2.2.0"
+conventions = "1.0"
+gradle = "8.11.1"
+kotlinGradlePlugin = "2.2.0"
+
+compileSdkVersion = "35"
+minSdkVersion = "24"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -114,6 +122,12 @@ room-testing = { group = "androidx.room", name = "room-testing", version.ref = "
 #DataStore
 data-store = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "dataStore" }
 
+
+
+gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+compose-compiler-gradle-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlinGradlePlugin" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
+
 [bundles]
 
 # Retrofit
@@ -175,10 +189,17 @@ unitTest = [
     "turbine"
 ]
 
-
-
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+
+#conventions
+configureAndroid = { id = "gradletools.configureandroid", version.ref = "conventions" }
+configureCompose = { id = "gradletools.configurecompose", version.ref = "conventions" }
+configureJava = { id = "gradletools.configurejava", version.ref = "conventions" }
+configureBuildTypes = { id = "gradletools.configureBuildTypes", version.ref = "conventions" }
+configureflavors = { id = "gradletools.configureflavors", version.ref = "conventions" }
+configureApiKeys = { id = "gradletools.configureapikey", version.ref = "conventions" }
