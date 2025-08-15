@@ -1,6 +1,7 @@
 package com.example.foody.feature_recipe.presentation.common
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -25,32 +26,42 @@ import com.example.foody.feature_recipe.util.formatErrorMessage
 import com.example.foody.ui.theme.FoodyTheme
 
 @Composable
-fun ErrorState(modifier: Modifier = Modifier, errorMsg: String) {
+fun ErrorState(
+    errorMsg: String,
+    modifier: Modifier = Modifier,
+) {
     val context = LocalContext.current
     Box(
-        modifier = modifier
-            .padding(16.dp), contentAlignment = Alignment.Center
+        modifier =
+            modifier
+                .padding(16.dp),
+        contentAlignment = Alignment.Center,
     ) {
         Text(
             text = errorMsg.formatErrorMessage(context = context),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.error,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
     }
 }
 
 @Composable
-fun EmptyResult(modifier: Modifier = Modifier, msg: String) {
+fun EmptyResult(
+    msg: String,
+    modifier: Modifier = Modifier,
+) {
     Box(
-        modifier = modifier
-            .padding(16.dp), contentAlignment = Alignment.Center
+        modifier =
+            modifier
+                .padding(16.dp),
+        contentAlignment = Alignment.Center,
     ) {
         Text(
             text = msg,
             style = MaterialTheme.typography.titleMedium,
             color = Color.Black.copy(alpha = 0.6F),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
     }
 }
@@ -60,27 +71,29 @@ fun EmptyResult(modifier: Modifier = Modifier, msg: String) {
 fun CustomTopBar(
     title: String,
     icon: ImageVector,
+    onActionClicked: () -> Unit,
+    modifier: Modifier = Modifier,
     contentDescription: String? = null,
-    onActionClicked: () -> Unit
 ) {
     TopAppBar(
+        modifier = modifier,
         title = {
             Text(text = title, style = MaterialTheme.typography.titleMedium)
-
-        }, navigationIcon = {
+        },
+        navigationIcon = {
             IconButton(onClick = onActionClicked) {
                 Icon(
                     imageVector = icon,
-                    contentDescription = contentDescription
+                    contentDescription = contentDescription,
                 )
             }
-        }
+        },
     )
 }
 
 @ThemePreviews
 @Composable
-fun ErrorStatePreview() {
+private fun ErrorStatePreview() {
     FoodyTheme {
         ErrorState(errorMsg = "Something went wrong!")
     }
@@ -88,7 +101,7 @@ fun ErrorStatePreview() {
 
 @ThemePreviews
 @Composable
-fun EmptyResultPreview() {
+private fun EmptyResultPreview() {
     FoodyTheme {
         EmptyResult(msg = "No Result Found!")
     }
@@ -96,11 +109,13 @@ fun EmptyResultPreview() {
 
 @ThemePreviews
 @Composable
-fun CustomTopBarPreview() {
+private fun CustomTopBarPreview() {
     FoodyTheme {
         CustomTopBar(
-            title = stringResource(id = R.string.favourite_recipes), icon =
-            Icons.AutoMirrored.Default.ArrowBack
-        ) {}
+            modifier = Modifier.fillMaxWidth(),
+            title = stringResource(id = R.string.favourite_recipes),
+            icon = Icons.AutoMirrored.Default.ArrowBack,
+            onActionClicked = {},
+        )
     }
 }

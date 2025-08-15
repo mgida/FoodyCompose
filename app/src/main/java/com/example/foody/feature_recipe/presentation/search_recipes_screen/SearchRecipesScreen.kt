@@ -45,18 +45,17 @@ import com.example.foody.ui.theme.softWhite
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
 
-
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun SearchRecipesScreen(
-    modifier: Modifier = Modifier,
     cuisine: String,
-    viewModel: RecipesViewModel = hiltViewModel(),
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedContentScope,
-    onBackClicked: () -> Unit,
+    onBackClick: () -> Unit,
     onNavigateToFav: () -> Unit,
-    onItemClick: (id: Int) -> Unit
+    onItemClick: (id: Int) -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: RecipesViewModel = hiltViewModel(),
 ) {
     var searchQuery by rememberSaveable { mutableStateOf("") }
     var isFocused by remember {
@@ -83,7 +82,7 @@ fun SearchRecipesScreen(
                     val snackbarResult =
                         snackbarHostState.showSnackbar(
                             message = recipeSavedMessage,
-                            actionLabel = actionLabel
+                            actionLabel = actionLabel,
                         )
                     when (snackbarResult) {
                         SnackbarResult.ActionPerformed -> {
@@ -103,27 +102,27 @@ fun SearchRecipesScreen(
     }
 
     Scaffold(
+        modifier = modifier.fillMaxSize(),
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             CustomTopBar(
                 title = stringResource(R.string.food, cuisine),
-                icon = Icons.AutoMirrored.Default.ArrowBack
-            ) {
-                onBackClicked.invoke()
-            }
+                icon = Icons.AutoMirrored.Default.ArrowBack,
+                onActionClicked = onBackClick,
+            )
         },
         content = { paddingValues ->
 
-            Surface(modifier = modifier.background(color = softWhite)) {
-
+            Surface(modifier = Modifier.background(color = softWhite)) {
                 Column(modifier = Modifier.padding(paddingValues)) {
                     CustomBasicTextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 16.dp, start = 8.dp, end = 8.dp)
-                            .onFocusChanged {
-                                isFocused = it.isFocused
-                            },
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 16.dp, start = 8.dp, end = 8.dp)
+                                .onFocusChanged {
+                                    isFocused = it.isFocused
+                                },
                         value = searchQuery,
                         onValueChange = {
                             searchQuery = it
@@ -137,11 +136,12 @@ fun SearchRecipesScreen(
                         backgroundColor = Color.White,
                         textStyle = MaterialTheme.typography.bodyMedium.copy(color = coolGray),
                         hint = stringResource(R.string.search_recipes),
-                        recentSearches = recentSearches
-                    ) { recentSearch ->
-                        searchQuery = recentSearch
-                        viewModel.onEvent(SearchRecipesEvent.GetRecipes(query = recentSearch))
-                    }
+                        recentSearches = recentSearches,
+                        onRecentSearchSelect = { recentSearch ->
+                            searchQuery = recentSearch
+                            viewModel.onEvent(SearchRecipesEvent.GetRecipes(query = recentSearch))
+                        },
+                    )
 
                     when {
                         searchState.isLoading -> {
@@ -151,14 +151,14 @@ fun SearchRecipesScreen(
                         searchState.error.isNotBlank() -> {
                             ErrorState(
                                 modifier = Modifier.fillMaxSize(),
-                                errorMsg = searchState.error
+                                errorMsg = searchState.error,
                             )
                         }
 
                         searchState.recipes.isEmpty() -> {
                             EmptyResult(
                                 modifier = Modifier.fillMaxSize(),
-                                msg = stringResource(R.string.nothing_found)
+                                msg = stringResource(R.string.nothing_found),
                             )
                         }
 
@@ -167,31 +167,32 @@ fun SearchRecipesScreen(
                                 searchState.recipes,
                                 sharedTransitionScope = sharedTransitionScope,
                                 animatedVisibilityScope = animatedVisibilityScope,
-                                onRecipeClicked = onItemClick,
-                                onFavClicked = { searchRecipeModel ->
+                                onRecipeClick = onItemClick,
+                                onFavClick = { searchRecipeModel ->
 
                                     if (!searchRecipeModel.isFav) {
                                         viewModel.onEvent(
                                             SearchRecipesEvent.DeleteRecipe(
-                                                searchRecipeModel
-                                            )
+                                                searchRecipeModel,
+                                            ),
                                         )
                                     } else {
                                         viewModel.onEvent(
                                             SearchRecipesEvent.SaveRecipe(
-                                                searchRecipeModel
-                                            )
+                                                searchRecipeModel,
+                                            ),
                                         )
                                     }
                                 },
-                                onShareClicked = { sourceUrl ->
+                                onShareClick = { sourceUrl ->
                                     viewModel.onEvent(SearchRecipesEvent.ShareRecipe(sourceUrl = sourceUrl))
-                                }
+                                },
+                                onToggleSelection = { _, _ -> },
                             )
                         }
                     }
                 }
             }
-        }
+        },
     )
 }

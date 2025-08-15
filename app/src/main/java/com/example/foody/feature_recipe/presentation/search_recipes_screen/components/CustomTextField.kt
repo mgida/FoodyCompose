@@ -29,16 +29,15 @@ import com.example.foody.ui.theme.FoodyTheme
 @Composable
 fun CustomBasicTextField(
     value: String,
+    recentSearches: Set<String>,
     onValueChange: (String) -> Unit,
+    onRecentSearchSelect: (String) -> Unit,
     modifier: Modifier = Modifier,
     hint: String = "",
     textStyle: TextStyle = LocalTextStyle.current,
     backgroundColor: Color = MaterialTheme.colorScheme.surface,
     contentPadding: PaddingValues = PaddingValues(16.dp),
-    recentSearches: Set<String>,
-    onRecentSearchSelected: (String) -> Unit,
 ) {
-
     var isFocused by remember { mutableStateOf(false) }
 
     Box(modifier = modifier.background(color = backgroundColor, shape = RoundedCornerShape(8.dp))) {
@@ -46,7 +45,7 @@ fun CustomBasicTextField(
             Text(
                 text = hint,
                 style = textStyle.copy(color = Color.Gray),
-                modifier = Modifier.padding(contentPadding)
+                modifier = Modifier.padding(contentPadding),
             )
         }
         Column {
@@ -60,20 +59,24 @@ fun CustomBasicTextField(
                 },
                 textStyle = textStyle,
                 cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-                modifier = Modifier
-                    .padding(contentPadding)
-                    .fillMaxWidth()
-                    .onFocusChanged {
-                        isFocused = it.isFocused
-                    }
+                modifier =
+                    Modifier
+                        .padding(contentPadding)
+                        .fillMaxWidth()
+                        .onFocusChanged {
+                            isFocused = it.isFocused
+                        },
             )
 
             if (isFocused && value.isEmpty()) {
-                RecentSearches(recentSearches = recentSearches) { search ->
-                    onRecentSearchSelected.invoke(search)
-                    onValueChange.invoke(search)
-                    isFocused = false
-                }
+                RecentSearches(
+                    recentSearches = recentSearches,
+                    onChipClick = { search ->
+                        onRecentSearchSelect.invoke(search)
+                        onValueChange.invoke(search)
+                        isFocused = false
+                    },
+                )
             }
         }
     }
@@ -81,8 +84,7 @@ fun CustomBasicTextField(
 
 @ThemePreviews
 @Composable
-fun CustomBasicTextFieldPreview() {
-
+private fun CustomBasicTextFieldPreview() {
     FoodyTheme {
         CustomBasicTextField(
             value = "",
@@ -91,8 +93,8 @@ fun CustomBasicTextFieldPreview() {
             textStyle = TextStyle(fontSize = 16.sp, color = MaterialTheme.colorScheme.onSurface),
             backgroundColor = MaterialTheme.colorScheme.surfaceVariant,
             modifier = Modifier.padding(16.dp),
-            recentSearches = mutableSetOf("Pizza", "Pasta")
-        ) {}
+            recentSearches = mutableSetOf("Pizza", "Pasta"),
+            onRecentSearchSelect = {},
+        )
     }
 }
-

@@ -36,18 +36,16 @@ import com.example.foody.feature_recipe.presentation.search_recipes_screen.compo
 import com.example.foody.feature_recipe.presentation.search_recipes_screen.components.SearchRecipesShimmerItems
 import kotlinx.coroutines.flow.collectLatest
 
-
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun FavouriteRecipesScreen(
-    modifier: Modifier = Modifier,
-    viewModel: FavouriteRecipesViewModel = hiltViewModel(),
     onBackClick: () -> Unit,
-    onRecipeClicked: (id: Int) -> Unit,
+    onRecipeClick: (id: Int) -> Unit,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedContentScope,
+    modifier: Modifier = Modifier,
+    viewModel: FavouriteRecipesViewModel = hiltViewModel(),
 ) {
-
     val snackbarHostState = remember { SnackbarHostState() }
     val selectedRecipes = remember { mutableStateListOf<RecipeModel>() }
 
@@ -65,10 +63,11 @@ fun FavouriteRecipesScreen(
         viewModel.eventFlow.collectLatest { value: FavouriteRecipesViewModel.UiEvent ->
             when (value) {
                 is FavouriteRecipesViewModel.UiEvent.DeleteRecipe -> {
-                    val snackbarResult = snackbarHostState.showSnackbar(
-                        message = recipeDeletedMessage,
-                        actionLabel = actionLabel
-                    )
+                    val snackbarResult =
+                        snackbarHostState.showSnackbar(
+                            message = recipeDeletedMessage,
+                            actionLabel = actionLabel,
+                        )
 
                     when (snackbarResult) {
                         SnackbarResult.ActionPerformed -> {
@@ -81,21 +80,22 @@ fun FavouriteRecipesScreen(
 
                 is FavouriteRecipesViewModel.UiEvent.SaveRecipe -> {
                     snackbarHostState.showSnackbar(
-                        message = recipeSavedMessage
+                        message = recipeSavedMessage,
                     )
                 }
 
                 is FavouriteRecipesViewModel.UiEvent.MultipleRecipesSaved -> {
                     snackbarHostState.showSnackbar(
-                        message = savedRecipesMessage
+                        message = savedRecipesMessage,
                     )
                 }
 
                 is FavouriteRecipesViewModel.UiEvent.MultipleRecipesDeleted -> {
-                    val snackbarResult = snackbarHostState.showSnackbar(
-                        message = deletedRecipesMessage,
-                        actionLabel = actionLabel
-                    )
+                    val snackbarResult =
+                        snackbarHostState.showSnackbar(
+                            message = deletedRecipesMessage,
+                            actionLabel = actionLabel,
+                        )
                     if (snackbarResult == SnackbarResult.ActionPerformed) {
                         viewModel.onEvent(FavouriteRecipesEvent.SaveRecipes(value.recipes))
                     }
@@ -104,42 +104,42 @@ fun FavouriteRecipesScreen(
         }
     }
 
-
     val favState = viewModel.favState.collectAsState().value
 
     Scaffold(
+        modifier = modifier.fillMaxSize(),
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             CustomTopBar(
                 title = stringResource(id = R.string.favourite_recipes),
-                icon = Icons.AutoMirrored.Default.ArrowBack
-            ) {
-                onBackClick.invoke()
-            }
+                icon = Icons.AutoMirrored.Default.ArrowBack,
+                onActionClicked = onBackClick,
+            )
         },
         floatingActionButton = {
             if (selectedRecipes.isNotEmpty()) {
                 FloatingActionButton(onClick = {
                     viewModel.onEvent(
                         FavouriteRecipesEvent.DeleteRecipes(
-                            selectedRecipes.toList()
-                        )
+                            selectedRecipes.toList(),
+                        ),
                     )
                     selectedRecipes.clear()
                 }) {
                     Icon(
                         imageVector = Icons.Default.Delete,
-                        contentDescription = null
+                        contentDescription = null,
                     )
                 }
             }
         },
         content = { paddingValues ->
-            Surface(modifier = modifier.padding(paddingValues)) {
+            Surface(modifier = Modifier.padding(paddingValues)) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 8.dp)
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 8.dp),
                 ) {
                     when {
                         favState.isLoading -> {
@@ -149,14 +149,14 @@ fun FavouriteRecipesScreen(
                         favState.error.isNotBlank() -> {
                             ErrorState(
                                 modifier = Modifier.fillMaxSize(),
-                                errorMsg = favState.error
+                                errorMsg = favState.error,
                             )
                         }
 
                         favState.recipes.isEmpty() -> {
                             EmptyResult(
                                 modifier = Modifier.fillMaxSize(),
-                                msg = stringResource(R.string.no_favourites_yet)
+                                msg = stringResource(R.string.no_favourites_yet),
                             )
                         }
 
@@ -166,20 +166,27 @@ fun FavouriteRecipesScreen(
                                 sharedTransitionScope = sharedTransitionScope,
                                 animatedVisibilityScope = animatedVisibilityScope,
                                 selectedRecipes = selectedRecipes,
-                                onRecipeClicked = { recipeId ->
-                                    onRecipeClicked.invoke(recipeId)
+                                onRecipeClick = { recipeId ->
+                                    onRecipeClick.invoke(recipeId)
                                 },
-                                onFavClicked = { recipeModel ->
+                                onFavClick = { recipeModel ->
                                     viewModel.onEvent(FavouriteRecipesEvent.DeleteRecipe(recipeModel = recipeModel))
                                 },
-                                onShareClicked = {sourceUrl ->
+                                onShareClick = { sourceUrl ->
                                     viewModel.onEvent(FavouriteRecipesEvent.ShareRecipe(sourceUrl = sourceUrl))
-                                }
+                                },
+                                onToggleSelection = { isSelected, recipeItem ->
+                                    if (isSelected) {
+                                        selectedRecipes.add(recipeItem)
+                                    } else {
+                                        selectedRecipes.remove(recipeItem)
+                                    }
+                                },
                             )
                         }
                     }
                 }
             }
-        }
+        },
     )
 }

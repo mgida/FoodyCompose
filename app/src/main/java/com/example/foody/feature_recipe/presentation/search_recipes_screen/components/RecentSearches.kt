@@ -17,55 +17,56 @@ import com.example.foody.R
 import com.example.foody.feature_recipe.util.ThemePreviews
 import com.example.foody.ui.theme.FoodyTheme
 
-
 @Composable
 @OptIn(ExperimentalLayoutApi::class)
 fun RecentSearches(
     recentSearches: Set<String>,
-    onChipClicked: (recentSearch: String) -> Unit
+    onChipClick: (recentSearch: String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(modifier = modifier.fillMaxWidth()) {
         if (recentSearches.isNotEmpty()) {
             Text(
                 text = stringResource(R.string.recent_searches),
                 style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(start = 16.dp)
+                modifier = Modifier.padding(start = 16.dp),
             )
         }
 
         FlowRow(
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .fillMaxWidth(),
-
-            ) {
+            modifier =
+                Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth(),
+        ) {
             recentSearches.forEach { recentSearch ->
                 FilterChip(
                     modifier = Modifier.padding(start = 6.dp),
                     border = BorderStroke(width = 2.dp, MaterialTheme.colorScheme.onSurface),
                     selected = false,
                     onClick = {
-                        onChipClicked.invoke(recentSearch)
+                        onChipClick.invoke(recentSearch)
                     },
                     label = {
                         Text(
                             text = recentSearch,
                             style = MaterialTheme.typography.titleSmall,
-                            color = MaterialTheme.colorScheme.onSurface
+                            color = MaterialTheme.colorScheme.onSurface,
                         )
-                    })
+                    },
+                )
             }
         }
     }
 }
 
-
 @ThemePreviews
 @Composable
-fun RecentSearchesPreview() {
+private fun RecentSearchesPreview() {
     FoodyTheme {
         RecentSearches(
-            recentSearches = mutableSetOf("pizza", "pasta", "meat")
-        ) {}
+            recentSearches = mutableSetOf("pizza", "pasta", "meat"),
+            onChipClick = {},
+        )
     }
 }

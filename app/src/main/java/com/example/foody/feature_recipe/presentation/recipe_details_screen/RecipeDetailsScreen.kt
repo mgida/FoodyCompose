@@ -43,14 +43,13 @@ import timber.log.Timber
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun RecipeDetailsScreen(
+    recipeId: Int,
+    onBackClick: () -> Unit,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedContentScope,
     modifier: Modifier = Modifier,
     viewModel: RecipeDetailViewModel = hiltViewModel(),
-    recipeId: Int,
-    onBackClicked: () -> Unit,
-    sharedTransitionScope: SharedTransitionScope,
-    animatedVisibilityScope: AnimatedContentScope
 ) {
-
     val recipeInformationState = viewModel.recipeInformationState.collectAsState().value
     // val similarRecipesState = viewModel.similarRecipesState.collectAsState().value
 
@@ -62,37 +61,38 @@ fun RecipeDetailsScreen(
         topBar = {
             CustomTopBar(
                 title = stringResource(R.string.recipe_details),
-                icon = Icons.AutoMirrored.Default.ArrowBack
-            ) {
-                onBackClicked.invoke()
-            }
+                icon = Icons.AutoMirrored.Default.ArrowBack,
+                onActionClicked = onBackClick,
+            )
         },
         content = { paddingValues ->
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
-                horizontalAlignment = Alignment.Start
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                horizontalAlignment = Alignment.Start,
             ) {
                 RecipeContentSection(
                     recipeInformationState,
-                    modifier,
                     sharedTransitionScope = sharedTransitionScope,
                     animatedVisibilityScope = animatedVisibilityScope,
                 )
                 // SimilarRecipesSection(similarRecipesState, modifier)
             }
-        })
-
-
+        },
+    )
 }
 
 @Composable
-fun SimilarRecipesSection(similarRecipesState: SimilarRecipesState, modifier: Modifier) {
+fun SimilarRecipesSection(
+    similarRecipesState: SimilarRecipesState,
+    modifier: Modifier = Modifier,
+) {
     when {
         similarRecipesState.isLoading -> {
-            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator(modifier = modifier)
+            Box(modifier = modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
             }
         }
 
@@ -138,7 +138,8 @@ private fun RecipeContentSection(
         else -> {
             val recipe = recipeInformationState.recipeInformationModel
             RecipeContent(
-                modifier, recipe,
+                modifier,
+                recipe,
                 sharedTransitionScope = sharedTransitionScope,
                 animatedVisibilityScope = animatedVisibilityScope,
             )
@@ -149,17 +150,17 @@ private fun RecipeContentSection(
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 private fun RecipeContent(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     recipe: RecipeInformationModel?,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedContentScope,
 ) {
     LazyColumn(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(top = 8.dp, bottom = 16.dp, start = 8.dp, end = 8.dp)
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(top = 8.dp, bottom = 16.dp, start = 8.dp, end = 8.dp),
     ) {
-
         item {
             RecipeDetailsImage(
                 recipeId = recipe?.id,
@@ -179,7 +180,7 @@ private fun RecipeContent(
         item {
             RecipeDetailsServings(
                 recipe?.servings,
-                recipe?.readyInMinutes
+                recipe?.readyInMinutes,
             )
         }
 
@@ -200,36 +201,35 @@ fun IngredientHeader(modifier: Modifier = Modifier) {
     Text(
         text = "Ingredients",
         style = MaterialTheme.typography.titleMedium.copy(fontSize = 16.sp),
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(top = 16.dp, start = 8.dp, end = 8.dp)
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp, start = 8.dp, end = 8.dp),
     )
 }
 
 @ThemePreviews
 @Composable
-fun RecipeDetailsScreenP() {
+private fun RecipeDetailsScreenP() {
     // RecipeContent(Modifier, sampleRecipe)
 }
 
-val sampleRecipe = RecipeInformationModel(
-    id = 1,
-    image = "https://example.com/image1.jpg",
-    instructions = "1. Boil the pasta.\n2. Fry the pancetta.\n3. Mix eggs and cheese.\n4. Combine all ingredients.",
-    readyInMinutes = 30,
-    servings = 4,
-    summary = "A classic Italian pasta dish made with eggs, cheese, pancetta, and pepper.",
-    title = "Spaghetti Carbonara",
-    ingredients = listOf(
-        RecipeIngredientModel(name = "Spaghetti", amount = 200.0),
-        RecipeIngredientModel(name = "Pancetta", amount = 100.0),
-        RecipeIngredientModel(name = "Eggs", amount = 2.0),
-        RecipeIngredientModel(name = "Parmesan Cheese", amount = 50.0),
-        RecipeIngredientModel(name = "Black Pepper", amount = 1.0),
-        RecipeIngredientModel(name = "Salt", amount = 1.0)
+val sampleRecipe =
+    RecipeInformationModel(
+        id = 1,
+        image = "https://example.com/image1.jpg",
+        instructions = "1. Boil the pasta.\n2. Fry the pancetta.\n3. Mix eggs and cheese.\n4. Combine all ingredients.",
+        readyInMinutes = 30,
+        servings = 4,
+        summary = "A classic Italian pasta dish made with eggs, cheese, pancetta, and pepper.",
+        title = "Spaghetti Carbonara",
+        ingredients =
+            listOf(
+                RecipeIngredientModel(name = "Spaghetti", amount = 200.0),
+                RecipeIngredientModel(name = "Pancetta", amount = 100.0),
+                RecipeIngredientModel(name = "Eggs", amount = 2.0),
+                RecipeIngredientModel(name = "Parmesan Cheese", amount = 50.0),
+                RecipeIngredientModel(name = "Black Pepper", amount = 1.0),
+                RecipeIngredientModel(name = "Salt", amount = 1.0),
+            ),
     )
-)
-
-
-
-

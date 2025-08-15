@@ -26,43 +26,48 @@ fun RecipeImage(
     modifier: Modifier = Modifier,
     cornerRadius: Dp = 12.dp,
     placeHolder: Int = R.drawable.placeholder_gray,
-    error: Int = R.drawable.placeholder_gray
+    error: Int = R.drawable.placeholder_gray,
 ) {
-
     Box(
-        modifier = modifier
-            .clip(RoundedCornerShape(cornerRadius))
-            .background(Color.Gray.copy(alpha = 0.2f))
+        modifier =
+            modifier
+                .clip(RoundedCornerShape(cornerRadius))
+                .background(Color.Gray.copy(alpha = 0.2f)),
     ) {
-        val painter = rememberAsyncImagePainter(
-            ImageRequest.Builder(LocalContext.current)
-                .data(data = imageUrl ?: R.drawable.ic_launcher_foreground)
-                .apply(block = fun ImageRequest.Builder.() {
-                    transformations(RoundedCornersTransformation(12F))
-                    placeholder(placeHolder)
-                    crossfade(true)
-                    error(error)
-                }).build()
-        )
+        val painter =
+            rememberAsyncImagePainter(
+                ImageRequest
+                    .Builder(LocalContext.current)
+                    .data(data = imageUrl ?: R.drawable.ic_launcher_foreground)
+                    .apply(block = fun ImageRequest.Builder.() {
+                        transformations(RoundedCornersTransformation(12F))
+                        placeholder(placeHolder)
+                        crossfade(true)
+                        error(error)
+                    })
+                    .build(),
+            )
         Image(
             painter = painter,
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxSize()
-                .clip(RoundedCornerShape(cornerRadius))
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(cornerRadius)),
         )
     }
 }
 
 @Preview
 @Composable
-fun RecipeImagePreview() {
+private fun RecipeImagePreview() {
     RecipeImage(
         imageUrl = IMAGE_URL,
-        modifier = Modifier
-            .size(width = 130.dp, height = 120.dp)
-            .clip(RoundedCornerShape(12.dp))
+        modifier =
+            Modifier
+                .size(width = 130.dp, height = 120.dp)
+                .clip(RoundedCornerShape(12.dp)),
     )
 }
 

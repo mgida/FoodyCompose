@@ -57,70 +57,66 @@ fun RecipeItem(
     des: String,
     sourceUrl: String,
     isFav: Boolean,
-    modifier: Modifier = Modifier,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
-    isSelected: Boolean = false,
     onToggleSelection: (isSelected: Boolean) -> Unit,
-    onRecipeClicked: (recipeId: Int) -> Unit,
-    onShareClicked: (source: String) -> Unit,
-    onFavClicked: (searchRecipeModel: RecipeModel) -> Unit
+    onRecipeClick: (recipeId: Int) -> Unit,
+    onShareClick: (source: String) -> Unit,
+    onFavClick: (searchRecipeModel: RecipeModel) -> Unit,
+    modifier: Modifier = Modifier,
+    isSelected: Boolean = false,
 ) {
-
     var isFavourite by remember {
         mutableStateOf(isFav)
     }
     val backgroundColor by animateColorAsState(
         if (isSelected) delicateWhite else Color.White,
-        label = ""
+        label = "",
     )
 
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(shape = RoundedCornerShape(12.dp))
-            .background(backgroundColor)
-            .combinedClickable(
-                onClick = {
-                    onRecipeClicked(recipeId)
-                },
-                onLongClick = {
-                    onToggleSelection(!isSelected)
-                }
-            )
-            .padding(horizontal = 8.dp, vertical = 8.dp)
-
-
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .clip(shape = RoundedCornerShape(12.dp))
+                .background(backgroundColor)
+                .combinedClickable(
+                    onClick = {
+                        onRecipeClick(recipeId)
+                    },
+                    onLongClick = {
+                        onToggleSelection(!isSelected)
+                    },
+                ).padding(horizontal = 8.dp, vertical = 8.dp),
     ) {
-
         Box(
-            modifier = Modifier
-                .padding(end = 8.dp)
-                .clickable {
-                    onRecipeClicked(recipeId)
-                }, contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .padding(end = 8.dp)
+                    .clickable {
+                        onRecipeClick(recipeId)
+                    },
+            contentAlignment = Alignment.Center,
         ) {
-
             with(sharedTransitionScope) {
                 RecipeImage(
-                    modifier = Modifier
-                        .size(125.dp, 100.dp)
-                        .clip(RoundedCornerShape(12))
-                        .sharedElement(
-                            sharedContentState = rememberSharedContentState(key = "${RECIPE_IMAGE_TRANSITION_KEY}/$recipeId"),
-                            animatedVisibilityScope = animatedVisibilityScope,
-                            boundsTransform = { _, _ ->
-                                tween(durationMillis = TWEEN_DURATION)
-                            }
-                        ),
-                    imageUrl = image
+                    modifier =
+                        Modifier
+                            .size(125.dp, 100.dp)
+                            .clip(RoundedCornerShape(12))
+                            .sharedElement(
+                                sharedContentState = rememberSharedContentState(key = "${RECIPE_IMAGE_TRANSITION_KEY}/$recipeId"),
+                                animatedVisibilityScope = animatedVisibilityScope,
+                                boundsTransform = { _, _ ->
+                                    tween(durationMillis = TWEEN_DURATION)
+                                },
+                            ),
+                    imageUrl = image,
                 )
             }
-
         }
 
         Column(modifier = Modifier.weight(1f)) {
-
             with(sharedTransitionScope) {
                 Text(
                     text = title,
@@ -128,13 +124,14 @@ fun RecipeItem(
                     color = Color.Black,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.sharedElement(
-                        sharedContentState = rememberSharedContentState(key = "${RECIPE_TITLE_TRANSITION_KEY}/$title"),
-                        animatedVisibilityScope = animatedVisibilityScope,
-                        boundsTransform = { _, _ ->
-                            tween(durationMillis = TWEEN_DURATION)
-                        }
-                    )
+                    modifier =
+                        Modifier.sharedElement(
+                            sharedContentState = rememberSharedContentState(key = "${RECIPE_TITLE_TRANSITION_KEY}/$title"),
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            boundsTransform = { _, _ ->
+                                tween(durationMillis = TWEEN_DURATION)
+                            },
+                        ),
                 )
             }
 
@@ -144,19 +141,19 @@ fun RecipeItem(
                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 12.sp),
                 color = Color.Black.copy(alpha = 0.7F),
                 maxLines = 2,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
             )
             Spacer(modifier = Modifier.height(12.dp))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Start
+                horizontalArrangement = Arrangement.Start,
             ) {
                 CustomIcon(
                     modifier = Modifier,
                     icon = R.drawable.ic_share,
                     des = "Share",
-                    onClick = { onShareClicked(sourceUrl) },
+                    onClick = { onShareClick(sourceUrl) },
                     isFav = false,
                 )
                 Spacer(modifier = Modifier.width(8.dp))
@@ -166,20 +163,19 @@ fun RecipeItem(
                     des = "Fav",
                     isFav = isFavourite,
                     onClick = {
-
                         isFavourite = !isFavourite
 
-                        onFavClicked(
+                        onFavClick(
                             RecipeModel(
                                 id = recipeId,
                                 image = image,
                                 title = title,
                                 summary = des,
                                 sourceUrl = sourceUrl,
-                                isFav = isFavourite
-                            )
+                                isFav = isFavourite,
+                            ),
                         )
-                    }
+                    },
                 )
             }
         }
@@ -188,19 +184,20 @@ fun RecipeItem(
 
 @Composable
 private fun CustomIcon(
-    modifier: Modifier = Modifier,
     icon: Int,
     des: String,
+    isFav: Boolean,
     onClick: () -> Unit,
-    isFav: Boolean
+    modifier: Modifier = Modifier,
 ) {
     Icon(
         painter = painterResource(id = icon),
         contentDescription = des,
         tint = if (isFav) Color.Red else blueGray,
-        modifier = modifier
-            .size(18.dp, 18.dp)
-            .clickable(onClick = onClick)
+        modifier =
+            modifier
+                .size(18.dp, 18.dp)
+                .clickable(onClick = onClick),
     )
 }
 
@@ -208,8 +205,7 @@ private fun CustomIcon(
 @FontScalePreviews
 @LayoutDirectionPreviews
 @Composable
-fun RecipeItemP() {
-
+private fun RecipeItemP() {
 //    FoodyTheme {
 //        RecipeItem(
 //            recipeId = 1,

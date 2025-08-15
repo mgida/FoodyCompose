@@ -17,24 +17,19 @@ import com.example.foody.feature_recipe.presentation.search_recipes_screen.Searc
 @Composable
 fun RecipesNavHost(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-
     SharedTransitionLayout {
-
         NavHost(
             navController = navController,
-            startDestination = Screen.HomeRecipes
-        )
-        {
-
+            startDestination = Screen.HomeRecipes,
+        ) {
             composable<Screen.HomeRecipes> {
                 HomeScreen(modifier = modifier, onNavigate = { cuisine ->
                     navController.navigate(
                         Screen.SearchRecipes(
-                            recipeCuisine = cuisine
-
-                        )
+                            recipeCuisine = cuisine,
+                        ),
                     )
                 }, onNavigateToFav = {
                     navigateToFavouritesScreen(navController)
@@ -50,16 +45,15 @@ fun RecipesNavHost(
                     cuisine = route.recipeCuisine.orEmpty(),
                     sharedTransitionScope = this@SharedTransitionLayout,
                     animatedVisibilityScope = this,
-                    onBackClicked = { navController.popBackStack() },
+                    onBackClick = { navController.popBackStack() },
                     onNavigateToFav = {
                         navigateToFavouritesScreen(navController)
-                    }
-                ) { recipeId ->
-                    navigateToDetailsScreen(navController, recipeId)
-                }
+                    },
+                    onItemClick = { recipeId ->
+                        navigateToDetailsScreen(navController, recipeId)
+                    },
+                )
             }
-
-
 
             composable<Screen.RecipeDetails> { backStackEntry ->
 
@@ -67,7 +61,7 @@ fun RecipesNavHost(
                 RecipeDetailsScreen(
                     modifier = modifier,
                     recipeId = route.recipeId ?: -1,
-                    onBackClicked = { navController.popBackStack() },
+                    onBackClick = { navController.popBackStack() },
                     sharedTransitionScope = this@SharedTransitionLayout,
                     animatedVisibilityScope = this,
                 )
@@ -79,17 +73,16 @@ fun RecipesNavHost(
                     sharedTransitionScope = this@SharedTransitionLayout,
                     animatedVisibilityScope = this,
                     onBackClick = { navController.popBackStack() },
-                    onRecipeClicked = { recipeId ->
+                    onRecipeClick = { recipeId ->
                         navigateToDetailsScreen(navController, recipeId)
-                    }
+                    },
                 )
             }
         }
     }
 }
 
-fun navigateToFavouritesScreen(navController: NavHostController) =
-    navController.navigateWithSavingState(Screen.FavouriteRecipes)
+fun navigateToFavouritesScreen(navController: NavHostController) = navController.navigateWithSavingState(Screen.FavouriteRecipes)
 
 fun navigateToDetailsScreen(
     navController: NavHostController,

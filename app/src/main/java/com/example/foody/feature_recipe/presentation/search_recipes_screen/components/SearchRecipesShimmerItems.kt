@@ -18,46 +18,49 @@ import androidx.compose.ui.unit.dp
 import com.example.foody.feature_recipe.util.ThemePreviews
 import com.example.foody.feature_recipe.util.shimmerEffect
 
-
 @Composable
 fun SearchRecipesShimmerItems(modifier: Modifier = Modifier) {
-
-    LazyColumn {
+    LazyColumn(
+        modifier = modifier,
+    ) {
         items(10, key = { it }) {
             Row(
-                modifier = modifier
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 Box(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .size(100.dp)
-                        .clip(
-                            RoundedCornerShape(12)
-                        )
-                        .shimmerEffect()
+                    modifier =
+                        Modifier
+                            .padding(8.dp)
+                            .size(100.dp)
+                            .clip(
+                                RoundedCornerShape(12),
+                            ).shimmerEffect(),
                 )
 
                 Spacer(modifier = Modifier.width(16.dp))
 
                 Column(
-                    modifier = Modifier
-                        .padding(vertical = 16.dp)
-                        .weight(1f)
+                    modifier =
+                        Modifier
+                            .padding(vertical = 16.dp)
+                            .weight(1f),
                 ) {
                     Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(end = 16.dp)
-                            .height(20.dp)
-                            .shimmerEffect()
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(end = 16.dp)
+                                .height(20.dp)
+                                .shimmerEffect(),
                     )
                     Spacer(modifier = Modifier.height(12.dp))
                     Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(end = 32.dp)
-                            .height(10.dp)
-                            .shimmerEffect()
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(end = 32.dp)
+                                .height(10.dp)
+                                .shimmerEffect(),
                     )
                 }
             }
@@ -67,6 +70,6 @@ fun SearchRecipesShimmerItems(modifier: Modifier = Modifier) {
 
 @ThemePreviews
 @Composable
-fun RecipesShimmerItemsPreview() {
+private fun RecipesShimmerItemsPreview() {
     SearchRecipesShimmerItems(modifier = Modifier.fillMaxWidth())
 }
