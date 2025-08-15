@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.configureAndroid)
     alias(libs.plugins.configureApiKeys)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 android {

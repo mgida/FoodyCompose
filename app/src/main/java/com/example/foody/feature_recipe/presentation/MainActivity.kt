@@ -9,6 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
+import com.example.foody.feature_recipe.presentation.navigation.RecipesNavHost
 import com.example.foody.ui.theme.FoodyTheme
 import dagger.hilt.android.AndroidEntryPoint
 

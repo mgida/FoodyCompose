@@ -195,11 +195,13 @@ jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "k
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+#kotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 
 #conventions
 configureAndroid = { id = "gradletools.configureandroid", version.ref = "conventions" }
-configureCompose = { id = "gradletools.configurecompose", version.ref = "conventions" }
-configureJava = { id = "gradletools.configurejava", version.ref = "conventions" }
-configureBuildTypes = { id = "gradletools.configureBuildTypes", version.ref = "conventions" }
-configureflavors = { id = "gradletools.configureflavors", version.ref = "conventions" }
+#configureCompose = { id = "gradletools.configurecompose", version.ref = "conventions" }
+#configureJava = { id = "gradletools.configurejava", version.ref = "conventions" }
+#configureBuildTypes = { id = "gradletools.configureBuildTypes", version.ref = "conventions" }
+#configureflavors = { id = "gradletools.configureflavors", version.ref = "conventions" }
 configureApiKeys = { id = "gradletools.configureapikey", version.ref = "conventions" }

@@ -1,4 +1,4 @@
-package com.example.foody.feature_recipe.presentation
+package com.example.foody.feature_recipe.presentation.navigation
 
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
@@ -7,14 +7,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.example.foody.feature_recipe.presentation.fav_screen.components.FavouriteRecipesScreen
 import com.example.foody.feature_recipe.presentation.home_screen.components.HomeScreen
 import com.example.foody.feature_recipe.presentation.recipe_details_screen.RecipeDetailsScreen
 import com.example.foody.feature_recipe.presentation.search_recipes_screen.SearchRecipesScreen
-import com.example.foody.feature_recipe.util.RECIPE_CUISINE_ARG
-import com.example.foody.feature_recipe.util.RECIPE_ID_ARG
-import com.example.foody.feature_recipe.util.Screen
-
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -27,13 +24,18 @@ fun RecipesNavHost(
 
         NavHost(
             navController = navController,
-            startDestination = Screen.HomeRecipes.route
+            startDestination = Screen.HomeRecipes
         )
         {
 
-            composable(route = Screen.HomeRecipes.route) {
+            composable<Screen.HomeRecipes> {
                 HomeScreen(modifier = modifier, onNavigate = { cuisine ->
-                    navController.navigate(Screen.SearchRecipes.createRoute(recipeCuisine = cuisine))
+                    navController.navigate(
+                        Screen.SearchRecipes(
+                            recipeCuisine = cuisine
+
+                        )
+                    )
                 }, onNavigateToFav = {
                     navigateToFavouritesScreen(navController)
                 }) { recipeId ->
@@ -41,16 +43,11 @@ fun RecipesNavHost(
                 }
             }
 
-            composable(
-                route = Screen.SearchRecipes.routeWithArgs,
-                arguments = Screen.SearchRecipes.navArgument
-            ) { backStackEntry ->
-
-                val cuisine = backStackEntry.arguments?.getString(RECIPE_CUISINE_ARG) ?: ""
-
+            composable<Screen.SearchRecipes> { backStackEntry ->
+                val route = backStackEntry.toRoute<Screen.SearchRecipes>()
                 SearchRecipesScreen(
                     modifier = modifier,
-                    cuisine = cuisine,
+                    cuisine = route.recipeCuisine.orEmpty(),
                     sharedTransitionScope = this@SharedTransitionLayout,
                     animatedVisibilityScope = this,
                     onBackClicked = { navController.popBackStack() },
@@ -62,21 +59,21 @@ fun RecipesNavHost(
                 }
             }
 
-            composable(
-                route = Screen.RecipeDetails.routeWithArgs,
-                arguments = Screen.RecipeDetails.navArgument
-            ) { backStackEntry ->
-                val recipeId = backStackEntry.arguments?.getInt(RECIPE_ID_ARG) ?: -1
+
+
+            composable<Screen.RecipeDetails> { backStackEntry ->
+
+                val route = backStackEntry.toRoute<Screen.RecipeDetails>()
                 RecipeDetailsScreen(
                     modifier = modifier,
-                    recipeId = recipeId,
+                    recipeId = route.recipeId ?: -1,
                     onBackClicked = { navController.popBackStack() },
                     sharedTransitionScope = this@SharedTransitionLayout,
                     animatedVisibilityScope = this,
                 )
             }
 
-            composable(route = Screen.FavouriteRecipes.route) {
+            composable<Screen.FavouriteRecipes> {
                 FavouriteRecipesScreen(
                     modifier = modifier,
                     sharedTransitionScope = this@SharedTransitionLayout,
@@ -91,16 +88,14 @@ fun RecipesNavHost(
     }
 }
 
-fun navigateToFavouritesScreen(navController: NavHostController) {
-    navController.navigate(Screen.FavouriteRecipes.route) {
-        launchSingleTop = true
-        restoreState = true
-    }
-}
+fun navigateToFavouritesScreen(navController: NavHostController) =
+    navController.navigateWithSavingState(Screen.FavouriteRecipes)
 
-fun navigateToDetailsScreen(navController: NavHostController, recipeId: Int) {
-    navController.navigate(Screen.RecipeDetails.createRoute(recipeId = recipeId)) {
-        launchSingleTop = true
-        restoreState = true
-    }
+fun navigateToDetailsScreen(
+    navController: NavHostController,
+    recipeId: Int,
+) {
+    navController.navigateWithSavingState(
+        Screen.RecipeDetails(recipeId = recipeId),
+    )
 }
