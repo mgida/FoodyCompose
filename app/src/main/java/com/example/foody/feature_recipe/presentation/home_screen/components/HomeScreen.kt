@@ -28,54 +28,53 @@ import com.example.foody.feature_recipe.util.ThemePreviews
 import com.example.foody.ui.theme.FoodyTheme
 import com.example.foody.ui.theme.softWhite
 
-
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier,
-    viewModel: HomeScreenViewModel = hiltViewModel(),
     onNavigate: (String) -> Unit,
     onNavigateToFav: () -> Unit,
-    onRecipeItemClicked: (recipeId: Int) -> Unit,
-
-    ) {
-
+    onRecipeItemClick: (recipeId: Int) -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: HomeScreenViewModel = hiltViewModel(),
+) {
     val state = viewModel.state.collectAsState().value
-    HomeContent(modifier, onNavigate, onNavigateToFav, onRecipeItemClicked, state)
+    HomeContent(
+        modifier = modifier.fillMaxSize(),
+        state = state,
+        onNavigate = onNavigate,
+        onNavigateToFav = onNavigateToFav,
+        onRecipeItemClick = onRecipeItemClick,
+    )
 }
 
 @Composable
 fun HomeContent(
-    modifier: Modifier,
+    state: RandomRecipesState,
     onNavigate: (String) -> Unit,
     onNavigateToFav: () -> Unit,
-    onRecipeItemClicked: (recipeId: Int) -> Unit,
-    state: RandomRecipesState,
-
-    ) {
+    onRecipeItemClick: (recipeId: Int) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(softWhite)
+        modifier =
+            modifier.background(softWhite),
     ) {
         LazyColumn(
-            modifier = modifier
-                .height(630.dp)
-                .fillMaxWidth()
-
+            modifier =
+                Modifier
+                    .height(630.dp)
+                    .fillMaxWidth(),
         ) {
             item {
                 CustomAppBar(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp)
-                ) {
-                    onNavigateToFav.invoke()
-                }
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp),
+                    onNavigateToFav = onNavigateToFav,
+                )
             }
             item {
-                CuisinePager(modifier = modifier.fillMaxSize()) { cuisine ->
-                    onNavigate(cuisine)
-                }
+                CuisinePager(modifier = Modifier.fillMaxSize(), onPageClick = onNavigate)
             }
         }
         Spacer(modifier = Modifier.height(24.dp))
@@ -87,22 +86,23 @@ fun HomeContent(
 
             state.error.isNotBlank() -> {
                 ErrorState(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .testTag(stringResource(id = R.string.error_message)),
-                    errorMsg = state.error
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .testTag(stringResource(id = R.string.error_message)),
+                    errorMsg = state.error,
                 )
             }
 
             state.recipes.isEmpty() -> {
                 EmptyResult(
                     modifier = Modifier.fillMaxWidth(),
-                    msg = stringResource(id = R.string.nothing_found)
+                    msg = stringResource(id = R.string.nothing_found),
                 )
             }
 
             else -> {
-                RecipesResult(state.recipes, onRecipeItemClicked)
+                RecipesResult(state.recipes, onRecipeItemClick)
             }
         }
 
@@ -113,25 +113,26 @@ fun HomeContent(
 @Composable
 private fun RecipesResult(
     recipes: List<RecipeModel>,
-    onRecipeItemClicked: (recipeId: Int) -> Unit
+    onRecipeItemClick: (recipeId: Int) -> Unit,
 ) {
     Text(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 8.dp, bottom = 16.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(start = 8.dp, bottom = 16.dp),
         text = stringResource(R.string.recipe_of_the_week),
         style = MaterialTheme.typography.titleMedium,
-        color = Color.Black
+        color = Color.Black,
     )
     RandomRecipes(
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier =
+            Modifier
+                .fillMaxWidth(),
         recipes = recipes,
-        onRecipeItemClicked
+        onRecipeItemClick = onRecipeItemClick,
     )
     Spacer(modifier = Modifier.height(16.dp))
 }
-
 
 @ThemePreviews
 @Composable
@@ -141,8 +142,8 @@ private fun HomeContentPreview() {
             modifier = Modifier.fillMaxWidth(),
             onNavigate = {},
             onNavigateToFav = {},
-            onRecipeItemClicked = {},
-            state = RandomRecipesState(isLoading = true)
+            onRecipeItemClick = {},
+            state = RandomRecipesState(isLoading = true),
         )
     }
 }

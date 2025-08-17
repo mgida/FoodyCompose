@@ -17,10 +17,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-
 @RunWith(AndroidJUnit4::class)
 class HomeScreenTest {
-
     @get:Rule
     val composeTestRule = createComposeRule()
 
@@ -34,15 +32,17 @@ class HomeScreenTest {
                     modifier = Modifier.fillMaxSize(),
                     onNavigate = {},
                     onNavigateToFav = {},
-                    onRecipeItemClicked = {},
-                    state = RandomRecipesState(
-                        isLoading = true,
-                        recipes = listOf(),
-                        error = ""
-                    )
+                    onRecipeItemClick = {},
+                    state =
+                        RandomRecipesState(
+                            isLoading = true,
+                            recipes = listOf(),
+                            error = "",
+                        ),
                 )
             }
-            composeTestRule.onNode(hasTestTag(context.getString(R.string.shimmer_items_tag)))
+            composeTestRule
+                .onNode(hasTestTag(context.getString(R.string.shimmer_items_tag)))
                 .assertExists()
         }
     }
@@ -58,12 +58,13 @@ class HomeScreenTest {
                     modifier = Modifier.fillMaxSize(),
                     onNavigate = {},
                     onNavigateToFav = {},
-                    onRecipeItemClicked = {},
-                    state = RandomRecipesState(
-                        isLoading = false,
-                        recipes = listOf(),
-                        error = errorMsg
-                    )
+                    onRecipeItemClick = {},
+                    state =
+                        RandomRecipesState(
+                            isLoading = false,
+                            recipes = listOf(),
+                            error = errorMsg,
+                        ),
                 )
             }
             composeTestRule.onNode(hasTestTag(errorMsg)).assertExists()
@@ -72,24 +73,25 @@ class HomeScreenTest {
 
     @Test
     fun testRecipesDisplayedWhenAvailable() {
-        val recipes = listOf(
-            RecipeModel(
-                id = 1,
-                image = "image1.jpg",
-                title = "Recipe 1",
-                summary = "",
-                sourceUrl = "",
-                isFav = false
-            ),
-            RecipeModel(
-                id = 2,
-                image = "image2.jpg",
-                title = "Recipe 2",
-                summary = "",
-                sourceUrl = "",
-                isFav = false
+        val recipes =
+            listOf(
+                RecipeModel(
+                    id = 1,
+                    image = "image1.jpg",
+                    title = "Recipe 1",
+                    summary = "",
+                    sourceUrl = "",
+                    isFav = false,
+                ),
+                RecipeModel(
+                    id = 2,
+                    image = "image2.jpg",
+                    title = "Recipe 2",
+                    summary = "",
+                    sourceUrl = "",
+                    isFav = false,
+                ),
             )
-        )
 
         runTest {
             composeTestRule.setContent {
@@ -97,12 +99,13 @@ class HomeScreenTest {
                     modifier = Modifier.fillMaxSize(),
                     onNavigate = {},
                     onNavigateToFav = {},
-                    onRecipeItemClicked = {},
-                    state = RandomRecipesState(
-                        isLoading = false,
-                        recipes = recipes,
-                        error = ""
-                    )
+                    onRecipeItemClick = {},
+                    state =
+                        RandomRecipesState(
+                            isLoading = false,
+                            recipes = recipes,
+                            error = "",
+                        ),
                 )
             }
 
@@ -123,12 +126,13 @@ class HomeScreenTest {
                     modifier = Modifier.fillMaxSize(),
                     onNavigate = {},
                     onNavigateToFav = {},
-                    onRecipeItemClicked = {},
-                    state = RandomRecipesState(
-                        isLoading = false,
-                        recipes = listOf(),
-                        error = ""
-                    )
+                    onRecipeItemClick = {},
+                    state =
+                        RandomRecipesState(
+                            isLoading = false,
+                            recipes = listOf(),
+                            error = "",
+                        ),
                 )
             }
             composeTestRule.onNode(hasText(emptyMsg)).assertExists()
@@ -148,12 +152,13 @@ class HomeScreenTest {
                     modifier = Modifier.fillMaxSize(),
                     onNavigate = {},
                     onNavigateToFav = { navigateToFavoritesCalled = true },
-                    onRecipeItemClicked = {},
-                    state = RandomRecipesState(
-                        isLoading = false,
-                        recipes = listOf(),
-                        error = ""
-                    )
+                    onRecipeItemClick = {},
+                    state =
+                        RandomRecipesState(
+                            isLoading = false,
+                            recipes = listOf(),
+                            error = "",
+                        ),
                 )
             }
 

@@ -23,32 +23,32 @@ import com.example.foody.feature_recipe.util.ThemePreviews
 import com.example.foody.feature_recipe.util.shimmerEffect
 import com.example.foody.ui.theme.FoodyTheme
 
-
 @Composable
 fun RandomRecipesShimmerItems(modifier: Modifier = Modifier) {
-    val shimmerItemsTag = stringResource(id = R.string.shimmer_items_tag)
-
-    LazyRow(modifier = modifier.testTag(shimmerItemsTag)) {
+    LazyRow(modifier = modifier.testTag(stringResource(id = R.string.shimmer_items_tag))) {
         items(8) {
             Column(
-                modifier = modifier
-                    .background(Color.White)
-                    .padding(8.dp)
+                modifier =
+                    Modifier
+                        .background(Color.White)
+                        .padding(8.dp),
             ) {
                 Box(
-                    modifier = Modifier
-                        .size(width = 170.dp, height = 98.dp)
-                        .clip(shape = RoundedCornerShape(8.dp))
-                        .shimmerEffect()
+                    modifier =
+                        Modifier
+                            .size(width = 170.dp, height = 98.dp)
+                            .clip(shape = RoundedCornerShape(8.dp))
+                            .shimmerEffect(),
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Box(
-                    modifier = Modifier
-                        .height(15.dp)
-                        .width(100.dp)
-                        .shimmerEffect()
+                    modifier =
+                        Modifier
+                            .height(15.dp)
+                            .width(100.dp)
+                            .shimmerEffect(),
                 )
             }
         }
@@ -57,7 +57,7 @@ fun RandomRecipesShimmerItems(modifier: Modifier = Modifier) {
 
 @ThemePreviews
 @Composable
-fun RecipesShimmerItemsPreview() {
+private fun RecipesShimmerItemsPreview() {
     FoodyTheme {
         RandomRecipesShimmerItems(modifier = Modifier.fillMaxWidth())
     }

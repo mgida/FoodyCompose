@@ -20,26 +20,29 @@ import com.example.foody.feature_recipe.util.ThemePreviews
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomAppBar(modifier: Modifier = Modifier, onNavigateToFav: () -> Unit) {
-
-    val appBarTag = stringResource(id = R.string.app_bar_tag)
-
+fun CustomAppBar(
+    onNavigateToFav: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     TopAppBar(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
         title = {
             Text(
                 text = stringResource(R.string.for_you),
                 style = MaterialTheme.typography.titleMedium.copy(fontSize = 20.sp),
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
         },
         navigationIcon = {
-            IconButton(onClick = onNavigateToFav, modifier = Modifier.testTag(appBarTag)) {
+            IconButton(
+                onClick = onNavigateToFav,
+                modifier = Modifier.testTag(stringResource(id = R.string.app_bar_tag)),
+            ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_food_menu),
                     contentDescription = null,
-                    tint = Color.Red
+                    tint = Color.Red,
                 )
             }
         },
@@ -48,16 +51,17 @@ fun CustomAppBar(modifier: Modifier = Modifier, onNavigateToFav: () -> Unit) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_menu),
                     contentDescription = null,
-                    tint = Color.Black
+                    tint = Color.Black,
                 )
             }
-        }
+        },
     )
 }
 
-
 @ThemePreviews
 @Composable
-fun CustomAppBarPreview() {
-    CustomAppBar {}
+private fun CustomAppBarPreview() {
+    CustomAppBar(
+        onNavigateToFav = {},
+    )
 }

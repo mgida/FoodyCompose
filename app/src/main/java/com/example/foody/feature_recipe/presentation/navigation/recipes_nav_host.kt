@@ -33,9 +33,9 @@ fun RecipesNavHost(
                     )
                 }, onNavigateToFav = {
                     navigateToFavouritesScreen(navController)
-                }) { recipeId ->
+                }, onRecipeItemClick = { recipeId ->
                     navigateToDetailsScreen(navController, recipeId)
-                }
+                })
             }
 
             composable<Screen.SearchRecipes> { backStackEntry ->
